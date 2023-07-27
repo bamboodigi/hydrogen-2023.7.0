@@ -22,3 +22,7 @@ export {Grid} from './Grid';
 export {FeaturedProducts} from './FeaturedProducts';
 export {AddToCartButton} from './AddToCartButton';
 export * from './Icon';
+
+export {Navigation} from './Navigation';
+export {Footer} from './Footer';
+export {Container} from './Container';
