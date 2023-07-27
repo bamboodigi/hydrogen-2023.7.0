@@ -41,13 +41,13 @@ export const PRODUCT_CARD_FRAGMENT = `#graphql
   fragment ProductCard on Product {
     id
     title
+    tags
     publishedAt
     handle
     vendor
     variants(first: 1) {
       nodes {
         id
-        availableForSale
         image {
           url
           altText

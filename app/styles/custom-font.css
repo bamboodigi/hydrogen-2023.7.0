@@ -11,3 +11,22 @@
   font-style: italic;
   src: url('./fonts/IBMPlexSerif-TextItalic.woff2') format('woff2');
 }
+
+@font-face {
+  font-family: 'StencilGothic';
+  src: url('./fonts/StencilGothic.ttf') format('truetype');
+}
+
+
+@font-face {
+  font-family: 'SairaStencilOne-Regular';
+  src: url('./fonts/SairaStencilOne-Regular.ttf') format('truetype');
+}
+
+
+@font-face {
+  font-family: 'WMIStencil-Black';
+  src: url('./fonts/WMIStencil-Black.otf')  format('opentype');
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Saira+Stencil+One&display=swap');

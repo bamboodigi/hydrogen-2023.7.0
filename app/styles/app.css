@@ -2,6 +2,106 @@
 @tailwind components;
 @tailwind utilities;
 
+:focus-visible {
+  outline: none !important;
+}
+
+.from-contrast-50 {
+  --tw-gradient-from: rgb(var(--color-contrast)) var(--tw-gradient-from-position);
+  --tw-gradient-from-position: ;
+  --tw-gradient-to: rgba(249, 250, 251, 0) var(--tw-gradient-from-position);
+  --tw-gradient-to-position: ;
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+
+:root {
+  --shadow-color: 0deg 0% 56%;
+  --shadow-elevation-low:
+    0.4px 0.6px 0.9px hsl(var(--shadow-color) / 0.32),
+    0.8px 1.1px 1.7px -0.9px hsl(var(--shadow-color) / 0.38),
+    2px 2.6px 4px -1.9px hsl(var(--shadow-color) / 0.45);
+  --shadow-elevation-medium:
+    0.4px 0.6px 0.9px hsl(var(--shadow-color) / 0.33),
+    1.8px 2.3px 3.5px -0.6px hsl(var(--shadow-color) / 0.38),
+    4.2px 5.5px 8.4px -1.3px hsl(var(--shadow-color) / 0.44),
+    9.8px 12.9px 19.7px -1.9px hsl(var(--shadow-color) / 0.49);
+  --shadow-elevation-high:
+    0.4px 0.6px 0.9px hsl(var(--shadow-color) / 0.31),
+    3.6px 4.8px 7.3px -0.3px hsl(var(--shadow-color) / 0.33),
+    6.7px 8.9px 13.5px -0.5px hsl(var(--shadow-color) / 0.36),
+    10.6px 14.1px 21.4px -0.8px hsl(var(--shadow-color) / 0.38),
+    16.3px 21.6px 32.9px -1.1px hsl(var(--shadow-color) / 0.4),
+    24.7px 32.8px 49.9px -1.4px hsl(var(--shadow-color) / 0.43),
+    36.7px 48.7px 74.1px -1.6px hsl(var(--shadow-color) / 0.45),
+    53.2px 70.6px 107.4px -1.9px hsl(var(--shadow-color) / 0.48);
+}
+
+#visualizer {
+  -webkit-transition: height 0.3s ease-in-out !important;
+-moz-transition: height 0.3s ease-in-out !important;
+-ms-transition: height 0.3s ease-in-out !important;
+-o-transition: height 0.3s ease-in-out !important;
+transition: height 0.3s ease-in-out !important;
+
+&.fixed {
+  /* top: 96px; */
+  width: calc(100% - 32px);
+}
+
+
+@media screen and (min-width: 48rem) {
+  height: calc(80vh) !important;
+  max-height: 500px;
+}
+}
+
+#patch {
+  box-shadow: var(--shadow-elevation-medium);
+  -webkit-box-shadow: var(--shadow-elevation-medium);
+  -moz-box-shadow: var(--shadow-elevation-medium);
+  -o-box-shadow: var(--shadow-elevation-medium);
+  -ms-box-shadow: var(--shadow-elevation-medium);
+/* 
+  -webkit-transition: background-image 0.3s ease-in-out, height 0.4s ease-in-out, width 0.4s ease-in-out !important;
+  -moz-transition: background-image 0.3s ease-in-out, height 0.4s ease-in-out, width 0.4s ease-in-out !important;
+  -ms-transition: background-image 0.3s ease-in-out, height 0.4s ease-in-out, width 0.4s ease-in-out !important;
+  -o-transition: background-image 0.3s ease-in-out, height 0.4s ease-in-out, width 0.4s ease-in-out !important;
+  transition: background-image 0.3s ease-in-out, height 0.4s ease-in-out, width 0.4s ease-in-out !important; */
+  
+}
+
+#flag {
+  -webkit-transition: background-image 0.3s ease-in-out !important;
+-moz-transition: background-image 0.3s ease-in-out !important;
+-ms-transition: background-image 0.3s ease-in-out !important;
+-o-transition: background-image 0.3s ease-in-out !important;
+transition: background-image 0.3s ease-in-out !important;
+
+-webkit-transition: transform 0.3s ease-in-out !important;
+-moz-transition: transform 0.3s ease-in-out !important;
+-ms-transition: transform 0.3s ease-in-out !important;
+-o-transition: transform 0.3s ease-in-out !important;
+transition: transform 0.3s ease-in-out !important;
+}
+
+#patch p {
+  -webkit-transition: background-image 0.3s ease-in-out, font-size 0.3s ease-in-out !important;
+-moz-transition: background-image 0.3s ease-in-out, font-size 0.3s ease-in-out !important;
+-ms-transition: background-image 0.3s ease-in-out, font-size 0.3s ease-in-out !important;
+-o-transition: background-image 0.3s ease-in-out, font-size 0.3s ease-in-out !important;
+transition: background-image 0.3s ease-in-out, font-size 0.3s ease-in-out !important;
+
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+}
+
+.swimlane {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+
 /* Tokens */
 :root {
   --color-primary: 20 20 20; /* Text, buttons, etc. */
@@ -10,8 +110,9 @@
   --font-size-fine: 0.75rem; /* text-xs */
   --font-size-copy: 1rem; /* text-base */
   --font-size-lead: 1.125rem; /* text-lg */
+  --font-size-subheading: 1.75rem; /*  */
   --font-size-heading: 2rem; /* text-2xl */
-  --font-size-display: 3rem; /* text-4xl */
+  --font-size-display: 2.5rem; /* text-4xl */
   --color-shop-pay: #5a31f4;
   --shop-pay-button--width: 100%; /* Sets the width for the shop-pay-button web component */
   --height-nav: 3rem;
@@ -24,7 +125,7 @@
   @media (min-width: 48em) {
     --height-nav: 6rem;
     --font-size-heading: 2.25rem; /* text-4xl */
-    --font-size-display: 3.75rem; /* text-6xl */
+    --font-size-display: 3.5rem; /* text-6xl */
   }
   @supports (height: 100svh) {
     --screen-height: 100svh;
@@ -37,8 +138,11 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --color-primary: 250 250 250;
-    --color-contrast: 32 33 36;
+    --color-contrast: 20 20 20;
     --color-accent: 235 86 40;
+    /* --color-primary: 250 250 250;
+    --color-contrast: 32 33 36;
+    --color-accent: 235 86 40; */
   }
 }
 
