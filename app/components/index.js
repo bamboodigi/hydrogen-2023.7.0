@@ -26,3 +26,7 @@ export * from './Icon';
 export {Navigation} from './Navigation';
 export {Footer} from './Footer';
 export {Container} from './Container';
+export {NewSortFilter} from './NewSortFilter';
+export {ProductGrid} from './ProductGrid';
+export {Toggle} from './Toggle';
+export {PartialStarIcon} from './PartialStarIcon';

@@ -16,6 +16,13 @@ export default {
   content: ['./app/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
+      lineHeight: {
+        lg: '1.15',
+      },
+      rounded: {
+        'xl': '.75rem',
+        '2xl': '1rem',
+      },
       animation: {
         'fade-in': 'fade-in 0.5s linear forwards',
         marquee: 'marquee var(--marquee-duration) linear infinite',

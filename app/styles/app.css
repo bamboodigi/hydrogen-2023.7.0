@@ -6,6 +6,11 @@
   outline: none !important;
 }
 
+.star-outline {
+  stroke: white;
+  stroke-width: 1;
+}
+
 .from-contrast-50 {
   --tw-gradient-from: rgb(var(--color-contrast)) var(--tw-gradient-from-position);
   --tw-gradient-from-position: ;

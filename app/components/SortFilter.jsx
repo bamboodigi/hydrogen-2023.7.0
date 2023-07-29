@@ -20,7 +20,9 @@ export function SortFilter({
   const [isOpen, setIsOpen] = useState(false);
   return (
     <>
-      <div className="flex items-center justify-between w-full">
+    <div className="bg-contrast">
+      <div className="sm:ml-0 sm:w-full">
+      <div className="mb-4 p-4 py-2 font-bold sm:px-6 flex items-center justify-between w-full border-t border-b border-white">
         <button
           onClick={() => setIsOpen(!isOpen)}
           className={
@@ -31,12 +33,13 @@ export function SortFilter({
         </button>
         <SortMenu />
       </div>
+      </div>
       <div className="flex flex-col flex-wrap md:flex-row">
         <div
-          className={`transition-all duration-200 ${
+          className={`pl-2 transition-all duration-400 ${
             isOpen
               ? 'opacity-100 min-w-full md:min-w-[240px] md:w-[240px] md:pr-8 max-h-full'
-              : 'opacity-0 md:min-w-[0px] md:w-[0px] pr-0 max-h-0 md:max-h-full'
+              : 'opacity-0 hidden md:min-w-[0px] md:w-[0px] pr-0 max-h-0 md:max-h-full'
           }`}
         >
           <FiltersDrawer
@@ -46,6 +49,7 @@ export function SortFilter({
           />
         </div>
         <div className="flex-1">{children}</div>
+      </div>
       </div>
     </>
   );
@@ -86,7 +90,7 @@ export function FiltersDrawer({filters = [], appliedFilters = []}) {
 
   return (
     <>
-      <nav className="py-8">
+      <nav className="pb-4">
         {appliedFilters.length > 0 ? (
           <div className="pb-8">
             <AppliedFilters filters={appliedFilters} />
@@ -311,8 +315,7 @@ export default function SortMenu() {
     <Menu as="div" className="relative z-40">
       <Menu.Button className="flex items-center">
         <span className="px-2">
-          <span className="px-2 font-medium">Sort by:</span>
-          <span>{(activeItem || items[0]).label}</span>
+          <span className="px-2 font-bold ml-32">Sort</span>
         </span>
         <IconCaret />
       </Menu.Button>

@@ -13,7 +13,6 @@
   ```
 */
 
-import { useIsHomePath } from '~/lib/utils';
 import {
   IconBag,
   CountrySelector,
@@ -301,7 +300,7 @@ export function Navigation({ isHome, title, openCart, config, handle }) {
             {/* Top navigation */}
             {!isProductBuilder(location) && (
             <div className={`overflow-y-scroll transition${
-        scrollPosition >= 100 ? ' bg-contrast' : ' bg-transparent'
+        isHome && scrollPosition <= 60 ? ' bg-transparent' : ' bg-contrast'
       }`}>
               <Container className="flex h-10 items-center justify-between">
                 <div className="hidden lg:block lg:flex-1">
@@ -339,7 +338,7 @@ export function Navigation({ isHome, title, openCart, config, handle }) {
             </div>
             )}
             <div className={`overflow-y-scroll transition${
-        scrollPosition >= 100 ? ' bg-contrast' : ' bg-transparent'
+        isHome && scrollPosition <= 60 ? ' bg-transparent' : ' bg-contrast'
       }`}>
               <Container>
                 {/* <div className="border-b border-gray-900"> */}

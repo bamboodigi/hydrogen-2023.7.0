@@ -98,7 +98,7 @@ export function Section({
 }) {
   const paddings = {
     x: 'px-6 md:px-8 lg:px-12',
-    y: 'py-6 md:py-8 lg:py-12',
+    y: 'py-6 pt-4 md:py-8 lg:py-12',
     swimlane: 'pt-4 md:pt-8 lg:pt-12 md:pb-4 lg:pb-8',
     all: 'p-6 md:p-8 lg:p-12',
     none: '',
@@ -146,7 +146,7 @@ export function PageHeader({
   const variants = {
     default: 'grid w-full gap-8 py-8 md:py-8 lg:py-12 justify-items-start',
     blogPost:
-      'grid md:text-center w-full gap-4 py-8 md:py-8 lg:py-12 md:justify-items-center',
+      'grid text-center w-full gap-4 py-8 md:py-8 lg:py-12 md:justify-items-center',
     allCollections:
       'flex justify-between items-baseline gap-8 py-6 md:py-8 lg:py-12',
   };

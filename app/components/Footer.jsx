@@ -33,9 +33,9 @@ export function Footer({config}) {
   const navigation = config.navigation;
 
   return (
-    <footer className="bg-contrast" aria-labelledby="footer-heading">
+    <footer className="bg-contrast border-t-2 mt-16" aria-labelledby="footer-heading">
        {config.enabled && (
-      <Container className="pb-8 pt-16 sm:pt-24lg:pt-32">
+      <Container className="pb-8 pt-4 sm:pt-24 lg:pt-32">
         <h2 id="footer-heading" className="sr-only">
           Footer
         </h2>

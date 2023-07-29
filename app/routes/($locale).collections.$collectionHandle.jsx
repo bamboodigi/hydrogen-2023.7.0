@@ -1,5 +1,5 @@
-import {json} from '@shopify/remix-oxygen';
-import {useLoaderData} from '@remix-run/react';
+import { json } from '@shopify/remix-oxygen';
+import { useLoaderData } from '@remix-run/react';
 import {
   flattenConnection,
   AnalyticsPageType,
@@ -10,25 +10,24 @@ import invariant from 'tiny-invariant';
 
 import {
   PageHeader,
-  Section,
   Text,
   SortFilter,
-  Grid,
-  ProductCard,
-  Button,
+  NewSortFilter,
+  ProductGrid,
+  Container
 } from '~/components';
-import {PRODUCT_CARD_FRAGMENT} from '~/data/fragments';
-import {routeHeaders} from '~/data/cache';
-import {seoPayload} from '~/lib/seo.server';
-import {getImageLoadingPriority} from '~/lib/const';
+import { PRODUCT_CARD_FRAGMENT} from '~/data/fragments';
+import { routeHeaders } from '~/data/cache';
+import { seoPayload } from '~/lib/seo.server';
+import { getImageLoadingPriority } from '~/lib/const';
 
 export const headers = routeHeaders;
 
-export async function loader({params, request, context}) {
+export async function loader({ params, request, context }) {
   const paginationVariables = getPaginationVariables(request, {
-    pageBy: 8,
+    pageBy: 12,
   });
-  const {collectionHandle} = params;
+  const { collectionHandle } = params;
 
   invariant(collectionHandle, 'Missing collectionHandle param');
 
@@ -36,13 +35,13 @@ export async function loader({params, request, context}) {
   const knownFilters = ['productVendor', 'productType'];
   const available = 'available';
   const variantOption = 'variantOption';
-  const {sortKey, reverse} = getSortValuesFromParam(searchParams.get('sort'));
+  const { sortKey, reverse } = getSortValuesFromParam(searchParams.get('sort'));
   const filters = [];
   const appliedFilters = [];
 
   for (const [key, value] of searchParams.entries()) {
     if (available === key) {
-      filters.push({available: value === 'true'});
+      filters.push({ available: value === 'true' });
       appliedFilters.push({
         label: value === 'true' ? 'In stock' : 'Out of stock',
         urlParam: {
@@ -51,12 +50,12 @@ export async function loader({params, request, context}) {
         },
       });
     } else if (knownFilters.includes(key)) {
-      filters.push({[key]: value});
-      appliedFilters.push({label: value, urlParam: {key, value}});
+      filters.push({ [key]: value });
+      appliedFilters.push({ label: value, urlParam: { key, value } });
     } else if (key.includes(variantOption)) {
       const [name, val] = value.split(':');
-      filters.push({variantOption: {name, value: val}});
-      appliedFilters.push({label: val, urlParam: {key, value}});
+      filters.push({ variantOption: { name, value: val } });
+      appliedFilters.push({ label: val, urlParam: { key, value } });
     }
   }
 
@@ -69,14 +68,14 @@ export async function loader({params, request, context}) {
       price.min = Number(searchParams.get('minPrice')) || 0;
       appliedFilters.push({
         label: `Min: $${price.min}`,
-        urlParam: {key: 'minPrice', value: searchParams.get('minPrice')},
+        urlParam: { key: 'minPrice', value: searchParams.get('minPrice') },
       });
     }
     if (searchParams.has('maxPrice')) {
       price.max = Number(searchParams.get('maxPrice')) || 0;
       appliedFilters.push({
         label: `Max: $${price.max}`,
-        urlParam: {key: 'maxPrice', value: searchParams.get('maxPrice')},
+        urlParam: { key: 'maxPrice', value: searchParams.get('maxPrice') },
       });
     }
     filters.push({
@@ -84,7 +83,7 @@ export async function loader({params, request, context}) {
     });
   }
 
-  const {collection, collections} = await context.storefront.query(
+  const { collection, collections } = await context.storefront.query(
     COLLECTION_QUERY,
     {
       variables: {
@@ -100,10 +99,10 @@ export async function loader({params, request, context}) {
   );
 
   if (!collection) {
-    throw new Response('collection', {status: 404});
+    throw new Response('collection', { status: 404 });
   }
 
-  const seo = seoPayload.collection({collection, url: request.url});
+  const seo = seoPayload.collection({ collection, url: request.url });
 
   return json({
     collection,
@@ -119,54 +118,49 @@ export async function loader({params, request, context}) {
 }
 
 export default function Collection() {
-  const {collection, collections, appliedFilters} = useLoaderData();
+  const { collection, collections, appliedFilters } = useLoaderData();
 
   return (
     <>
-      <PageHeader heading={collection.title}>
-        {collection?.description && (
-          <div className="flex items-baseline justify-between w-full">
-            <div>
-              <Text format width="narrow" as="p" className="inline-block">
-                {collection.description}
+      <Container>
+        <PageHeader heading={collection.title} variant="blogPost">
+          {collection?.handle == "create-your-patch" && (
+            <div className="w-full">
+              <Text format width="wide" as="h2" className="pb-8 font-bold sm:text-lg lg:text-2xl">
+                Discover our customizable patch collection, offering a plethora of personalization options including flags, icons, symbols, text, and colors.
+              </Text>
+              <Text format width="wide" as="h2" className="font-bold sm:text-lg lg:text-2xl">
+                In under 30 seconds, design a unique patch that embodies your courage and dedication.
               </Text>
             </div>
-          </div>
-        )}
-      </PageHeader>
-      <Section>
+          ) || collection?.description && (
+            <div className="flex items-baseline justify-between w-full">
+              <div>
+                <Text format width="wide" as="h2" className="inline-block font-bold">
+                  {collection.description}
+                </Text>
+              </div>
+            </div>
+          )}
+        </PageHeader>
+        {/* <NewSortFilter
+          filters={collection.products.filters}
+          appliedFilters={appliedFilters}
+          collections={collections}
+        >        </NewSortFilter> */}
         <SortFilter
           filters={collection.products.filters}
           appliedFilters={appliedFilters}
           collections={collections}
         >
-          <Pagination connection={collection.products}>
-            {({nodes, isLoading, PreviousLink, NextLink}) => (
-              <>
-                <div className="flex items-center justify-center mb-6">
-                  <Button as={PreviousLink} variant="secondary" width="full">
-                    {isLoading ? 'Loading...' : 'Load previous'}
-                  </Button>
-                </div>
-                <Grid layout="products">
-                  {nodes.map((product, i) => (
-                    <ProductCard
-                      key={product.id}
-                      product={product}
-                      loading={getImageLoadingPriority(i)}
-                    />
-                  ))}
-                </Grid>
-                <div className="flex items-center justify-center mt-6">
-                  <Button as={NextLink} variant="secondary" width="full">
-                    {isLoading ? 'Loading...' : 'Load more products'}
-                  </Button>
-                </div>
-              </>
-            )}
-          </Pagination>
+          <ProductGrid
+            key={collection.id}
+            collection={collection}
+            url={`/collections/${collection.handle}`}
+            data-test="product-grid"
+          />
         </SortFilter>
-      </Section>
+      </Container>
     </>
   );
 }
