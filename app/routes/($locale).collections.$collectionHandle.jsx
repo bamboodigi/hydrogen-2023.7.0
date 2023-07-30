@@ -122,7 +122,7 @@ export default function Collection() {
 
   return (
     <>
-      <Container>
+      <Container container="collection">
         <PageHeader heading={collection.title} variant="blogPost">
           {collection?.handle == "create-your-patch" && (
             <div className="w-full">

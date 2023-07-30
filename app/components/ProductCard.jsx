@@ -86,36 +86,36 @@ export function ProductCard({
 
   const newTitle = product.title.replace(/ - Sticker$/, '').replace(/ - Limited Edition Patch \+ Sticker$/, '');
 
-  console.log(newTitle.length)
+  // console.log(newTitle.length)
 
   return (
     <>
       {!isAddOn() && (
-        <div className="flex flex-col justify-between gap-4 border-2 rounded-xl md:rounded-2xl p-2 md:p-6">
+        <div className="relative flex flex-col justify-between gap-4 border-2 rounded-xl md:rounded-2xl p-2 md:p-6">
           <Link
             onClick={onClick}
             to={`/products/${product.handle}`}
             prefetch="intent"
-            className="flex flex-col gap-4 md:gap-8 min-h-[250px] justify-between"
+            className="flex flex-col gap-4 md:gap-8 justify-between"
           >
-            <div className="flex flex-col justify-between min-h-[65px]">
+            <div className="flex flex-col gap-2 justify-between">
               {
                 newTitle.length > 40 ? (
                   <Heading
-                  className="text-sm leading-lg sm:text-2xl font-bold w-full overflow-hidden whitespace-wrap"
-                  as="h3"
-                  size="none"
-                >
-                  {newTitle}
-                </Heading>
+                    className="text-sm leading-lg sm:text-3xl font-bold w-full overflow-hidden whitespace-wrap"
+                    as="h3"
+                    size="none"
+                  >
+                    {newTitle}
+                  </Heading>
                 ) : (
                   <Heading
-                  className="text-md leading-lg sm:text-2xl font-bold w-full overflow-hidden whitespace-wrap"
-                  as="h3"
-                  size="none"
-                >
-                  {newTitle}
-                </Heading>
+                    className="text-md leading-lg sm:text-3xl font-bold w-full overflow-hidden whitespace-wrap"
+                    as="h3"
+                    size="none"
+                  >
+                    {newTitle}
+                  </Heading>
                 )
               }
               {product.rating && (
@@ -124,7 +124,15 @@ export function ProductCard({
                 </>
               )}
             </div>
-            <div className={clsx('grid gap-4 relative', className)}>
+          </Link>
+          <div className="flex flex-col gap-4 md:gap-8 justify-between">
+          <Link
+            onClick={onClick}
+            to={`/products/${product.handle}`}
+            prefetch="intent"
+            className="flex flex-col gap-4 md:gap-8 justify-between"
+          >
+            <div className={clsx('grid gap-4', className)}>
               <div className="card-image aspect-[1/1] bg-primary/5">
                 {image && (
                   <Image
@@ -199,6 +207,7 @@ export function ProductCard({
               </div>
             </AddToCartButton>
           )}
+          </div>
         </div>
 
       )}
@@ -208,7 +217,7 @@ export function ProductCard({
 
 function StickerBadge({ children }) {
   return (
-    <span className="transform rotate-[-32deg] rounded-full shadow absolute z-10 -top-2 -right-4 inline-flex items-center px-3 py-3.5 text-xs md:text-md font-medium bg-gradient-to-r from-yellow-100 to-yellow-400 text-contrast">
+    <span className="transform rotate-[22deg] rounded-full shadow absolute z-10 -top-2 -right-4 inline-flex items-center tracking-[-.02rem] px-2 py-4 text-xs md:text-copy md:py-5 font-medium bg-gradient-to-r from-yellow-100 to-yellow-400 text-contrast">
       Sticker
     </span>
   )
@@ -216,7 +225,7 @@ function StickerBadge({ children }) {
 
 function LimitedEditionBadge({ children }) {
   return (
-    <span className="transform rotate-[-32deg] rounded-full border-2 text-white shadow absolute z-10 -top-2 -right-2 inline-flex items-center px-3 py-3.5 text-xs md:text-md font-medium bg-gradient-to-r from-black to-gray-900">
+    <span className="transform rotate-[22deg] rounded-full border-2 text-white shadow absolute z-10 -top-2 -right-2 inline-flex items-center tracking-[-.02rem] px-2 py-4 text-[.07rem] md:text-md font-medium bg-gradient-to-r from-black to-gray-900">
       Limited
     </span>
   )
@@ -240,44 +249,37 @@ function CompareAtPrice({ data, className }) {
 function Stars({ rating, reviewCount }) {
   if (rating) {
     rating = JSON.parse(rating).value;
-    console.log(rating);
     rating = parseFloat(rating);
   }
   const remainder = (rating % parseInt(rating)).toFixed(2);
-  console.log(rating);
-  console.log(parseInt(rating));
-  console.log(remainder);
+
   rating = parseInt(rating);
   return (
     <div className="flex items-center gap-2">
       <p className="sr-only">{rating} out of 5 stars</p>
       <div className="flex items-center relative">
         {[0, 1, 2, 3, 4].map((currentRating) => (
-            <StarIcon
-              key={currentRating}
-              className={classNames(
-                rating > currentRating ? 'text-white' : 'text-black star-outline',
-                'h-4 w-4 flex-shrink-0'
-              )}
-              aria-hidden="true"
-            />
+          <StarIcon
+            key={currentRating}
+            className={classNames(
+              rating > currentRating ? 'text-white' : 'text-black star-outline',
+              'h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0'
+            )}
+            aria-hidden="true"
+          />
         ))}
         {remainder && (
           <PartialStarIcon
             percent={remainder}
-            className="absolute right-0 text-white h-4 w-4 flex-shrink-0"
+            className="absolute right-0 text-white h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0"
             aria-hidden="true"
           />
         )}
       </div>
-      <p className="text-sm text-white font-bold">({reviewCount})</p>
+      <p className="text-sm sm:text-lg text-white font-bold">({reviewCount})</p>
     </div>
   );
 }
-
-
-// return (
-//   <>
 //     {!isAddOn() && (
 //       <div className="flex flex-col gap-2">
 //         <Link

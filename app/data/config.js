@@ -228,7 +228,34 @@ const config = {
         }
 
       ]
-    }
+    },
+    collection: {
+      id: "collection",
+        stickers : {
+          filters : [
+            {
+              title : "Flags",
+              link : "/collections/stickers/flags"
+            },
+            {
+              title : "Memes",
+              link : "/collections/stickers/memes",
+            },
+            {
+              title: "Chicken",
+              link: "/collections/stickers/chicken",
+            },
+            {
+              title : "Scifi",
+              link : "/collections/stickers/scifi"
+            }, 
+            {
+              title : "Quotes",
+              link : "/collections/stickers/quotes"
+            }
+          ]
+        }
+      }
   },
   header: {
     id: "navigation",
@@ -481,11 +508,11 @@ const config = {
     newsletter: {
       id: "newsletter",
       enabled: true,
-      heading: "Newsletter",
+      heading: "Email List",
       description: "Sign up to get early access, special promotions, and insider information.",
       form: {
         id: "newsletter-form",
-        placeholder: "Enter your email",
+        placeholder: "Email Address",
         button: "Join",
       }
     }

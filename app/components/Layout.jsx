@@ -29,9 +29,14 @@ import { useCartFetchers } from '~/hooks/useCartFetchers';
 
 import config from '~/data/config.js';
 
+function classNames(...classes) {
+  return classes.filter(Boolean).join(' ')
+}
+
 export function Layout({ children, layout }) {
   const { headerMenu, footerMenu } = layout;
-  const { footer, header } = config;
+  const { footer, header, features } = config;
+  const hi = 'hi';
   return (
     <>
       <div className="flex flex-col min-h-screen">
@@ -40,8 +45,11 @@ export function Layout({ children, layout }) {
             Skip to content
           </a>
         </div>
-        {headerMenu && <Header title={layout.shop.name} config={header} />}
-        <main role="main" id="mainContent" className="flex-grow mt-[96px]">
+        {headerMenu && <Header title={layout.shop.name} config={header} alerts={features.alerts} />}
+        <main role="main" id="mainContent" className={classNames(
+          features.alerts.enabled ? 'mt-[54px] lg:mt-[96px]' : 'mt-[54px]',
+          'flex-grow'
+        )}>
           {children}
         </main>
       </div>
@@ -50,7 +58,7 @@ export function Layout({ children, layout }) {
   );
 }
 
-function Header({ title, menu, config }) {
+function Header({ title, menu, config, alerts }) {
   const isHome = useIsHomePath();
 
   const {
@@ -81,6 +89,7 @@ function Header({ title, menu, config }) {
         title={title}
         openCart={openCart}
         config={config}
+        alerts={alerts}
       />
     </>
   );

@@ -1,7 +1,5 @@
 export function PartialStarIcon({ percent, className }) {
-  console.log(percent)
   percent = percent * 100;
-  console.log(percent);
   const clipPath = `polygon(0 0, ${percent}% 0, ${percent}% 100%, 0 100%)`;
   return (
     <svg 

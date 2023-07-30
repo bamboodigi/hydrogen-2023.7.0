@@ -59,8 +59,9 @@ function isProductBuilder(location) {
   }
   return false;
 }
-export function Navigation({ isHome, title, openCart, config, handle }) {
-  const navigation = config.navigation;
+export function Navigation({ isHome, title, openCart, config, alerts, handle }) {
+  const {navigation, features, header } = config;
+
   const [open, setOpen] = useState(false)
 
   const shopRef = useRef(null);
@@ -92,6 +93,9 @@ export function Navigation({ isHome, title, openCart, config, handle }) {
   const openLink = () => {
     setOpen(true);
   };
+
+  console.log(config)
+  console.log(alerts)
 
   return (
     <>
@@ -298,37 +302,14 @@ export function Navigation({ isHome, title, openCart, config, handle }) {
       <header className="fixed w-full">
         <nav aria-label="Top">
             {/* Top navigation */}
-            {!isProductBuilder(location) && (
-            <div className={`overflow-y-scroll transition${
+            {alerts.enabled && !isProductBuilder(location) && (
+            <div className={`overflow-y-scroll transition ${
         isHome && scrollPosition <= 60 ? ' bg-transparent' : ' bg-contrast'
       }`}>
-              <Container className="flex h-10 items-center justify-between">
+              <Container className="hidden lg:flex h-10 items-center justify-between">
                 <div className="hidden lg:block lg:flex-1">
                   <CountrySelector screen="desktop" />
                 </div>
-                {/* Currency selector */}
-                {/* <form className="hidden lg:block lg:flex-1">
-                <div className="flex">
-                  <label htmlFor="desktop-currency" className="sr-only">
-                    Currency
-                  </label>
-                  <div className="group relative -ml-2 rounded-md border-transparent bg-contrast">
-                    <select
-                      id="desktop-currency"
-                      name="currency"
-                      className="flex items-center rounded-md border-white bg-contrast bg-none py-0.5 pl-2 pr-5 text-sm font-bold text-white focus:ring-0 group-hover:text-white"
-                    >
-                      {currencies.map((currency) => (
-                        <option key={currency}>{currency}</option>
-                      ))}
-                    </select>
-                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center">
-                      <ChevronDownIcon className="h-5 w-5 text-white" aria-hidden="true" />
-                    </div>
-                  </div>
-                </div>
-              </form> */}
-
                 <p className="flex-1 text-center text-sm font-bold text-white lg:flex-none">
                   Free Tracked Shipping on Orders Over $50
                 </p>
@@ -341,7 +322,6 @@ export function Navigation({ isHome, title, openCart, config, handle }) {
         isHome && scrollPosition <= 60 ? ' bg-transparent' : ' bg-contrast'
       }`}>
               <Container>
-                {/* <div className="border-b border-gray-900"> */}
                 <div>
                   <div className="flex h-14 items-center justify-between">
                     <div className="flex flex-1 items-center lg:hidden">
