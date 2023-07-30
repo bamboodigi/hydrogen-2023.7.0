@@ -5,6 +5,13 @@ import { StarIcon } from '@heroicons/react/20/solid'
 import { isDiscounted, isNewArrival } from '~/lib/utils';
 import { getProductPlaceholder } from '~/lib/placeholders';
 
+// This component is responsible for cards that appear outside the product page
+// Includes featured products, collection pages, and search results
+
+import chicken from '../../public/chicken-demo.png';
+
+console.log(chicken)
+
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
@@ -18,6 +25,11 @@ export function ProductCard({
   quickAdd,
 }) {
   let cardLabel;
+
+
+  // This will show a demo of a product image with a transparent background and filling the background with css
+  const transparentDemo = true;
+  const bgColor = 'bg-[lightblue]';
 
   let numRatings = product.ratingCount?.value || 0;
   let rating = product.rating?.value || 0;
@@ -126,87 +138,106 @@ export function ProductCard({
             </div>
           </Link>
           <div className="flex flex-col gap-4 md:gap-8 justify-between">
-          <Link
-            onClick={onClick}
-            to={`/products/${product.handle}`}
-            prefetch="intent"
-            className="flex flex-col gap-4 md:gap-8 justify-between"
-          >
-            <div className={clsx('grid gap-4', className)}>
-              <div className="card-image aspect-[1/1] bg-primary/5">
-                {image && (
-                  <Image
-                    className="object-cover w-full fadeIn"
-                    sizes="(min-width: 64em) 25vw, (min-width: 48em) 30vw, 45vw"
-                    aspectRatio="1/1"
-                    data={image}
-                    alt={image.altText || `Picture of ${product.title}`}
-                    loading={loading}
-                  />
-                )}
-                <Text
-                  as="label"
-                  size="fine"
-                  className="absolute top-0 right-0 m-4 text-right text-notice"
-                >
-                  {cardLabel}
-                </Text>
-              </div>
-              {
-                isSticker() && (
-                  <>
-                    <StickerBadge />
-                  </>
-                )
-              }
-              {
-                isLimited() && (
-                  <>
-                    <LimitedEditionBadge />
-                  </>
-                )
-              }
-            </div>
-          </Link>
-          {quickAdd && (
-            <AddToCartButton
-              lines={[
-                {
-                  quantity: 1,
-                  merchandiseId: firstVariant.id,
-                },
-              ]}
-              variant="secondary"
-              className="flex justify-between font-bold"
-              analytics={{
-                products: [productAnalytics],
-                totalValue: parseFloat(productAnalytics.price),
-              }}
+            <Link
+              onClick={onClick}
+              to={`/products/${product.handle}`}
+              prefetch="intent"
+              className="flex flex-col gap-4 md:gap-8 justify-between"
             >
-              <Text as="span" className="text-sm md:text-xl font-bold flex items-center justify-center gap-2">
-                Add to Bag
-              </Text>
-              <div className="flex gap-4">
-                <Text className="flex gap-2">
-                  {isPatchBuilder && (
+              <div className={clsx('grid gap-4', className)}>
+                <div className={clsx('card-image aspect-[1/1]', bgColor)}>
+                  {image && (
+                    transparentDemo ? (<>
+                      <img alt="Macho Chicken Randy Savage - Sticker Sticker PatchPanel"
+                        decoding="async" height="100" loading="eager"
+                        sizes="(min-width: 64em) 25vw, (min-width: 48em) 30vw, 45vw"
+                        src={chicken}
+                        width="100" className="object-cover w-full fadeIn" style={{ width: '100%', aspectRatio: '1 / 1'}}></img>
+                      {/* < Image
+                        className="object-cover w-full fadeIn"
+                        sizes="(min-width: 64em) 25vw, (min-width: 48em) 30vw, 45vw"
+                        aspectRatio="1/1"
+                        data={image}
+                        alt={image.altText || `Picture of ${product.title}`}
+                        loading={loading}
+                      /> */}
+                    </>) : (<>
+                      < Image
+                        className="object-cover w-full fadeIn"
+                        sizes="(min-width: 64em) 25vw, (min-width: 48em) 30vw, 45vw"
+                        aspectRatio="1/1"
+                        data={image}
+                        alt={image.altText || `Picture of ${product.title}`}
+                        loading={loading}
+                      />
+                    </>)
+                  )}
+                  <Text
+                    as="label"
+                    size="fine"
+                    className="absolute top-0 right-0 m-4 text-right text-notice"
+                  >
+                    {cardLabel}
+                  </Text>
+                </div>
+                {
+                  isSticker() && (
                     <>
-                      <span className="text-sm font-semibold">
-                        Starting at
-                      </span>
+                      <StickerBadge />
                     </>
                   )
-                  }
-                  <Money withoutTrailingZeros data={price} className="text-sm md:text-xl font-bold" />
-                  {isDiscounted(price, compareAtPrice) && (
-                    <CompareAtPrice
-                      className={'text-sm md:text-xl opacity-50 font-bold'}
-                      data={compareAtPrice}
-                    />
-                  )}
-                </Text>
+                }
+                {
+                  isLimited() && (
+                    <>
+                      <LimitedEditionBadge />
+                    </>
+                  )
+                }
               </div>
-            </AddToCartButton>
-          )}
+            </Link>
+            {quickAdd && (
+              <AddToCartButton
+                lines={[
+                  {
+                    quantity: 1,
+                    merchandiseId: firstVariant.id,
+                  },
+                ]}
+                variant="secondary"
+                className="flex justify-between font-bold"
+                analytics={{
+                  products: [productAnalytics],
+                  totalValue: parseFloat(productAnalytics.price),
+                }}
+              >
+                <Text as="span" className="text-sm md:text-xl font-bold flex items-center justify-center gap-2">
+                  Add to Bag
+                </Text>
+                <div className="flex gap-4">
+                  <Text className="flex gap-2">
+                    {isPatchBuilder && (
+                      <>
+                        <span className="text-sm font-semibold">
+                          Starting at
+                        </span>
+                      </>
+                    )
+                    }
+                    <Money
+                      withoutTrailingZeros
+                      data={price}
+                      className="text-sm md:text-xl font-bold" />
+                    {isDiscounted(price, compareAtPrice) && (
+                      <CompareAtPrice
+                        className={'text-sm md:text-xl opacity-50 font-bold'}
+                        data={compareAtPrice}
+                      />
+                    )}
+                  </Text>
+                </div>
+              </AddToCartButton>
+            )}
           </div>
         </div>
 
