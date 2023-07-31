@@ -29,7 +29,7 @@ export function ProductCard({
 
   // This will show a demo of a product image with a transparent background and filling the background with css
   const transparentDemo = true;
-  const bgColor = 'bg-[lightblue]';
+  const bgColor = 'bg-[transprent]';
 
   let numRatings = product.ratingCount?.value || 0;
   let rating = product.rating?.value || 0;
@@ -114,7 +114,7 @@ export function ProductCard({
               {
                 newTitle.length > 40 ? (
                   <Heading
-                    className="text-sm leading-lg sm:text-3xl font-bold w-full overflow-hidden whitespace-wrap"
+                    className="text-sm leading-lg md:text-xl lg:text-3xl font-bold w-full overflow-hidden whitespace-wrap"
                     as="h3"
                     size="none"
                   >
@@ -122,7 +122,7 @@ export function ProductCard({
                   </Heading>
                 ) : (
                   <Heading
-                    className="text-md leading-lg sm:text-3xl font-bold w-full overflow-hidden whitespace-wrap"
+                    className="text-md leading-lg md:text-xl lg:text-3xl font-bold w-full overflow-hidden whitespace-wrap"
                     as="h3"
                     size="none"
                   >

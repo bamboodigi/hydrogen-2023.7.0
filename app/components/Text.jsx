@@ -25,6 +25,7 @@ export function Text({
     lead: 'text-lead font-medium',
     copy: 'text-copy',
     fine: 'text-fine subpixel-antialiased',
+    none: '',
   };
 
   const widths = {

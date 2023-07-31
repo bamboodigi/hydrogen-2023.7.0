@@ -33,7 +33,7 @@ export function Footer({ config }) {
   const navigation = config.navigation;
 
   return (
-    <footer className="bg-white mt-16" aria-labelledby="footer-heading">
+    <footer className="bg-white mt-12" aria-labelledby="footer-heading">
       {config.enabled && (
         <Container className="pb-8 pt-4 sm:pt-6 lg:pt-16">
           {config.newsletter.enabled && (
