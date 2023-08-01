@@ -94,8 +94,6 @@ export function Navigation({ isHome, title, openCart, config, alerts, handle }) 
     setOpen(true);
   };
 
-  console.log(config)
-  console.log(alerts)
 
   return (
     <>

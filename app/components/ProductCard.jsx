@@ -12,7 +12,7 @@ import chicken from '../../public/chicken-demo.png';
 
 import config from '~/data/config.js';
 
-console.log(chicken)
+// console.log(chicken)
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')

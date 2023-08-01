@@ -25,6 +25,8 @@ import fonts from './styles/custom-font.css';
 import {DEFAULT_LOCALE, parseMenu} from './lib/utils';
 import {useAnalytics} from './hooks/useAnalytics';
 
+import {useJudgeme} from '@judgeme/shopify-hydrogen'
+
 export const links = () => {
   return [
     {rel: 'stylesheet', href: styles},
@@ -60,6 +62,12 @@ export async function loader({request, context}) {
       shopId: layout.shop.id,
     },
     seo,
+    judgeme: {
+      shopDomain: context.env.JUDGEME_SHOP_DOMAIN,
+      publicToken: context.env.JUDGEME_PUBLIC_TOKEN,
+      cdnHost: context.env.JUDGEME_CDN_HOST,
+      delay: 700, // optional parameter, default to 500ms
+    },
   });
 }
 
@@ -69,6 +77,8 @@ export default function App() {
   const hasUserConsent = true;
 
   useAnalytics(hasUserConsent, locale);
+
+ // useJudgeme(data.judgeme);
 
   return (
     <html lang={locale.language}>

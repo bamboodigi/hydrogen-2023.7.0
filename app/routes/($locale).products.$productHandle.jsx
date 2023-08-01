@@ -32,6 +32,17 @@ import { seoPayload } from '~/lib/seo.server';
 import { routeHeaders } from '~/data/cache';
 import { MEDIA_FRAGMENT, PRODUCT_CARD_FRAGMENT } from '~/data/fragments';
 
+import {
+  JudgemeMedals,
+  JudgemeCarousel,
+  JudgemeReviewsTab,
+  JudgemePreviewBadge,
+  JudgemeReviewWidget,
+  JudgemeVerifiedBadge,
+  JudgemeAllReviewsCount,
+  JudgemeAllReviewsRating,
+} from "@judgeme/shopify-hydrogen";
+
 import config from '~/data/config.js';
 
 export const headers = routeHeaders;
@@ -150,7 +161,7 @@ export default function Product() {
   const { media, title, vendor, descriptionHtml } = product;
   const { shippingPolicy, refundPolicy } = shop;
 
-  console.log(product);
+ // console.log(product);
 
   let numRatings = product.ratingCount?.value || 0;
   let rating = product.rating?.value || 0;
@@ -247,6 +258,8 @@ export default function Product() {
             )}
           </Await>
         </Suspense>
+        {/* <JudgemeReviewWidget id={product.id} />
+        <JudgemeAllReviewsCount /> */}
       </Container>
     </>
   );
