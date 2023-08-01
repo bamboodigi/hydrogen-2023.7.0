@@ -22,7 +22,7 @@ export function ProductSwimlane({
     <>
       <div className={classNames(
         center ? "justify-center xl:justify-start xl:ml-6" : "justify-start",
-        "flex items-center py-8"
+        "flex items-center py-8 pb-6"
       )}
       >
         <h2 className="text-3xl lg:text-4xl font-bold tracking-tight text-white">{title}</h2>
@@ -37,7 +37,7 @@ export function ProductSwimlane({
         )
         }
       </div>
-      <div className="swimlane hiddenScroll md:pb-8 md:scroll-px-8 lg:scroll-px-12 md:px-8 lg:px-12">
+      <div className="swimlane pt-2 hiddenScroll md:pb-8 md:scroll-px-8 lg:scroll-px-12 md:px-8 lg:px-12">
         {products.nodes.map((product, i) => (
           !product.tags.includes("custom_patch") ? (
             <ProductCard

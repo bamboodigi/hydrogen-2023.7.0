@@ -24,13 +24,21 @@ import {
   Link,
   AddToCartButton,
   Button,
+  PartialStarIcon,
 } from '~/components';
+import { StarIcon } from '@heroicons/react/20/solid'
 import { getExcerpt } from '~/lib/utils';
 import { seoPayload } from '~/lib/seo.server';
 import { routeHeaders } from '~/data/cache';
 import { MEDIA_FRAGMENT, PRODUCT_CARD_FRAGMENT } from '~/data/fragments';
 
+import config from '~/data/config.js';
+
 export const headers = routeHeaders;
+
+const configProduct = config.webpage.product;
+
+const stars_enabled = configProduct.stars;
 
 export async function loader({ params, request, context }) {
   const { productHandle } = params;
@@ -136,10 +144,18 @@ function classNames(...classes) {
 const demo = true;
 const bgColor = "bg-[lightblue]";
 
+
 export default function Product() {
   const { product, shop, recommended, variants } = useLoaderData();
   const { media, title, vendor, descriptionHtml } = product;
   const { shippingPolicy, refundPolicy } = shop;
+
+  console.log(product);
+
+  let numRatings = product.ratingCount?.value || 0;
+  let rating = product.rating?.value || 0;
+
+  if (numRatings) { numRatings = parseInt(numRatings) }
 
   const newTitle = title.replace(/ - Sticker$/, '').replace(/ - Limited Edition Patch \+ Sticker$/, '');
 
@@ -152,7 +168,7 @@ export default function Product() {
         >
           <ProductGallery
             media={media.nodes}
-            className="w-full justify-center lg:pr-8"
+            className="w-full justify-center lg:pr-16"
             demo={demo}
           />
           <div className="sticky 
@@ -167,6 +183,11 @@ export default function Product() {
                 <Heading as="h1" className="text-3xl leading-[2rem] pr-5 sm:pr-0 whitespace-normal">
                   {newTitle}
                 </Heading>
+                {product.rating && stars_enabled && (
+                  <>
+                    <Stars key={product.title} rating={rating} reviewCount={numRatings} />
+                  </>
+                )}
                 {/* {vendor && (
                   <Text className={'opacity-50 font-medium'}>{vendor}</Text>
                 )} */}
@@ -216,16 +237,16 @@ export default function Product() {
         </div>
       </Container>
       <Container no_max padding="y" className="max-w-screen-2xl xl:py-16 mx-auto px-0 md:px-8 lg:px-0">
-      <Suspense fallback={<Skeleton className="h-32" />}>
-        <Await
-          errorElement="There was a problem loading related products"
-          resolve={recommended}
-        >
-          {(products) => (
-            <ProductSwimlane center title="You should checkout:" products={products} />
-          )}
-        </Await>
-      </Suspense>
+        <Suspense fallback={<Skeleton className="h-32" />}>
+          <Await
+            errorElement="There was a problem loading related products"
+            resolve={recommended}
+          >
+            {(products) => (
+              <ProductSwimlane center title={configProduct.relatedProductsText} products={products} />
+            )}
+          </Await>
+        </Suspense>
       </Container>
     </>
   );
@@ -368,7 +389,7 @@ export function ProductForm({ variants }) {
                 ]}
                 width="30rem"
                 variant="dark"
-                className="py-4 rounded-full w-[20rem]"
+                className="py-4 rounded-full w-full sm:w-[20rem]"
                 data-test="add-to-cart"
                 analytics={{
                   products: [productAnalytics],
@@ -380,7 +401,7 @@ export function ProductForm({ variants }) {
                   size="none"
                   className="flex items-center justify-between gap-2 px-4 text-2xl xl:text-3xl"
                 >
-                  <span>Add to Cart</span> {' '}
+                  <span>{ configProduct.addToCartText }</span> {' '}
                   <Money
                     withoutTrailingZeros
                     data={selectedVariant?.price}
@@ -452,6 +473,41 @@ function ProductDetail({ title, content, learnMore }) {
   );
 }
 
+function Stars({ rating, reviewCount }) {
+  if (rating) {
+    rating = JSON.parse(rating).value;
+    rating = parseFloat(rating);
+  }
+  const remainder = (rating % parseInt(rating)).toFixed(2);
+
+  rating = parseInt(rating);
+  return (
+    <div className="flex items-center gap-2">
+      <p className="sr-only">{rating} out of 5 stars</p>
+      <div className="flex items-center relative">
+        {[0, 1, 2, 3, 4].map((currentRating) => (
+          <StarIcon
+            key={currentRating}
+            className={classNames(
+              rating > currentRating ? 'text-black' : 'text-black star-outline',
+              'h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0'
+            )}
+            aria-hidden="true"
+          />
+        ))}
+        {remainder && (
+          <PartialStarIcon
+            percent={remainder}
+            className="absolute right-0 text-black h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0"
+            aria-hidden="true"
+          />
+        )}
+      </div>
+      <p className="text-sm sm:text-lg text-black font-bold">({reviewCount})</p>
+    </div>
+  );
+}
+
 const PRODUCT_VARIANT_FRAGMENT = `#graphql
   fragment ProductVariantFragment on ProductVariant {
     id
@@ -502,6 +558,13 @@ const PRODUCT_QUERY = `#graphql
       handle
       descriptionHtml
       description
+      tags
+      rating: metafield(namespace: "reviews", key: "rating") {
+        value
+      }
+      ratingCount: metafield(namespace: "reviews", key: "rating_count") {
+        value
+      }
       options {
         name
         values

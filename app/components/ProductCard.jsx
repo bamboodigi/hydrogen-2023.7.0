@@ -10,6 +10,8 @@ import { getProductPlaceholder } from '~/lib/placeholders';
 
 import chicken from '../../public/chicken-demo.png';
 
+import config from '~/data/config.js';
+
 console.log(chicken)
 
 function classNames(...classes) {
@@ -25,6 +27,10 @@ export function ProductCard({
   quickAdd,
 }) {
   let cardLabel;
+
+  const configCollection = config.webpage.collection;
+
+  const stars_enabled = configCollection.stars;
 
 
   // This will show a demo of a product image with a transparent background and filling the background with css
@@ -130,7 +136,7 @@ export function ProductCard({
                   </Heading>
                 )
               }
-              {product.rating && (
+              {product.rating && stars_enabled && (
                 <>
                   <Stars key={product.title} rating={rating} reviewCount={numRatings} />
                 </>
@@ -256,7 +262,7 @@ function StickerBadge({ children }) {
 
 function LimitedEditionBadge({ children }) {
   return (
-    <span className="transform rotate-[22deg] rounded-full border-2 text-white shadow absolute z-10 -top-2 -right-2 inline-flex items-center tracking-[-.02rem] px-2 py-4 text-[.07rem] md:text-md font-medium bg-gradient-to-r from-black to-gray-900">
+    <span className="transform rotate-[22deg] rounded-full border-2 text-white shadow absolute z-10 -top-2 -right-2 inline-flex items-center tracking-[-.02rem] px-2 py-4 text-[.7rem] md:text-md font-medium bg-gradient-to-r from-black to-gray-900">
       Limited
     </span>
   )
@@ -311,86 +317,3 @@ function Stars({ rating, reviewCount }) {
     </div>
   );
 }
-//     {!isAddOn() && (
-//       <div className="flex flex-col gap-2">
-//         <Link
-//           onClick={onClick}
-//           to={`/products/${product.handle}`}
-//           prefetch="intent"
-//         >
-//           <div className={clsx('grid gap-4', className)}>
-//             <div className="card-image aspect-[1/1] bg-primary/5">
-//               {image && (
-//                 <Image
-//                   className="object-cover w-full fadeIn"
-//                   sizes="(min-width: 64em) 25vw, (min-width: 48em) 30vw, 45vw"
-//                   aspectRatio="1/1"
-//                   data={image}
-//                   alt={image.altText || `Picture of ${product.title}`}
-//                   loading={loading}
-//                 />
-//               )}
-//               <Text
-//                 as="label"
-//                 size="fine"
-//                 className="absolute top-0 right-0 m-4 text-right text-notice"
-//               >
-//                 {cardLabel}
-//               </Text>
-//             </div>
-//             <div className="grid gap-1">
-//               <Heading
-//                 className="text-2xl font-bold w-full overflow-hidden whitespace-wrap"
-//                 as="h3"
-//                 size="none"
-//               >
-//                 {product.title}
-//               </Heading>
-//               {/* <Stars rating="4" reviewCount="100" /> */}
-//               <div className="flex gap-4">
-//                 <Text className="flex gap-2">
-//                   {isPatchBuilder && (
-//                     <>
-//                       <span className="text-xl font-semibold">
-//                         Starting at
-//                       </span>
-//                     </>
-//                   )
-//                   }
-//                   <Money withoutTrailingZeros data={price} className="text-xl font-bold" />
-//                   {isDiscounted(price, compareAtPrice) && (
-//                     <CompareAtPrice
-//                       className={'text-xl opacity-50 font-bold'}
-//                       data={compareAtPrice}
-//                     />
-//                   )}
-//                 </Text>
-//               </div>
-//             </div>
-//           </div>
-//         </Link>
-//         {quickAdd && (
-//           <AddToCartButton
-//             lines={[
-//               {
-//                 quantity: 1,
-//                 merchandiseId: firstVariant.id,
-//               },
-//             ]}
-//             variant="secondary"
-//             className="mt-2"
-//             analytics={{
-//               products: [productAnalytics],
-//               totalValue: parseFloat(productAnalytics.price),
-//             }}
-//           >
-//             <Text as="span" className="flex items-center justify-center gap-2">
-//               Add to Bag
-//             </Text>
-//           </AddToCartButton>
-//         )}
-//       </div>
-
-//     )}
-//   </>
-// );

@@ -36,7 +36,6 @@ function classNames(...classes) {
 export function Layout({ children, layout }) {
   const { headerMenu, footerMenu } = layout;
   const { footer, header, features } = config;
-  const hi = 'hi';
   return (
     <>
       <div className="flex flex-col min-h-screen">

@@ -231,31 +231,38 @@ const config = {
     },
     collection: {
       id: "collection",
-        stickers : {
-          filters : [
-            {
-              title : "Flags",
-              link : "/collections/stickers/flags"
-            },
-            {
-              title : "Memes",
-              link : "/collections/stickers/memes",
-            },
-            {
-              title: "Chicken",
-              link: "/collections/stickers/chicken",
-            },
-            {
-              title : "Scifi",
-              link : "/collections/stickers/scifi"
-            }, 
-            {
-              title : "Quotes",
-              link : "/collections/stickers/quotes"
-            }
-          ]
-        }
+      stars: false,
+      stickers: {
+        filters: [
+          {
+            title: "Flags",
+            link: "/collections/stickers/flags"
+          },
+          {
+            title: "Memes",
+            link: "/collections/stickers/memes",
+          },
+          {
+            title: "Chicken",
+            link: "/collections/stickers/chicken",
+          },
+          {
+            title: "Scifi",
+            link: "/collections/stickers/scifi"
+          },
+          {
+            title: "Quotes",
+            link: "/collections/stickers/quotes"
+          }
+        ]
       }
+    },
+    product : {
+      id: "product",
+      stars: false,
+      addToCartText : "Add to Cart",
+      relatedProductsText : "You should checkout:"
+    },
   },
   header: {
     id: "navigation",
