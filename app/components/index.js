@@ -31,3 +31,7 @@ export {ProductGrid} from './ProductGrid';
 export {Toggle} from './Toggle';
 export {PartialStarIcon} from './PartialStarIcon';
 export {SearchGrid} from './SearchGrid';
+export {AdvancedSelect} from './AdvancedSelect';
+export {Steps} from './Steps';
+export {PatchBuilder} from './PatchBuilder';
+export {ProductDetail} from './ProductDetail';

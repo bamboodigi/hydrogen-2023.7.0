@@ -25,6 +25,7 @@ import {
   AddToCartButton,
   Button,
   PartialStarIcon,
+  PatchBuilder,
 } from '~/components';
 import { StarIcon } from '@heroicons/react/20/solid'
 import { getExcerpt } from '~/lib/utils';
@@ -161,7 +162,7 @@ export default function Product() {
   const { media, title, vendor, descriptionHtml } = product;
   const { shippingPolicy, refundPolicy } = shop;
 
- // console.log(product);
+  // console.log(product);
 
   let numRatings = product.ratingCount?.value || 0;
   let rating = product.rating?.value || 0;
@@ -172,38 +173,52 @@ export default function Product() {
 
   return (
     <>
-      <Container no_max padding="y" className={classNames(
-        demo ? bgColor : "", "px-0 md:px-8 lg:px-0")}>
-        <div className="md:px-0 md:p-20 xl:px-28 xl:p-28 max-w-screen-2xl mx-auto grid 
+      {
+        product.tags.includes('custom_patch') ? (
+          <>
+            <Container no_max padding="y" className={classNames(
+              demo ? bgColor : "", "px-0 md:px-8 lg:px-0")}>
+              <div className="md:px-0 md:p-20 xl:px-28 xl:p-28 max-w-screen-2xl mx-auto grid 
         items-start md:gap-6 lg:gap-0 md:grid-cols-2"
-        >
-          <ProductGallery
-            media={media.nodes}
-            className="w-full justify-center lg:pr-16"
-            demo={demo}
-          />
-          <div className="sticky 
+              >
+                <PatchBuilder product={product} config={configProduct} />
+                </div>
+            </Container>
+          </>
+        ) : (
+          <>
+            <Container no_max padding="y" className={classNames(
+              demo ? bgColor : "", "px-0 md:px-8 lg:px-0")}>
+              <div className="md:px-0 md:p-20 xl:px-28 xl:p-28 max-w-screen-2xl mx-auto grid 
+        items-start md:gap-6 lg:gap-0 md:grid-cols-2"
+              >
+                <ProductGallery
+                  media={media.nodes}
+                  className="w-full justify-center lg:pr-16"
+                  demo={demo}
+                />
+                <div className="sticky 
           md:pr-4 xl:pr-16 md:-mb-nav md:top-nav 
           md:-translate-y-nav md:pt-nav hiddenScroll 
           md:overflow-y-scroll bg-white md:bg-transparent 
           text-contrast border-2 border-t-2 border-l-2 border-r-2 border-black md:border-none rounded-t-2xl">
-            <section className="flex flex-col w-full max-w-[33rem] gap-6 p-7 lg:pb-0
+                  <section className="flex flex-col w-full max-w-[33rem] gap-6 p-7 lg:pb-0
             md:mx-auto md:px-0
             lg:">
-              <div className="grid gap-2">
-                <Heading as="h1" className="text-3xl leading-[2rem] pr-5 sm:pr-0 whitespace-normal">
-                  {newTitle}
-                </Heading>
-                {product.rating && stars_enabled && (
-                  <>
-                    <Stars key={product.title} rating={rating} reviewCount={numRatings} />
-                  </>
-                )}
-                {/* {vendor && (
+                    <div className="grid gap-2">
+                      <Heading as="h1" className="text-3xl leading-[2rem] pr-5 sm:pr-0 whitespace-normal">
+                        {newTitle}
+                      </Heading>
+                      {product.rating && stars_enabled && (
+                        <>
+                          <Stars key={product.title} rating={rating} reviewCount={numRatings} />
+                        </>
+                      )}
+                      {/* {vendor && (
                   <Text className={'opacity-50 font-medium'}>{vendor}</Text>
                 )} */}
-              </div>
-              {/* <div className="grid gap-4 py-4">
+                    </div>
+                    {/* <div className="grid gap-4 py-4">
                 {descriptionHtml && (
                   <ProductDetail
                     title="Product Details"
@@ -225,28 +240,31 @@ export default function Product() {
                   />
                 )}
               </div> */}
-              <div
-                className="text-md md:text-lg lg:text-2xl leading-[1.45rem] 
+                    <div
+                      className="text-md md:text-lg lg:text-2xl leading-[1.45rem] 
                 md:leading-[1.55rem] tracking-[-.015rem] 
                 text-contrast font-[400] prose dark:prose-invert"
-                dangerouslySetInnerHTML={{ __html: descriptionHtml }}
-              />
-              <Suspense fallback={<ProductForm variants={[]} />}>
-                <Await
-                  errorElement="There was a problem loading related products"
-                  resolve={variants}
-                >
-                  {(resp) => (
-                    <ProductForm
-                      variants={resp.product?.variants.nodes || []}
+                      dangerouslySetInnerHTML={{ __html: descriptionHtml }}
                     />
-                  )}
-                </Await>
-              </Suspense>
-            </section>
-          </div>
-        </div>
-      </Container>
+                    <Suspense fallback={<ProductForm variants={[]} />}>
+                      <Await
+                        errorElement="There was a problem loading related products"
+                        resolve={variants}
+                      >
+                        {(resp) => (
+                          <ProductForm
+                            variants={resp.product?.variants.nodes || []}
+                          />
+                        )}
+                      </Await>
+                    </Suspense>
+                  </section>
+                </div>
+              </div>
+            </Container>
+          </>
+        )
+      }
       <Container no_max padding="y" className="max-w-screen-2xl xl:py-16 mx-auto px-0 md:px-8 lg:px-0">
         <Suspense fallback={<Skeleton className="h-32" />}>
           <Await
@@ -414,7 +432,7 @@ export function ProductForm({ variants }) {
                   size="none"
                   className="flex items-center justify-between gap-2 px-4 text-2xl xl:text-3xl"
                 >
-                  <span>{ configProduct.addToCartText }</span> {' '}
+                  <span>{configProduct.addToCartText}</span> {' '}
                   <Money
                     withoutTrailingZeros
                     data={selectedVariant?.price}

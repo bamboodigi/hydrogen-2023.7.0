@@ -54,7 +54,7 @@ transition: height 0.3s ease-in-out !important;
 
 &.fixed {
   /* top: 96px; */
-  width: calc(100% - 32px);
+  /* width: calc(100% - 32px); */
 }
 
 

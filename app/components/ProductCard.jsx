@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { flattenConnection, Image, Money, useMoney } from '@shopify/hydrogen';
-import { Text, Link, AddToCartButton, Heading, PartialStarIcon } from '~/components';
+import { Text, Link, AddToCartButton, Heading, PartialStarIcon, Button } from '~/components';
 import { StarIcon } from '@heroicons/react/20/solid'
 import { isDiscounted, isNewArrival } from '~/lib/utils';
 import { getProductPlaceholder } from '~/lib/placeholders';
@@ -158,7 +158,7 @@ export function ProductCard({
                         decoding="async" height="100" loading="eager"
                         sizes="(min-width: 64em) 25vw, (min-width: 48em) 30vw, 45vw"
                         src={chicken}
-                        width="100" className="object-cover w-full fadeIn" style={{ width: '100%', aspectRatio: '1 / 1'}}></img>
+                        width="100" className="object-cover w-full fadeIn" style={{ width: '100%', aspectRatio: '1 / 1' }}></img>
                       {/* < Image
                         className="object-cover w-full fadeIn"
                         sizes="(min-width: 64em) 25vw, (min-width: 48em) 30vw, 45vw"
@@ -202,7 +202,7 @@ export function ProductCard({
                 }
               </div>
             </Link>
-            {quickAdd && (
+            {quickAdd ? (
               <AddToCartButton
                 lines={[
                   {
@@ -222,14 +222,6 @@ export function ProductCard({
                 </Text>
                 <div className="flex gap-4">
                   <Text className="flex gap-2">
-                    {isPatchBuilder && (
-                      <>
-                        <span className="text-sm font-semibold">
-                          Starting at
-                        </span>
-                      </>
-                    )
-                    }
                     <Money
                       withoutTrailingZeros
                       data={price}
@@ -243,6 +235,33 @@ export function ProductCard({
                   </Text>
                 </div>
               </AddToCartButton>
+            ) : (
+              <>
+               <Link
+              onClick={onClick}
+              to={`/products/${product.handle}`}
+              prefetch="intent"
+              className="w-full"
+            >
+                <Button variant="secondary" className="w-full flex justify-between font-bold">
+                  <span className="text-sm font-semibold">
+                    Starting at
+                  </span>
+                  <Text className="flex gap-2">
+                    <Money
+                      withoutTrailingZeros
+                      data={price}
+                      className="text-sm md:text-xl font-bold" />
+                    {isDiscounted(price, compareAtPrice) && (
+                      <CompareAtPrice
+                        className={'text-sm md:text-xl opacity-50 font-bold'}
+                        data={compareAtPrice}
+                      />
+                    )}
+                  </Text>
+                </Button>
+                </Link>
+              </>
             )}
           </div>
         </div>
