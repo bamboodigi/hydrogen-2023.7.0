@@ -1,7 +1,7 @@
-import {defer} from '@shopify/remix-oxygen';
-import {Await, Form, useLoaderData} from '@remix-run/react';
-import {Suspense} from 'react';
-import {Pagination, getPaginationVariables} from '@shopify/hydrogen';
+import { defer } from '@shopify/remix-oxygen';
+import { Await, Form, useLoaderData } from '@remix-run/react';
+import { Suspense } from 'react';
+import { Pagination, getPaginationVariables } from '@shopify/hydrogen';
 
 import {
   FeaturedCollections,
@@ -13,20 +13,32 @@ import {
   ProductSwimlane,
   Section,
   Text,
+  Container,
 } from '~/components';
-import {PAGINATION_SIZE} from '~/lib/const';
-import {PRODUCT_CARD_FRAGMENT} from '~/data/fragments';
-import {getImageLoadingPriority} from '~/lib/const';
-import {seoPayload} from '~/lib/seo.server';
+import {
+  MagnifyingGlassIcon, 
+} from '@heroicons/react/24/outline'
 
-import {getFeaturedData} from './($locale).featured-products';
+import { PAGINATION_SIZE } from '~/lib/const';
+import { PRODUCT_CARD_FRAGMENT } from '~/data/fragments';
+import { getImageLoadingPriority } from '~/lib/const';
+import { seoPayload } from '~/lib/seo.server';
 
-export async function loader({request, context: {storefront}}) {
+import config from '~/data/config.js';
+
+import { getFeaturedData } from './($locale).featured-products';
+
+
+function classNames(...classes) {
+  return classes.filter(Boolean).join(' ')
+}
+
+export async function loader({ request, context: { storefront } }) {
   const searchParams = new URL(request.url).searchParams;
   const searchTerm = searchParams.get('q');
-  const variables = getPaginationVariables(request, {pageBy: 8});
+  const variables = getPaginationVariables(request, { pageBy: 8 });
 
-  const {products} = await storefront.query(SEARCH_QUERY, {
+  const { products } = await storefront.query(SEARCH_QUERY, {
     variables: {
       searchTerm,
       ...variables,
@@ -66,55 +78,55 @@ export async function loader({request, context: {storefront}}) {
 }
 
 export default function Search() {
-  const {searchTerm, products, noResultRecommendations} = useLoaderData();
+  const { searchTerm, products, noResultRecommendations } = useLoaderData();
   const noResults = products?.nodes?.length === 0;
+  const title = searchTerm ? `Search results for "${searchTerm}"` : 'Search';
 
   return (
     <>
-      <PageHeader>
-        <Heading as="h1" size="copy">
-          Search
-        </Heading>
-        <Form method="get" className="relative flex w-full text-heading">
-          <Input
-            defaultValue={searchTerm}
-            name="q"
-            placeholder="Search…"
-            type="search"
-            variant="search"
+      <Container>
+        <PageHeader padding="y" heading={title}>
+          <SearchBar
+            className="w-full flex mr-2 rounded-md shadow-sm bg-white/5 ring-1 ring-inset ring-white/10 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500"
+            searchClassName="bg-contrast block w-full rounded-md border-0 py-4 pl-10 text-white ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-lg font-bold sm:leading-6"
+            searchTerm={searchTerm}
           />
-          <button className="absolute right-0 py-2" type="submit">
-            Go
-          </button>
-        </Form>
-      </PageHeader>
-      {!searchTerm || noResults ? (
-        <NoResults
-          noResults={noResults}
-          recommendations={noResultRecommendations}
-        />
-      ) : (
-        <Section>
+        </PageHeader>
+        {!searchTerm || noResults ? (
+          <NoResults
+            noResults={noResults}
+            recommendations={noResultRecommendations}
+          />
+        ) : (
           <Pagination connection={products}>
-            {({nodes, isLoading, NextLink, PreviousLink}) => {
+            {({ nodes, isLoading, NextLink, PreviousLink }) => {
               const itemsMarkup = nodes.map((product, i) => (
+                !product.tags.includes("custom_patch") ? (
+                  <ProductCard
+                  key={product.id}
+                  product={product}
+                  loading={getImageLoadingPriority(i)}
+                  quickAdd={true}
+                />
+                ): (
                 <ProductCard
                   key={product.id}
                   product={product}
                   loading={getImageLoadingPriority(i)}
                 />
+                )
               ));
 
               return (
                 <>
+                  <Grid data-test="product-grid" className="grid-flow-row grid gap-3 gap-y-3 md:gap-4 lg:gap-6 xl:gap-6 grid-cols-2 md:grid-cols-3 false">{itemsMarkup}</Grid>
                   <div className="flex items-center justify-center mt-6">
                     <PreviousLink className="inline-block rounded font-medium text-center py-3 px-6 border border-primary/10 bg-contrast text-primary w-full">
                       {isLoading ? 'Loading...' : 'Previous'}
                     </PreviousLink>
                   </div>
-                  <Grid data-test="product-grid">{itemsMarkup}</Grid>
                   <div className="flex items-center justify-center mt-6">
-                    <NextLink className="inline-block rounded font-medium text-center py-3 px-6 border border-primary/10 bg-contrast text-primary w-full">
+                    <NextLink className="inline-block border-2 border-primar font-bold text-center py-4 rounded-full bg-contrast text-primary w-full">
                       {isLoading ? 'Loading...' : 'Next'}
                     </NextLink>
                   </div>
@@ -122,13 +134,43 @@ export default function Search() {
               );
             }}
           </Pagination>
-        </Section>
-      )}
+        )}
+      </Container>
     </>
   );
 }
 
-function NoResults({noResults, recommendations}) {
+function SearchBar({ className, searchClassName, iconClassName, searchTerm }) {
+
+  return (
+    <>
+      <Form
+        method="get"
+        className={classNames(
+          className ? className : '', 'relative'
+        )}>
+        <div className={classNames(
+          iconClassName ? iconClassName : '', 'pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3'
+        )}>
+          <MagnifyingGlassIcon className="h-5 w-5 text-white" aria-hidden="true" />
+        </div>
+        <input
+          defaultValue={searchTerm}
+          type="search"
+          name="q"
+          variant="search"
+          placeholder="Search"
+          className={classNames(
+            searchClassName ? searchClassName : '', ''
+          )}
+        />
+      </Form>
+    </>
+  );
+}
+
+
+function NoResults({ noResults, recommendations }) {
   return (
     <>
       {noResults && (
@@ -145,16 +187,16 @@ function NoResults({noResults, recommendations}) {
         >
           {(result) => {
             if (!result) return null;
-            const {featuredCollections, featuredProducts} = result;
+            const { featuredCollections, featuredProducts } = result;
 
             return (
               <>
-                <FeaturedCollections
+                {/* <FeaturedCollections
                   title="Trending Collections"
                   collections={featuredCollections}
-                />
+                /> */}
                 <ProductSwimlane
-                  title="Trending Products"
+                  title={config.webpage.product.relatedProductsText}
                   products={featuredProducts}
                 />
               </>
@@ -167,7 +209,7 @@ function NoResults({noResults, recommendations}) {
 }
 
 export function getNoResultRecommendations(storefront) {
-  return getFeaturedData(storefront, {pageBy: PAGINATION_SIZE});
+  return getFeaturedData(storefront, { pageBy: PAGINATION_SIZE });
 }
 
 const SEARCH_QUERY = `#graphql

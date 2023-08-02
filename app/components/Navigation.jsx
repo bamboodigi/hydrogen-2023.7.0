@@ -598,7 +598,7 @@ export function Navigation({ isHome, title, openCart, config, alerts, handle }) 
                         className="hidden md:flex mr-2 shadow-sm rounded-md bg-white/5 ring-1 ring-inset ring-white/10 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500"
                         searchClassName="bg-contrast block w-full rounded-md border-0 py-1.5 pl-10 text-white ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                       />
-                       <Link to="/search" className="ml-2 p-2 text-white hover:text-white sm:hidden">
+                       <Link to="/search" className="ml-2 p-2 text-white hover:text-white md:hidden">
                         <span className="sr-only">Search</span>
                         <MagnifyingGlassIcon className="h-6 w-6" aria-hidden="true" />
                       </Link>

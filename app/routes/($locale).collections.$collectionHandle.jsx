@@ -120,6 +120,8 @@ export async function loader({ params, request, context }) {
 export default function Collection() {
   const { collection, collections, appliedFilters } = useLoaderData();
 
+  console.log(collection);
+
   return (
     <>
       <Container container="collection">

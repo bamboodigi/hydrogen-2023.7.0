@@ -30,3 +30,4 @@ export {NewSortFilter} from './NewSortFilter';
 export {ProductGrid} from './ProductGrid';
 export {Toggle} from './Toggle';
 export {PartialStarIcon} from './PartialStarIcon';
+export {SearchGrid} from './SearchGrid';
