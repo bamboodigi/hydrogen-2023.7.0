@@ -345,7 +345,7 @@ export function Navigation({ isHome, title, openCart, config, alerts, handle }) 
                                     ref={shopRef}
                                       className={classNames(
                                         open ? 'text-white' : 'text-white hover:text-white',
-                                        'relative z-10 flex items-center justify-center text-sm md:text-md xl:text-3xl font-bold transition-colors duration-200 ease-out'
+                                        'relative z-10 flex items-center justify-center text-sm md:text-md xl:text-2xl font-bold transition-colors duration-200 ease-out'
                                       )}
                                     >
                                       {category.name}
@@ -362,7 +362,7 @@ export function Navigation({ isHome, title, openCart, config, alerts, handle }) 
                                     ref={learnRef}
                                       className={classNames(
                                         open ? 'text-white' : 'text-white hover:text-white',
-                                        'relative z-10 flex items-center justify-center text-sm md:text-md xl:text-3xl font-bold transition-colors duration-200 ease-out'
+                                        'relative z-10 flex items-center justify-center text-sm md:text-md xl:text-2xl font-bold transition-colors duration-200 ease-out'
                                       )}
                                     >
                                       {category.name}
@@ -378,7 +378,7 @@ export function Navigation({ isHome, title, openCart, config, alerts, handle }) 
                                   {/* <Popover.Button
                                   className={classNames(
                                     open ? 'text-white' : 'text-white hover:text-white',
-                                    'relative z-10 flex items-center justify-center text-sm md:text-md xl:text-3xl font-bold transition-colors duration-200 ease-out'
+                                    'relative z-10 flex items-center justify-center text-sm md:text-md xl:text-2xl font-bold transition-colors duration-200 ease-out'
                                   )}
                                 >
                                   {category.name}
@@ -570,7 +570,7 @@ export function Navigation({ isHome, title, openCart, config, alerts, handle }) 
                           <Link
                             key={page.name}
                             to={page.href}
-                            className="flex items-center text-sm md:text-md xl:text-3xl font-bold text-white hover:text-white"
+                            className="flex items-center text-sm md:text-md xl:text-2xl font-bold text-white hover:text-white"
                           >
                             {page.name}
                           </Link>
@@ -582,7 +582,7 @@ export function Navigation({ isHome, title, openCart, config, alerts, handle }) 
                     <Link prefetch="intent" to="/" className="flex">
                       <span className="sr-only">{ title }</span>
                       <Heading
-                        className="text-white font-bold text-xl xl:text-3xl"
+                        className="text-white font-bold text-xl xl:text-2xl"
                        as="h1"
                       >{title}</Heading>
                       {/* <img
