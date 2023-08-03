@@ -321,7 +321,7 @@ export function Navigation({ isHome, title, openCart, config, alerts, handle }) 
       }`}>
               <Container>
                 <div>
-                  <div className="flex h-12 items-center justify-between">
+                  <div className="flex h-12 xl:h-16 items-center justify-between">
                     <div className="flex flex-1 items-center lg:hidden">
                       <button
                         type="button"
@@ -345,7 +345,7 @@ export function Navigation({ isHome, title, openCart, config, alerts, handle }) 
                                     ref={shopRef}
                                       className={classNames(
                                         open ? 'text-white' : 'text-white hover:text-white',
-                                        'relative z-10 flex items-center justify-center text-sm md:text-md xl:text-xl font-bold transition-colors duration-200 ease-out'
+                                        'relative z-10 flex items-center justify-center text-sm md:text-md xl:text-3xl font-bold transition-colors duration-200 ease-out'
                                       )}
                                     >
                                       {category.name}
@@ -362,7 +362,7 @@ export function Navigation({ isHome, title, openCart, config, alerts, handle }) 
                                     ref={learnRef}
                                       className={classNames(
                                         open ? 'text-white' : 'text-white hover:text-white',
-                                        'relative z-10 flex items-center justify-center text-sm md:text-md xl:text-xl font-bold transition-colors duration-200 ease-out'
+                                        'relative z-10 flex items-center justify-center text-sm md:text-md xl:text-3xl font-bold transition-colors duration-200 ease-out'
                                       )}
                                     >
                                       {category.name}
@@ -378,7 +378,7 @@ export function Navigation({ isHome, title, openCart, config, alerts, handle }) 
                                   {/* <Popover.Button
                                   className={classNames(
                                     open ? 'text-white' : 'text-white hover:text-white',
-                                    'relative z-10 flex items-center justify-center text-sm md:text-md xl:text-xl font-bold transition-colors duration-200 ease-out'
+                                    'relative z-10 flex items-center justify-center text-sm md:text-md xl:text-3xl font-bold transition-colors duration-200 ease-out'
                                   )}
                                 >
                                   {category.name}
@@ -452,7 +452,7 @@ export function Navigation({ isHome, title, openCart, config, alerts, handle }) 
                                                       <div key={section.name}>
                                                         <p
                                                           id={`${category.id}-${section.id}-heading`}
-                                                          className="font-bold text-white"
+                                                          className="font-bold text-white xl:text-2xl"
                                                         >
                                                           {section.name}
                                                         </p>
@@ -463,7 +463,7 @@ export function Navigation({ isHome, title, openCart, config, alerts, handle }) 
                                                         >
                                                           {section.items.map((item) => (
                                                             <li onClick={handleShopNavLinkClick} key={item.name} className="flex">
-                                                              <Link prefetch="intent" to={item.href} className="hover:text-white ml-2">
+                                                              <Link prefetch="intent" to={item.href} className="hover:text-white ml-2 xl:text-xl">
                                                                 {item.name}
                                                               </Link>
                                                             </li>
@@ -530,7 +530,7 @@ export function Navigation({ isHome, title, openCart, config, alerts, handle }) 
                                                       <div key={section.name}>
                                                         <p
                                                           id={`${category.id}-${section.id}-heading`}
-                                                          className="font-bold text-white"
+                                                          className="font-bold text-white xl:text-2xl"
                                                         >
                                                           {section.name}
                                                         </p>
@@ -541,7 +541,7 @@ export function Navigation({ isHome, title, openCart, config, alerts, handle }) 
                                                         >
                                                           {section.items.map((item) => (
                                                             <li onClick={handleLearnNavLinkClick} key={item.name} className="flex">
-                                                              <Link prefetch="intent" to={item.href} className="flex gap-x-4 items-center hover:text-white">
+                                                              <Link prefetch="intent" to={item.href} className="flex gap-x-4 items-center hover:text-white xl:text-xl">
                                                                 <item.icon className="h-6 w-6 flex-none text-white" aria-hidden="true" />
                                                                 {item.name}
                                                               </Link>
@@ -570,7 +570,7 @@ export function Navigation({ isHome, title, openCart, config, alerts, handle }) 
                           <Link
                             key={page.name}
                             to={page.href}
-                            className="flex items-center text-sm md:text-md xl:text-xl font-bold text-white hover:text-white"
+                            className="flex items-center text-sm md:text-md xl:text-3xl font-bold text-white hover:text-white"
                           >
                             {page.name}
                           </Link>
@@ -582,7 +582,7 @@ export function Navigation({ isHome, title, openCart, config, alerts, handle }) 
                     <Link prefetch="intent" to="/" className="flex">
                       <span className="sr-only">{ title }</span>
                       <Heading
-                        className="text-white font-bold text-xl"
+                        className="text-white font-bold text-xl xl:text-3xl"
                        as="h1"
                       >{title}</Heading>
                       {/* <img
@@ -595,8 +595,8 @@ export function Navigation({ isHome, title, openCart, config, alerts, handle }) 
                     <div className="flex flex-1 items-center justify-end">
                       {/* Search */}
                       <Search
-                        className="hidden md:flex mr-2 shadow-sm rounded-md bg-white/5 ring-1 ring-inset ring-white/10 focus-within:ring-2 focus-within:ring-inset focus-within:ring-white"
-                        searchClassName="bg-contrast block w-full rounded-md border-0 py-1.5 pl-10 text-white ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-white sm:text-sm sm:leading-6"
+                        className="hidden md:flex font-semibold mr-2 shadow-sm rounded-md bg-white/5 ring-1 ring-inset ring-white focus-within:ring-2 focus-within:ring-inset focus-within:ring-white"
+                        searchClassName="bg-contrast block w-full rounded-md border-0 py-1.5 pl-10 text-white ring-1 ring-inset ring-white placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-white sm:text-sm xl:text-xl sm:leading-6"
                       />
                        <Link to="/search" className="ml-2 p-1 pb-0.5 text-white hover:text-white md:hidden">
                         <span className="sr-only">Search</span>
