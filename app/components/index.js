@@ -35,3 +35,7 @@ export {AdvancedSelect} from './AdvancedSelect';
 export {Steps} from './Steps';
 export {PatchBuilder} from './PatchBuilder';
 export {ProductDetail} from './ProductDetail';
+export {HeroTiles} from './HeroTiles';
+export {Stats} from './Stats';
+export {FeaturedReviews} from './FeaturedReviews';
+export {CTASection} from './CTASection';

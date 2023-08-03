@@ -1,5 +1,5 @@
 import { ProductCard, Section, Link } from '~/components';
-import {getImageLoadingPriority} from '~/lib/const';
+import { getImageLoadingPriority } from '~/lib/const';
 
 const mockProducts = {
   nodes: new Array(12).fill(''),
@@ -18,6 +18,9 @@ export function ProductSwimlane({
   center = false,
   ...props
 }) {
+
+  console.log(products);
+  const nodes = products.nodes || products;
   return (
     <>
       <div className={classNames(
@@ -38,22 +41,22 @@ export function ProductSwimlane({
         }
       </div>
       <div className="swimlane pt-2 hiddenScroll md:pb-8 md:scroll-px-8 lg:scroll-px-12 md:px-8 lg:px-12">
-        {products.nodes.map((product, i) => (
+        {nodes.map((product, i) => (
           !product.tags.includes("custom_patch") ? (
             <ProductCard
-            key={product.id}
-            product={product}
-            loading={getImageLoadingPriority(i)}
-            quickAdd={true}
-            className="snap-start w-40 md:w-[18rem] lg:w-[21rem] xl:w-[23rem]"
-          />
-          ): (
-          <ProductCard
-            key={product.id}
-            product={product}
-            loading={getImageLoadingPriority(i)}
-            className="snap-start w-40 md:w-[18rem] lg:w-[21rem] xl:w-[23rem]"
-          />
+              key={product.id}
+              product={product}
+              loading={getImageLoadingPriority(i)}
+              quickAdd={true}
+              className="snap-start w-40 md:w-[18rem] lg:w-[21rem] xl:w-[23rem]"
+            />
+          ) : (
+            <ProductCard
+              key={product.id}
+              product={product}
+              loading={getImageLoadingPriority(i)}
+              className="snap-start w-40 md:w-[18rem] lg:w-[21rem] xl:w-[23rem]"
+            />
           )
         ))}
       </div>

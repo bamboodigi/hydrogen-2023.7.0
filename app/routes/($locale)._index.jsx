@@ -3,11 +3,13 @@ import {Suspense} from 'react';
 import {Await, useLoaderData} from '@remix-run/react';
 import {AnalyticsPageType} from '@shopify/hydrogen';
 
-import {ProductSwimlane, FeaturedCollections, Hero} from '~/components';
+import {ProductSwimlane, FeaturedCollections, Hero, HeroTiles, Stats, Container, FeaturedReviews, CTASection} from '~/components';
 import {MEDIA_FRAGMENT, PRODUCT_CARD_FRAGMENT} from '~/data/fragments';
 import {getHeroPlaceholder} from '~/lib/placeholders';
 import {seoPayload} from '~/lib/seo.server';
 import {routeHeaders} from '~/data/cache';
+
+import config from '~/data/config.js';
 
 export const headers = routeHeaders;
 
@@ -84,12 +86,48 @@ export default function Homepage() {
     featuredProducts,
   } = useLoaderData();
 
+  const { home } = config.webpage;
+  const heroTiles = home.layout[0];
+  const stats = home.layout[1];
+  const reviews = home.layout[3];
+
   // TODO: skeletons vs placeholders
   const skeletons = getHeroPlaceholder([{}, {}, {}]);
 
+  console.log(featuredProducts);
+
   return (
     <>
-      {primaryHero && (
+    <HeroTiles config={heroTiles} />
+      <Stats config={stats} />
+      {featuredProducts && (
+     <Suspense>
+     <Await resolve={featuredProducts}>
+       {({ products }) => {
+         if (!products?.nodes) return <></>;
+         console.log(products);
+         return (
+           <div className="mx-auto max-w-screen-2xxl overflow-hidden">
+             <Container>
+               <ProductSwimlane
+                 products={products.nodes}
+                 title="Be Creative, Stand Out"
+                 count={4}
+                 collectionHandle="create-your-patch"
+               />
+             </Container>
+           </div>
+         );
+       }}
+     </Await>
+   </Suspense>
+      )}
+
+<FeaturedReviews config={reviews} />
+
+<CTASection />
+
+      {/* {primaryHero && (
         <Hero {...primaryHero} height="full" top loading="eager" />
       )}
 
@@ -146,7 +184,7 @@ export default function Homepage() {
             }}
           </Await>
         </Suspense>
-      )}
+      )} */}
     </>
   );
 }
@@ -206,16 +244,17 @@ const COLLECTION_HERO_QUERY = `#graphql
 
 // @see: https://shopify.dev/api/storefront/2023-07/queries/products
 export const HOMEPAGE_FEATURED_PRODUCTS_QUERY = `#graphql
+  ${PRODUCT_CARD_FRAGMENT}
   query homepageFeaturedProducts($country: CountryCode, $language: LanguageCode)
   @inContext(country: $country, language: $language) {
-    products(first: 8) {
+    products(first: 8, query: "product_type:custom_patch") {
       nodes {
         ...ProductCard
       }
     }
   }
-  ${PRODUCT_CARD_FRAGMENT}
 `;
+
 
 // @see: https://shopify.dev/api/storefront/2023-07/queries/collections
 export const FEATURED_COLLECTIONS_QUERY = `#graphql
