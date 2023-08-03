@@ -123,20 +123,20 @@ export function Navigation({ isHome, title, openCart, config, alerts, handle }) 
               leaveFrom="translate-x-0"
               leaveTo="-translate-x-full"
             >
-              <Dialog.Panel className="relative flex w-full max-w-xs flex-col overflow-y-auto bg-contrast pb-12 shadow-xl">
-                <div className="flex px-4 pb-2 pt-5">
+              <Dialog.Panel className="relative flex w-full sm:max-w-xs flex-col overflow-y-auto bg-contrast pb-12 shadow-xl">
+                <div className="flex px-4 py-2 border-white border-b-2">
                   <button
                     type="button"
                     className="-m-2 inline-flex items-center justify-center rounded-md p-2 text-white"
                     onClick={() => setOpen(false)}
                   >
                     <span className="sr-only">Close menu</span>
-                    <XMarkIcon className="h-6 w-6" aria-hidden="true" />
+                    <XMarkIcon className="h-8 w-8" aria-hidden="true" />
                   </button>
                 </div>
 
                 {/* Links */}
-                <Tab.Group as="div" className="mt-2">
+                <Tab.Group as="div" className="">
                   <div className="border-b border-gray-900">
                     <Tab.List className="-mb-px flex space-x-8 px-4">
                       {navigation.categories.map((category) => (
@@ -144,7 +144,7 @@ export function Navigation({ isHome, title, openCart, config, alerts, handle }) 
                           key={category.name}
                           className={({ selected }) =>
                             classNames(
-                              selected ? 'border-indigo-600 text-indigo-600' : 'border-transparent text-white',
+                              selected ? 'border-white text-white' : 'border-transparent text-white',
                               'flex-1 whitespace-nowrap border-b-2 px-1 py-4 text-base font-bold'
                             )
                           }
@@ -162,7 +162,7 @@ export function Navigation({ isHome, title, openCart, config, alerts, handle }) 
                             {category.featured.map((item, itemIdx) => (
                               <div
                                 key={itemIdx}
-                                className="group aspect-h-1 aspect-w-1 relative overflow-hidden rounded-md "
+                                className="group aspect-h-1 aspect-w-2 relative overflow-hidden rounded-md "
                               >
                                 <img
                                   src={item.imageSrc}
@@ -199,11 +199,11 @@ export function Navigation({ isHome, title, openCart, config, alerts, handle }) 
                                   <ul
                                     role="list"
                                     aria-labelledby={`${category.id}-${section.id}-heading-mobile`}
-                                    className="mt-6 flex flex-col space-y-6"
+                                    className="mt-4 flex flex-col space-y-6"
                                   >
                                     {section.items.map((item) => (
                                       <li onClick={() => setOpen(false)} key={item.name} className="flow-root">
-                                        <Link prefetch="intent" to={item.href} className="-m-2 flex items-center  p-1 pl-2 -z-10pl-2 ext-white font-semibold text-lg">
+                                        <Link prefetch="intent" to={item.href} className="-m-2 ml-0 flex items-center  p-1 pl-2 -z-10pl-2 ext-white font-semibold text-lg">
                                           {item.name}
                                         </Link>
                                       </li>
@@ -229,7 +229,7 @@ export function Navigation({ isHome, title, openCart, config, alerts, handle }) 
                                   <ul
                                     role="list"
                                     aria-labelledby={`${category.id}-${section.id}-heading-mobile`}
-                                    className="mt-6 flex flex-col space-y-6"
+                                    className="mt-4 flex flex-col space-y-6"
                                   >
                                     {section.items.map((item) => (
                                       <li onClick={() => setOpen(false)} key={item.name} className="flow-root">
@@ -300,7 +300,7 @@ export function Navigation({ isHome, title, openCart, config, alerts, handle }) 
       <header className="fixed w-full">
         <nav aria-label="Top">
             {/* Top navigation */}
-            {alerts.enabled && !isProductBuilder(location) && (
+            {alerts.enabled && (
             <div className={`overflow-y-scroll transition ${
         isHome && scrollPosition <= 60 ? ' bg-transparent' : ' bg-contrast'
       }`}>
@@ -316,12 +316,12 @@ export function Navigation({ isHome, title, openCart, config, alerts, handle }) 
               </Container>
             </div>
             )}
-            <div className={`overflow-y-scroll transition${
+            <div className={`overflow-y-scroll transition border-b-2 border-white ${
         isHome && scrollPosition <= 60 ? ' bg-transparent' : ' bg-contrast'
       }`}>
               <Container>
                 <div>
-                  <div className="flex h-14 items-center justify-between">
+                  <div className="flex h-12 items-center justify-between">
                     <div className="flex flex-1 items-center lg:hidden">
                       <button
                         type="button"
@@ -329,7 +329,7 @@ export function Navigation({ isHome, title, openCart, config, alerts, handle }) 
                         onClick={openLink}
                       >
                         <span className="sr-only">Open menu</span>
-                        <Bars3Icon className="h-6 w-6" aria-hidden="true" />
+                        <Bars3Icon className="h-8 w-8" aria-hidden="true" />
                       </button>
                     </div>
                     {/* Flyout menus */}
@@ -344,14 +344,14 @@ export function Navigation({ isHome, title, openCart, config, alerts, handle }) 
                                     <Popover.Button
                                     ref={shopRef}
                                       className={classNames(
-                                        open ? 'text-indigo-600' : 'text-white hover:text-white',
-                                        'relative z-10 flex items-center justify-center text-sm font-bold transition-colors duration-200 ease-out'
+                                        open ? 'text-white' : 'text-white hover:text-white',
+                                        'relative z-10 flex items-center justify-center text-sm md:text-md xl:text-xl font-bold transition-colors duration-200 ease-out'
                                       )}
                                     >
                                       {category.name}
                                       <span
                                         className={classNames(
-                                          open ? 'bg-indigo-600' : '',
+                                          open ? 'bg-white' : '',
                                           'absolute inset-x-0 bottom-0 h-0.5 transition-colors duration-200 ease-out sm:mt-5 sm:translate-y-px sm:transform'
                                         )}
                                         aria-hidden="true"
@@ -361,14 +361,14 @@ export function Navigation({ isHome, title, openCart, config, alerts, handle }) 
                                     <Popover.Button
                                     ref={learnRef}
                                       className={classNames(
-                                        open ? 'text-indigo-600' : 'text-white hover:text-white',
-                                        'relative z-10 flex items-center justify-center text-sm font-bold transition-colors duration-200 ease-out'
+                                        open ? 'text-white' : 'text-white hover:text-white',
+                                        'relative z-10 flex items-center justify-center text-sm md:text-md xl:text-xl font-bold transition-colors duration-200 ease-out'
                                       )}
                                     >
                                       {category.name}
                                       <span
                                         className={classNames(
-                                          open ? 'bg-indigo-600' : '',
+                                          open ? 'bg-white' : '',
                                           'absolute inset-x-0 bottom-0 h-0.5 transition-colors duration-200 ease-out sm:mt-5 sm:translate-y-px sm:transform'
                                         )}
                                         aria-hidden="true"
@@ -377,14 +377,14 @@ export function Navigation({ isHome, title, openCart, config, alerts, handle }) 
                                   )}
                                   {/* <Popover.Button
                                   className={classNames(
-                                    open ? 'text-indigo-600' : 'text-white hover:text-white',
-                                    'relative z-10 flex items-center justify-center text-sm font-bold transition-colors duration-200 ease-out'
+                                    open ? 'text-white' : 'text-white hover:text-white',
+                                    'relative z-10 flex items-center justify-center text-sm md:text-md xl:text-xl font-bold transition-colors duration-200 ease-out'
                                   )}
                                 >
                                   {category.name}
                                   <span
                                     className={classNames(
-                                      open ? 'bg-indigo-600' : '',
+                                      open ? 'bg-white' : '',
                                       'absolute inset-x-0 bottom-0 h-0.5 transition-colors duration-200 ease-out sm:mt-5 sm:translate-y-px sm:transform'
                                     )}
                                     aria-hidden="true"
@@ -406,7 +406,7 @@ export function Navigation({ isHome, title, openCart, config, alerts, handle }) 
                                       {/* Presentational element used to render the bottom shadow, if we put the shadow on the actual panel it pokes out the top, so we use this shorter element to hide the top of the shadow */}
                                       <div className="absolute inset-0 top-1/2 bg-contrast shadow" aria-hidden="true" />
 
-                                      <div className="relative bg-contrast">
+                                      <div className="relative bg-contrast border-b-2 border-white">
                                         <div className="mx-auto max-w-screen-2xxl px-8">
                                             <div className={classNames(
                                               category.featured ? 'grid-cols-2' : ' ',
@@ -459,11 +459,11 @@ export function Navigation({ isHome, title, openCart, config, alerts, handle }) 
                                                         <ul
                                                           role="list"
                                                           aria-labelledby={`${category.id}-${section.id}-heading`}
-                                                          className="mt-4 space-y-4"
+                                                          className="mt-4 space-y-2"
                                                         >
                                                           {section.items.map((item) => (
                                                             <li onClick={handleShopNavLinkClick} key={item.name} className="flex">
-                                                              <Link prefetch="intent" to={item.href} className="hover:text-white">
+                                                              <Link prefetch="intent" to={item.href} className="hover:text-white ml-2">
                                                                 {item.name}
                                                               </Link>
                                                             </li>
@@ -537,7 +537,7 @@ export function Navigation({ isHome, title, openCart, config, alerts, handle }) 
                                                         <ul
                                                           role="list"
                                                           aria-labelledby={`${category.id}-${section.id}-heading`}
-                                                          className="mt-4 space-y-4"
+                                                          className="mt-4 space-y-2"
                                                         >
                                                           {section.items.map((item) => (
                                                             <li onClick={handleLearnNavLinkClick} key={item.name} className="flex">
@@ -570,7 +570,7 @@ export function Navigation({ isHome, title, openCart, config, alerts, handle }) 
                           <Link
                             key={page.name}
                             to={page.href}
-                            className="flex items-center text-sm font-bold text-white hover:text-white"
+                            className="flex items-center text-sm md:text-md xl:text-xl font-bold text-white hover:text-white"
                           >
                             {page.name}
                           </Link>
@@ -582,7 +582,7 @@ export function Navigation({ isHome, title, openCart, config, alerts, handle }) 
                     <Link prefetch="intent" to="/" className="flex">
                       <span className="sr-only">{ title }</span>
                       <Heading
-                        className="text-white font-bold text-2xl"
+                        className="text-white font-bold text-xl"
                        as="h1"
                       >{title}</Heading>
                       {/* <img
@@ -595,12 +595,12 @@ export function Navigation({ isHome, title, openCart, config, alerts, handle }) 
                     <div className="flex flex-1 items-center justify-end">
                       {/* Search */}
                       <Search
-                        className="hidden md:flex mr-2 shadow-sm rounded-md bg-white/5 ring-1 ring-inset ring-white/10 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500"
-                        searchClassName="bg-contrast block w-full rounded-md border-0 py-1.5 pl-10 text-white ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        className="hidden md:flex mr-2 shadow-sm rounded-md bg-white/5 ring-1 ring-inset ring-white/10 focus-within:ring-2 focus-within:ring-inset focus-within:ring-white"
+                        searchClassName="bg-contrast block w-full rounded-md border-0 py-1.5 pl-10 text-white ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-white sm:text-sm sm:leading-6"
                       />
-                       <Link to="/search" className="ml-2 p-2 text-white hover:text-white md:hidden">
+                       <Link to="/search" className="ml-2 p-1 pb-0.5 text-white hover:text-white md:hidden">
                         <span className="sr-only">Search</span>
-                        <MagnifyingGlassIcon className="h-6 w-6" aria-hidden="true" />
+                        <MagnifyingGlassIcon className="h-7 w-7" aria-hidden="true" />
                       </Link>
 
                       {/* Cart */}
@@ -711,12 +711,12 @@ function Badge({ openCart, dark, count }) {
   const BadgeCounter = useMemo(
     () => (
       <>
-        <IconBag />
+        <IconBag className="w-7 h-7"/>
         <div
           className={`${dark
             ? 'text-primary bg-contrast dark:text-contrast dark:bg-primary'
             : 'text-contrast bg-primary'
-            } absolute bottom-1 right-1 text-[0.625rem] font-bold subpixel-antialiased h-3 min-w-[0.75rem] flex items-center justify-center leading-none text-center rounded-full w-auto px-[0.125rem] pb-px`}
+            } absolute bottom-1 right-1 text-[0.725rem] font-bold subpixel-antialiased h-3 min-w-[0.75rem] flex items-center justify-center leading-none text-center rounded-full w-auto px-[0.125rem] pt-px`}
         >
           <span>{count || 0}</span>
         </div>
@@ -728,14 +728,14 @@ function Badge({ openCart, dark, count }) {
   return isHydrated ? (
     <button
       onClick={openCart}
-      className="relative flex items-center justify-center w-8 h-8 focus:ring-primary/5"
+      className="relative flex items-center justify-center w-9 h-9 focus:ring-primary/5"
     >
       {BadgeCounter}
     </button>
   ) : (
     <Link
       to="/cart"
-      className="relative flex items-center justify-center w-8 h-8 focus:ring-primary/5"
+      className="relative flex items-center justify-center w-9 h-9 focus:ring-primary/5"
     >
       {BadgeCounter}
     </Link>

@@ -114,7 +114,7 @@ background-clip: text;
 /* Tokens */
 :root {
   --color-primary: 20 20 20; /* Text, buttons, etc. */
-  --color-contrast: 250 250 249; /* Backgrounds, borders, etc. */
+  --color-contrast: 250 250 250; /* Backgrounds, borders, etc. */
   --color-accent: 191 72 0; /* Labels like "On sale" */
   --font-size-fine: 0.75rem; /* text-xs */
   --font-size-copy: 1rem; /* text-base */
@@ -147,7 +147,7 @@ background-clip: text;
 @media (prefers-color-scheme: dark) {
   :root {
     --color-primary: 250 250 250;
-    --color-contrast: 20 20 20;
+    --color-contrast: 0 0 0;
     --color-accent: 235 86 40;
     /* --color-primary: 250 250 250;
     --color-contrast: 32 33 36;

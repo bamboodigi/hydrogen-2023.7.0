@@ -46,8 +46,8 @@ export function Layout({ children, layout }) {
         </div>
         {headerMenu && <Header title={layout.shop.name} config={header} alerts={features.alerts} />}
         <main role="main" id="mainContent" className={classNames(
-          features.alerts.enabled ? 'mt-[54px] lg:mt-[96px]' : 'mt-[54px]',
-          'flex-grow'
+          features.alerts.enabled ? 'lg:mt-[5.5rem]' : '',
+          'flex-grow mt-12'
         )}>
           {children}
         </main>
