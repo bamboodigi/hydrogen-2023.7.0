@@ -17,9 +17,9 @@ export function Container({ className, container, padding, no_max, ...props }) {
   return (
     <div
       className={classNames(
-        container == "collection" ? "max-w-screen-2xl" : "",
-        no_max ? "" : "max-w-screen-2xxl",
-        className,'mx-auto sm:px-6 lg:px-8', styles
+        container == "collection" ? "max-w-screen-2xl" : "lg:px-8",
+        no_max || container == "collection" ? "" : "max-w-screen-2xxl",
+        className,'mx-auto sm:px-6', styles
       )}
       {...props}
     />

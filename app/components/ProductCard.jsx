@@ -244,7 +244,7 @@ export function ProductCard({
               className="w-full"
             >
                 <Button variant="secondary" className="w-full flex justify-between font-bold">
-                  <span className="text-sm font-semibold">
+                  <span className="text-sm md:text-xl font-semibold">
                     Starting at
                   </span>
                   <Text className="flex gap-2">

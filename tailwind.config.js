@@ -63,7 +63,7 @@ export default {
         md: '48em',
         lg: '64em',
         xl: '80em',
-        '2xl': '90em',
+        '2xl': '92em',
         '2xxl': '120em',
         'sm-max': { max: '48em' },
         'sm-only': { min: '32em', max: '48em' },

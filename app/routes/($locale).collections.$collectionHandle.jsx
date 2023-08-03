@@ -16,10 +16,12 @@ import {
   ProductGrid,
   Container
 } from '~/components';
-import { PRODUCT_CARD_FRAGMENT} from '~/data/fragments';
+import { PRODUCT_CARD_FRAGMENT } from '~/data/fragments';
 import { routeHeaders } from '~/data/cache';
 import { seoPayload } from '~/lib/seo.server';
 import { getImageLoadingPriority } from '~/lib/const';
+
+import { CurrencyDollarIcon, GlobeAmericasIcon } from '@heroicons/react/24/outline'
 
 export const headers = routeHeaders;
 
@@ -121,48 +123,62 @@ export default function Collection() {
   const { collection, collections, appliedFilters } = useLoaderData();
 
   console.log(collection);
-
+  const policies = [
+    { name: 'Text & Patch Size', icon: GlobeAmericasIcon, description: 'Customize text and size of patch' },
+    { name: 'Font & Background Colors', icon: CurrencyDollarIcon, description: "Customize the font and background color" },
+    { name: 'Flags + Special Features', icon: CurrencyDollarIcon, description: "Customize the flag and other features" },
+  ]
+  
   return (
     <>
       <Container container="collection">
         <PageHeader heading={collection.title} variant="blogPost">
-          {collection?.handle == "create-your-patch" && (
-            <div className="w-full">
-              <Text format width="wide" as="h2" className="pb-8 font-bold sm:text-lg lg:text-2xl">
-                Discover our customizable patch collection, offering a plethora of personalization options including flags, icons, symbols, text, and colors.
-              </Text>
-              <Text format width="wide" as="h2" className="font-bold sm:text-lg lg:text-2xl">
-                In under 30 seconds, design a unique patch that embodies your courage and dedication.
-              </Text>
-            </div>
-          ) || collection?.description && (
-            <div className="flex items-baseline justify-between w-full">
-              <div>
-                <Text format width="wide" as="h2" className="inline-block font-bold">
-                  {collection.description}
-                </Text>
-              </div>
-            </div>
+      </PageHeader>
+      {collection?.handle == "create-your-patch" && (
+        <>
+              <h2 as="h2" className="text-2xl text-center font-bold pb-8 whitespace-pre-wrap">
+                Step by Step
+              </h2>
+
+              <dl className="pb-4 grid grid-cols-1 gap-4 md:grid-cols-3">
+                {policies.map((policy) => (
+                  <div key={policy.name} className="rounded-lg border-2 border-white p-6 px-4 text-center">
+                    <dt>
+                      {/* <policy.icon className="mx-auto h-8 w-8 flex-shrink-0 text-white" aria-hidden="true" /> */}
+                      <span className="mt-4 text-sm xl:text-2xl font-semibold text-white">{policy.name}</span>
+                    </dt>
+                    <dd className="mt-1 text-md xl:text-xl text-white font-bold">{policy.description}</dd>
+                  </div>
+                ))}
+              </dl>
+              </>
+        ) || collection?.description && (
+        <div className="flex items-baseline justify-between w-full">
+          <div>
+            <Text format width="wide" as="h2" className="inline-block font-bold">
+              {collection.description}
+            </Text>
+          </div>
+        </div>
           )}
-        </PageHeader>
-        {/* <NewSortFilter
+      {/* <NewSortFilter
           filters={collection.products.filters}
           appliedFilters={appliedFilters}
           collections={collections}
         >        </NewSortFilter> */}
-        <SortFilter
-          filters={collection.products.filters}
-          appliedFilters={appliedFilters}
-          collections={collections}
-        >
-          <ProductGrid
-            key={collection.id}
-            collection={collection}
-            url={`/collections/${collection.handle}`}
-            data-test="product-grid"
-          />
-        </SortFilter>
-      </Container>
+      <SortFilter
+        filters={collection.products.filters}
+        appliedFilters={appliedFilters}
+        collections={collections}
+      >
+        <ProductGrid
+          key={collection.id}
+          collection={collection}
+          url={`/collections/${collection.handle}`}
+          data-test="product-grid"
+        />
+      </SortFilter>
+    </Container >
     </>
   );
 }
