@@ -104,11 +104,12 @@ export function ProductCard({
 
   const newTitle = product.title.replace(/ - Sticker$/, '').replace(/ - Limited Edition Patch \+ Sticker$/, '');
 
+  console.log(product);
   // console.log(newTitle.length)
 
   return (
     <>
-      {!isAddOn() && (
+      {!exclusionList(product) && (
         <div className="relative flex flex-col justify-between gap-4 border-2 rounded-xl md:rounded-2xl p-2 md:p-6">
           <Link
             onClick={onClick}
@@ -135,6 +136,12 @@ export function ProductCard({
                     {newTitle}
                   </Heading>
                 )
+              }
+              { product.shortDescription && (
+                <>
+                  <Text className="text-xs md:text-xl font-medium">{product.shortDescription?.value}</Text>
+                </>
+              )
               }
               {product.rating && stars_enabled && (
                 <>
@@ -269,6 +276,26 @@ export function ProductCard({
       )}
     </>
   );
+}
+
+
+
+
+function exclusionList(product){
+  // create a list of parameters to filter out products that fall under those parameters
+  // this will be used to filter out products from the collection pages, search pages, and featured product components
+
+  if(product.tags.includes("add-on") || product.tags.includes("BOLD_HIDDEN_PRODUCT") || 
+    product.tags.includes("PatchClub") || product.tags.includes("OPTIONS_HIDDEN_PRODUCT") 
+    || product.tags.includes("EMAIL_HIDDEN_PRODUCT") || product.tags.includes("exclude_rebuy")
+    || product.title.includes("PatchClub")) {
+    return true;
+  }
+  return false;
+}
+
+function MasterBadge(){
+
 }
 
 function StickerBadge({ children }) {

@@ -153,13 +153,8 @@ export default function Collection() {
               </dl>
               </>
         ) || collection?.description && (
-        <div className="flex items-baseline justify-between w-full">
-          <div>
-            <Text format width="wide" as="h2" className="inline-block font-bold">
-              {collection.description}
-            </Text>
-          </div>
-        </div>
+          <>
+          </>
           )}
       {/* <NewSortFilter
           filters={collection.products.filters}
@@ -181,6 +176,10 @@ export default function Collection() {
     </Container >
     </>
   );
+}
+
+function ctaFilters(){
+
 }
 
 const COLLECTION_QUERY = `#graphql

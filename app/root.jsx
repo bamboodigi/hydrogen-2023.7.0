@@ -9,6 +9,7 @@ import {
   useLoaderData,
   useMatches,
   useRouteError,
+  useLocation,
 } from '@remix-run/react';
 import {ShopifySalesChannel, Seo} from '@shopify/hydrogen';
 import invariant from 'tiny-invariant';
@@ -76,9 +77,13 @@ export default function App() {
   const locale = data.selectedLocale ?? DEFAULT_LOCALE;
   const hasUserConsent = true;
 
-  useAnalytics(hasUserConsent, locale);
+  // const {pathname} = useLocation();
 
-  useJudgeme(data.judgeme);
+  useAnalytics(hasUserConsent, locale);
+  
+  // if(pathname.includes('/products/')) {
+  //   useJudgeme(data.judgeme);
+  // }
 
   return (
     <html lang={locale.language}>
