@@ -39,6 +39,7 @@ export const MEDIA_FRAGMENT = `#graphql
 
 export const PRODUCT_CARD_FRAGMENT = `#graphql
   fragment ProductCard on Product {
+    availableForSale
     id
     title
     tags
@@ -49,6 +50,9 @@ export const PRODUCT_CARD_FRAGMENT = `#graphql
       value
     }
     ratingCount: metafield(namespace: "reviews", key: "rating_count") {
+      value
+    }
+    shortDescription: metafield(namespace: "product", key: "short_description") {
       value
     }
     variants(first: 1) {

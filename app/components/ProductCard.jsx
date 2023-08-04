@@ -109,176 +109,206 @@ export function ProductCard({
 
   return (
     <>
-      {!exclusionList(product) && (
-        <div className="relative flex flex-col justify-between gap-4 border-2 rounded-xl md:rounded-2xl p-2 md:p-6">
+    {!exclusionList(product) && (
+      <div className="relative flex flex-col justify-between gap-4 border-2 rounded-xl md:rounded-2xl p-2 md:p-6">
+        <Link
+          to={`/products/${product.handle}`}
+          prefetch="intent"
+          className="flex flex-col gap-4 md:gap-8 justify-between"
+        >
+          <div className="flex flex-col gap-2 justify-between">
+            {
+              newTitle.length > 40 ? (
+                <Heading
+                  className="text-sm leading-lg md:text-xl lg:text-3xl font-bold w-full overflow-hidden whitespace-wrap"
+                  as="h3"
+                  size="none"
+                >
+                  {newTitle}
+                </Heading>
+              ) : (
+                <Heading
+                  className="text-md leading-lg md:text-xl lg:text-3xl font-bold w-full overflow-hidden whitespace-wrap"
+                  as="h3"
+                  size="none"
+                >
+                  {newTitle}
+                </Heading>
+              )
+            }
+            { product.shortDescription && (
+              <>
+                <Text className="text-xs md:text-xl font-medium">{product.shortDescription?.value}</Text>
+              </>
+            )
+            }
+            {product.rating && stars_enabled && (
+              <>
+                <Stars key={product.title} rating={rating} reviewCount={numRatings} />
+              </>
+            )}
+          </div>
+        </Link>
+        <div className="flex flex-col gap-4 md:gap-8 justify-between">
           <Link
-            onClick={onClick}
             to={`/products/${product.handle}`}
             prefetch="intent"
             className="flex flex-col gap-4 md:gap-8 justify-between"
           >
-            <div className="flex flex-col gap-2 justify-between">
+            <div className={clsx('grid gap-4', className)}>
+              <div className={clsx('card-image aspect-[1/1]', bgColor)}>
+                {image && (
+                  transparentDemo ? (<>
+                    <img alt="Macho Chicken Randy Savage - Sticker Sticker PatchPanel"
+                      decoding="async" height="100" loading="eager"
+                      sizes="(min-width: 64em) 25vw, (min-width: 48em) 30vw, 45vw"
+                      src={chicken}
+                      width="100" className="object-cover w-full fadeIn" style={{ width: '100%', aspectRatio: '1 / 1' }}></img>
+                    {/* < Image
+                      className="object-cover w-full fadeIn"
+                      sizes="(min-width: 64em) 25vw, (min-width: 48em) 30vw, 45vw"
+                      aspectRatio="1/1"
+                      data={image}
+                      alt={image.altText || `Picture of ${product.title}`}
+                      loading={loading}
+                    /> */}
+                  </>) : (<>
+                    < Image
+                      className="object-cover w-full fadeIn"
+                      sizes="(min-width: 64em) 25vw, (min-width: 48em) 30vw, 45vw"
+                      aspectRatio="1/1"
+                      data={image}
+                      alt={image.altText || `Picture of ${product.title}`}
+                      loading={loading}
+                    />
+                  </>)
+                )}
+                <Text
+                  as="label"
+                  size="fine"
+                  className="absolute top-0 right-0 m-4 text-right text-notice"
+                >
+                  {cardLabel}
+                </Text>
+              </div>
               {
-                newTitle.length > 40 ? (
-                  <Heading
-                    className="text-sm leading-lg md:text-xl lg:text-3xl font-bold w-full overflow-hidden whitespace-wrap"
-                    as="h3"
-                    size="none"
-                  >
-                    {newTitle}
-                  </Heading>
-                ) : (
-                  <Heading
-                    className="text-md leading-lg md:text-xl lg:text-3xl font-bold w-full overflow-hidden whitespace-wrap"
-                    as="h3"
-                    size="none"
-                  >
-                    {newTitle}
-                  </Heading>
+                isSticker() && (
+                  <>
+                    <StickerBadge />
+                  </>
                 )
               }
-              { product.shortDescription && (
-                <>
-                  <Text className="text-xs md:text-xl font-medium">{product.shortDescription?.value}</Text>
-                </>
-              )
+              {
+                isLimited() && (
+                  <>
+                    <LimitedEditionBadge />
+                  </>
+                )
               }
-              {product.rating && stars_enabled && (
-                <>
-                  <Stars key={product.title} rating={rating} reviewCount={numRatings} />
-                </>
-              )}
             </div>
           </Link>
-          <div className="flex flex-col gap-4 md:gap-8 justify-between">
-            <Link
-              onClick={onClick}
-              to={`/products/${product.handle}`}
-              prefetch="intent"
-              className="flex flex-col gap-4 md:gap-8 justify-between"
+          {quickAdd ? (
+            product.availableForSale ? (
+            <>
+             <AddToCartButton
+              lines={[
+                {
+                  quantity: 1,
+                  merchandiseId: firstVariant.id,
+                },
+              ]}
+              variant="secondary"
+              className="flex justify-between font-bold"
+              analytics={{
+                products: [productAnalytics],
+                totalValue: parseFloat(productAnalytics.price),
+              }}
             >
-              <div className={clsx('grid gap-4', className)}>
-                <div className={clsx('card-image aspect-[1/1]', bgColor)}>
-                  {image && (
-                    transparentDemo ? (<>
-                      <img alt="Macho Chicken Randy Savage - Sticker Sticker PatchPanel"
-                        decoding="async" height="100" loading="eager"
-                        sizes="(min-width: 64em) 25vw, (min-width: 48em) 30vw, 45vw"
-                        src={chicken}
-                        width="100" className="object-cover w-full fadeIn" style={{ width: '100%', aspectRatio: '1 / 1' }}></img>
-                      {/* < Image
-                        className="object-cover w-full fadeIn"
-                        sizes="(min-width: 64em) 25vw, (min-width: 48em) 30vw, 45vw"
-                        aspectRatio="1/1"
-                        data={image}
-                        alt={image.altText || `Picture of ${product.title}`}
-                        loading={loading}
-                      /> */}
-                    </>) : (<>
-                      < Image
-                        className="object-cover w-full fadeIn"
-                        sizes="(min-width: 64em) 25vw, (min-width: 48em) 30vw, 45vw"
-                        aspectRatio="1/1"
-                        data={image}
-                        alt={image.altText || `Picture of ${product.title}`}
-                        loading={loading}
-                      />
-                    </>)
+              <Text as="span" className="text-sm md:text-xl font-bold flex items-center justify-center gap-2">
+                Add to Bag
+              </Text>
+              <div className="flex gap-4">
+                <Text className="flex gap-2">
+                  <Money
+                    withoutTrailingZeros
+                    data={price}
+                    className="text-sm md:text-xl font-bold" />
+                  {isDiscounted(price, compareAtPrice) && (
+                    <CompareAtPrice
+                      className={'text-sm md:text-xl opacity-50 font-bold'}
+                      data={compareAtPrice}
+                    />
                   )}
-                  <Text
-                    as="label"
-                    size="fine"
-                    className="absolute top-0 right-0 m-4 text-right text-notice"
-                  >
-                    {cardLabel}
-                  </Text>
-                </div>
-                {
-                  isSticker() && (
-                    <>
-                      <StickerBadge />
-                    </>
-                  )
-                }
-                {
-                  isLimited() && (
-                    <>
-                      <LimitedEditionBadge />
-                    </>
-                  )
-                }
-              </div>
-            </Link>
-            {quickAdd ? (
-              <AddToCartButton
-                lines={[
-                  {
-                    quantity: 1,
-                    merchandiseId: firstVariant.id,
-                  },
-                ]}
-                variant="secondary"
-                className="flex justify-between font-bold"
-                analytics={{
-                  products: [productAnalytics],
-                  totalValue: parseFloat(productAnalytics.price),
-                }}
-              >
-                <Text as="span" className="text-sm md:text-xl font-bold flex items-center justify-center gap-2">
-                  Add to Bag
                 </Text>
-                <div className="flex gap-4">
-                  <Text className="flex gap-2">
-                    <Money
-                      withoutTrailingZeros
-                      data={price}
-                      className="text-sm md:text-xl font-bold" />
-                    {isDiscounted(price, compareAtPrice) && (
-                      <CompareAtPrice
-                        className={'text-sm md:text-xl opacity-50 font-bold'}
-                        data={compareAtPrice}
-                      />
-                    )}
-                  </Text>
-                </div>
-              </AddToCartButton>
+              </div>
+            </AddToCartButton>
+            </>
             ) : (
               <>
                <Link
-              onClick={onClick}
-              to={`/products/${product.handle}`}
-              prefetch="intent"
-              className="w-full"
+            to={`/products/${product.handle}`}
+            prefetch="intent"
+            className="w-full"
+          >
+             <Button
+              variant="secondary"
+              className="w-full flex justify-between font-bold" 
             >
-                <Button variant="secondary" className="w-full flex justify-between font-bold">
-                  <span className="text-sm md:text-xl font-semibold">
-                    Starting at
-                  </span>
-                  <Text className="flex gap-2">
-                    <Money
-                      withoutTrailingZeros
-                      data={price}
-                      className="text-sm md:text-xl font-bold" />
-                    {isDiscounted(price, compareAtPrice) && (
-                      <CompareAtPrice
-                        className={'text-sm md:text-xl opacity-50 font-bold'}
-                        data={compareAtPrice}
-                      />
-                    )}
-                  </Text>
-                </Button>
-                </Link>
+              <Text as="span" className="text-sm md:text-xl font-bold flex items-center justify-center gap-2">
+                Out of Stock
+              </Text>
+              <div className="flex gap-4">
+                <Text className="flex gap-2">
+                  <Money
+                    withoutTrailingZeros
+                    data={price}
+                    className="text-sm md:text-xl font-bold" />
+                  {isDiscounted(price, compareAtPrice) && (
+                    <CompareAtPrice
+                      className={'text-sm md:text-xl opacity-50 font-bold'}
+                      data={compareAtPrice}
+                    />
+                  )}
+                </Text>
+              </div>
+            </Button>
+            </Link>
               </>
-            )}
-          </div>
+            )
+          ) : (
+            <>
+             <Link
+            to={`/products/${product.handle}`}
+            prefetch="intent"
+            className="w-full"
+          >
+              <Button variant="secondary" className="w-full flex justify-between font-bold">
+                <span className="text-sm md:text-xl font-semibold">
+                  Starting at
+                </span>
+                <Text className="flex gap-2">
+                  <Money
+                    withoutTrailingZeros
+                    data={price}
+                    className="text-sm md:text-xl font-bold" />
+                  {isDiscounted(price, compareAtPrice) && (
+                    <CompareAtPrice
+                      className={'text-sm md:text-xl opacity-50 font-bold'}
+                      data={compareAtPrice}
+                    />
+                  )}
+                </Text>
+              </Button>
+              </Link>
+            </>
+          )}
         </div>
+      </div>
 
-      )}
-    </>
+    )}
+  </>
   );
 }
-
-
 
 
 function exclusionList(product){
