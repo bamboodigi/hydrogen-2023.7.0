@@ -24,7 +24,7 @@ export function ProductSwimlane({
     <>
       <div className={classNames(
         center ? "justify-center xl:justify-start xl:ml-6" : "justify-start",
-        "flex items-center py-8 pb-6"
+        "flex items-center py-4 pb-6"
       )}
       >
         <h2 className="text-3xl lg:text-4xl font-bold tracking-tight text-white">{title}</h2>

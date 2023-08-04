@@ -6,6 +6,17 @@
   outline: none !important;
 }
 
+#product-info {
+  br {
+    display: none;
+  }
+
+  p {
+    margin-bottom: .5rem;
+    margin-top: .5rem;
+  }
+}
+
 .star-outline {
   stroke: white;
   stroke-width: 1;

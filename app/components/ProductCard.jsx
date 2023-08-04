@@ -34,7 +34,7 @@ export function ProductCard({
 
 
   // This will show a demo of a product image with a transparent background and filling the background with css
-  const transparentDemo = true;
+  const transparentDemo = false;
   const bgColor = 'bg-[transprent]';
 
   let numRatings = product.ratingCount?.value || 0;

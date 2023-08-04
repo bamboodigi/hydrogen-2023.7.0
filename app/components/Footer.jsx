@@ -33,7 +33,7 @@ export function Footer({ config }) {
   const navigation = config.navigation;
 
   return (
-    <footer className="bg-white mt-8 xl:mt-32" aria-labelledby="footer-heading">
+    <footer className="bg-white mt-8" aria-labelledby="footer-heading">
       {config.enabled && (
         <Container className="pb-8 pt-4 sm:pt-6 lg:pt-16">
           {config.newsletter.enabled && (
@@ -167,7 +167,7 @@ export function Footer({ config }) {
           <div className="mt-8 border-t border-white/10 pt-8 md:flex md:items-center md:justify-between">
             <div className="flex space-x-6 md:order-2">
               {navigation.social.map((item) => (
-                <Link key={item.name} href={item.href} className="text-gray-500 hover:text-gray-400">
+                <Link key={item.name} to={item.href} prefetch="intent" className="text-gray-500 hover:text-gray-400">
                   <span className="sr-only">{item.name}</span>
                   <item.icon className="h-6 w-6" aria-hidden="true" />
                 </Link>

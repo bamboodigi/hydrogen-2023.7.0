@@ -27,7 +27,7 @@ export function ProductGallery({media, className, demo = false}) {
         const style = [
           isFullWidth ? 'md:col-span-2' : 'md:col-span-1',
           isFirst || isFourth ? '' : 'md:aspect-[4/5]',
-          'pt-8 justify-end aspect-square snap-center card-image w-mobileGallery md:w-full',
+          'pt-8 md:pt-0 justify-end aspect-square snap-center card-image w-mobileGallery md:w-full',
         ].join(' ');
 
         //bg-white dark:bg-contrast/10 

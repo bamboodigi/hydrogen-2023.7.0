@@ -153,8 +153,10 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-const demo = true;
-const bgColor = "bg-[lightblue]";
+const demo = false;
+
+const bgColors = ["#d100d1", "#8f00ff", "#ff006d", "#01befe", "#ffdd00", "#000", "#fff", "#ff7d00"];
+const bgColor = "bg-[" + bgColors[3] + "]";
 
 
 export default function Product() {
@@ -177,7 +179,7 @@ export default function Product() {
         product.tags.includes('custom_patch') ? (
           <>
             <Container no_max padding="y" className={classNames(
-              demo ? bgColor : "", "px-0 md:px-8 lg:px-0")}>
+              demo ? bgColor : bgColor, "px-0 md:px-8 lg:px-0")}>
               <div className="md:px-0 md:p-20 xl:px-28 xl:p-28 max-w-screen-2xl mx-auto grid 
         items-start md:gap-6 lg:gap-0 md:grid-cols-2"
               >
@@ -188,9 +190,9 @@ export default function Product() {
         ) : (
           <>
             <Container no_max padding="y" className={classNames(
-              demo ? bgColor : "", "px-0 md:px-8 lg:px-0")}>
+              demo ? bgColor : "bg-white", "px-0 md:px-8 lg:px-0 md:bg-white md:border-b-2 md:border-constrast")}>
               <div className="md:px-0 md:p-20 xl:px-28 xl:p-28 max-w-screen-2xl mx-auto grid 
-        items-start md:gap-6 lg:gap-0 md:grid-cols-2"
+        items-start md:gap-6 lg:gap-0 md:grid-cols-2 md:flex md:items-center md:justify-center xl:py-0"
               >
                 <ProductGallery
                   media={media.nodes}
@@ -198,11 +200,10 @@ export default function Product() {
                   demo={demo}
                 />
                 <div className="sticky 
-          md:pr-4 xl:pr-16 md:-mb-nav md:top-nav 
-          md:-translate-y-nav md:pt-nav hiddenScroll 
+          md:pr-4 xl:pr-16 hiddenScroll 
           md:overflow-y-scroll bg-white md:bg-transparent 
           text-contrast border-2 border-t-2 border-l-2 border-r-2 border-black md:border-none rounded-t-2xl">
-                  <section className="flex flex-col w-full max-w-[33rem] gap-6 p-7 lg:pb-0
+                  <section id="product-info" className="flex flex-col w-full max-w-[33rem] gap-6 p-7 lg:pb-0
             md:mx-auto md:px-0
             lg:">
                     <div className="grid gap-2">
@@ -276,8 +277,7 @@ export default function Product() {
             )}
           </Await>
         </Suspense>
-        {/* <JudgemeReviewWidget id={product.id} />
-        <JudgemeAllReviewsCount /> */}
+        {/* <JudgemeReviewWidget id={product.id} /> */}
       </Container>
     </>
   );

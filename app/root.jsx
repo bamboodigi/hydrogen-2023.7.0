@@ -78,7 +78,7 @@ export default function App() {
 
   useAnalytics(hasUserConsent, locale);
 
- // useJudgeme(data.judgeme);
+  useJudgeme(data.judgeme);
 
   return (
     <html lang={locale.language}>
