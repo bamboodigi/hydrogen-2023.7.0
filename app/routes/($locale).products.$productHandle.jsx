@@ -242,7 +242,7 @@ export default function Product() {
               </div> */}
                     <div
                       className="text-md md:text-lg lg:text-2xl leading-[1.45rem] 
-                md:leading-[1.55rem] tracking-[-.015rem] 
+                lg:leading-[1.55rem] tracking-[-.015rem] lg:tracking-[-.015rem] 
                 text-contrast font-[400] prose dark:prose-invert"
                       dangerouslySetInnerHTML={{ __html: descriptionHtml }}
                     />
@@ -265,7 +265,7 @@ export default function Product() {
           </>
         )
       }
-      <Container no_max padding="y" className="max-w-screen-2xl xl:py-16 mx-auto px-0 md:px-8 lg:px-0">
+      <Container no_max padding="y" className="max-w-screen-2xl xl:py-16 mx-auto px-0 md:px-8 lg:px-0 py-4">
         <Suspense fallback={<Skeleton className="h-32" />}>
           <Await
             errorElement="There was a problem loading related products"
@@ -420,7 +420,7 @@ export function ProductForm({ variants }) {
                 ]}
                 width="30rem"
                 variant="dark"
-                className="py-4 rounded-full w-full sm:w-[20rem]"
+                className="py-4 xl:py-4 rounded-full w-full sm:w-[20rem] xl:w-[25rem]"
                 data-test="add-to-cart"
                 analytics={{
                   products: [productAnalytics],

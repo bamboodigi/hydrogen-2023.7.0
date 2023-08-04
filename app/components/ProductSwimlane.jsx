@@ -19,7 +19,6 @@ export function ProductSwimlane({
   ...props
 }) {
 
-  console.log(products);
   const nodes = products.nodes || products;
   return (
     <>

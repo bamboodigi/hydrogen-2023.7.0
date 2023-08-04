@@ -156,7 +156,7 @@ export function Navigation({ isHome, title, openCart, config, alerts, handle }) 
                   </div>
                   <Tab.Panels as={Fragment}>
                     {navigation.categories.map((category) => (
-                      <Tab.Panel key={category.name} className="space-y-8 px-4 pb-8 pt-10">
+                      <Tab.Panel key={category.name} className="space-y-4 px-4 pb-8 pt-10">
                         {category.featured && (
                           <div className="space-y-4">
                             {category.featured.map((item, itemIdx) => (
@@ -187,7 +187,7 @@ export function Navigation({ isHome, title, openCart, config, alerts, handle }) 
                         {category.type === 'featured' ? (
 
                           category.sections.map((column, columnIdx) => (
-                            <div key={columnIdx} className="space-y-8">
+                            <div key={columnIdx} className="space-y-4">
                               {column.map((section) => (
                                 <div key={section.name}>
                                   <p
@@ -217,7 +217,7 @@ export function Navigation({ isHome, title, openCart, config, alerts, handle }) 
                         ) : category.type === 'learn' ? (
 
                           category.sections.map((column, columnIdx) => (
-                            <div key={columnIdx} className="space-y-8">
+                            <div key={columnIdx} className="space-y-4">
                               {column.map((section) => (
                                 <div key={section.name}>
                                   <p
@@ -447,7 +447,7 @@ export function Navigation({ isHome, title, openCart, config, alerts, handle }) 
                                                 'grid grid-cols-3 gap-x-8 gap-y-10 text-md text-white'
                                               )}>
                                                 {category.sections.map((column, columnIdx) => (
-                                                  <div key={columnIdx} className="space-y-8">
+                                                  <div key={columnIdx} className="space-y-4">
                                                     {column.map((section) => (
                                                       <div key={section.name}>
                                                         <p
@@ -525,7 +525,7 @@ export function Navigation({ isHome, title, openCart, config, alerts, handle }) 
                                                 'grid grid-cols-3 gap-x-8 gap-y-10 text-md text-white'
                                               )}>
                                                 {category.sections.map((column, columnIdx) => (
-                                                  <div key={columnIdx} className="space-y-8">
+                                                  <div key={columnIdx} className="space-y-4">
                                                     {column.map((section) => (
                                                       <div key={section.name}>
                                                         <p

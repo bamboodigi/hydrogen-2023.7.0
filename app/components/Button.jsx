@@ -22,8 +22,8 @@ export const Button = forwardRef(
 
     const variants = {
       primary: `${baseButtonClasses} bg-primary text-contrast`,
-      dark: `${baseButtonClasses} bg-contrast text-primary`,
-      secondary: `${baseButtonClasses} border-2 border-primary bg-contrast text-primary`,
+      dark: `${baseButtonClasses} bg-contrast text-primary border-2 border-contrast hover:bg-white hover:text-contrast transition`,
+      secondary: `${baseButtonClasses} border-2 border-primary bg-contrast text-primary hover:bg-white hover:text-contrast hover:border-white`,
       inline: 'border-b border-primary/10 leading-none pb-1',
     };
 
