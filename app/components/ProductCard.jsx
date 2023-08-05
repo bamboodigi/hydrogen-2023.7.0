@@ -338,7 +338,7 @@ function StickerBadge({ children }) {
 
 function LimitedEditionBadge({ children }) {
   return (
-    <span className="transform rotate-[22deg] rounded-full border-2 text-white shadow absolute z-10 -top-2 -right-2 inline-flex items-center tracking-[-.02rem] px-2 py-4 text-[.7rem] md:text-md font-medium bg-gradient-to-r from-black to-gray-900">
+    <span className="transform rotate-[22deg] rounded-full border-2 text-white shadow absolute z-10 -top-2 -right-2 inline-flex items-center tracking-[-.02rem] px-2 py-4 text-[.7rem] md:text-copy md:py-5 font-medium bg-gradient-to-r from-black to-gray-900">
       Limited
     </span>
   )
