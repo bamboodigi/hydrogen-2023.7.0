@@ -12,12 +12,13 @@ export function ProductGallery({media, className, demo = false}) {
 
   return (
     <div
-      className={`swimlane md:grid-flow-row hiddenScroll md:p-0 md:overflow-x-auto md:grid-cols-2 ${className}`}
+      className={`swimlane md:grid-flow-row md:p-0 md:overflow-x-auto md:grid-cols-2 lg:max-h-[500px] ${className}`}
     >
       {media.map((med, i) => {
-        const isFirst = i === 0;
-        const isFourth = i === 3;
-        const isFullWidth = i % 3 === 0;
+        // const isFirst = i === 0;
+        // const isFourth = i === 3;
+        // const isFullWidth = i % 3 === 0;
+        const isFullWidth = true;
 
         const image =
           med.__typename === 'MediaImage'
@@ -26,7 +27,7 @@ export function ProductGallery({media, className, demo = false}) {
 
         const style = [
           isFullWidth ? 'md:col-span-2' : 'md:col-span-1',
-          isFirst || isFourth ? '' : 'md:aspect-[4/5]',
+          // isFirst || isFourth ? '' : 'md:aspect-[4/5]',
           'pt-8 md:pt-0 justify-end aspect-square snap-center card-image w-mobileGallery md:w-full',
         ].join(' ');
 
@@ -45,11 +46,8 @@ export function ProductGallery({media, className, demo = false}) {
                 <Image
                 loading={i === 0 ? 'eager' : 'lazy'}
                 data={image}
-                aspectRatio={!isFirst && !isFourth ? '4/5' : undefined}
-                sizes={
-                  isFirst || isFourth
-                    ? '(min-width: 48em) 60vw, 90vw'
-                    : '(min-width: 48em) 30vw, 90vw'
+                aspectRatio={'1/1'}
+                sizes={ '(min-width: 48em) 500px'
                 }
                 className="object-cover w-full h-full aspect-square fadeIn"
               />

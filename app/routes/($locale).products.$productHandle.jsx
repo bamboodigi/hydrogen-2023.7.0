@@ -192,14 +192,14 @@ export default function Product() {
             <Container no_max padding="y" className={classNames(
               demo ? bgColor : "bg-white", "px-0 md:px-8 lg:px-0 md:bg-white md:border-b-2 md:border-constrast")}>
               <div className="md:px-0 md:p-20 xl:px-28 xl:p-28 max-w-screen-2xl mx-auto grid 
-        items-start md:gap-6 lg:gap-0 md:grid-cols-2 md:flex md:items-center md:justify-center xl:py-0"
+        items-start md:gap-6 lg:gap-0 md:grid-cols-2 md:flex md:items-center md:justify-center"
               >
                 <ProductGallery
                   media={media.nodes}
-                  className="w-full justify-center lg:pr-16"
+                  className="w-full justify-center lg:pr-16 md:w-1/2"
                   demo={demo}
                 />
-                <div className="sticky 
+                <div className="md:w-1/2 sticky 
           md:pr-4 xl:pr-16 hiddenScroll 
           md:overflow-y-scroll bg-white md:bg-transparent 
           text-contrast border-2 border-t-2 border-l-2 border-r-2 border-black md:border-none rounded-t-2xl">
