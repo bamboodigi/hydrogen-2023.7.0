@@ -84,7 +84,7 @@ export default function Search() {
 
   return (
     <>
-      <Container>
+      <Container container="collection">
         <PageHeader padding="y" heading={title}>
           <SearchBar
             className="w-full flex mr-2 rounded-md shadow-sm bg-white/5 ring-1 ring-inset ring-white/10 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500"
@@ -119,7 +119,7 @@ export default function Search() {
 
               return (
                 <>
-                  <Grid data-test="product-grid" className="grid-flow-row grid gap-3 gap-y-3 md:gap-4 lg:gap-6 xl:gap-6 grid-cols-2 md:grid-cols-3 false">{itemsMarkup}</Grid>
+                  <Grid data-test="product-grid" items={3} layout="products" className="grid-flow-row grid gap-3 gap-y-3 md:gap-4 lg:gap-6 xl:gap-6 grid-cols-2 md:grid-cols-3 false">{itemsMarkup}</Grid>
                   <div className="flex items-center justify-center mt-6">
                     <PreviousLink className="inline-block rounded font-medium text-center py-3 px-6 border border-primary/10 bg-contrast text-primary w-full">
                       {isLoading ? 'Loading...' : 'Previous'}

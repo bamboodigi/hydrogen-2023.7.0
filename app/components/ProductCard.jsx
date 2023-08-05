@@ -183,13 +183,13 @@ export function ProductCard({
                     />
                   </>)
                 )}
-                <Text
+                {/* <Text
                   as="label"
                   size="fine"
                   className="absolute top-0 right-0 m-4 text-right text-notice"
                 >
                   {cardLabel}
-                </Text>
+                </Text> */}
               </div>
               {
                 isSticker() && (
