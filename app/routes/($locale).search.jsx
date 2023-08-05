@@ -87,8 +87,8 @@ export default function Search() {
       <Container container="collection">
         <PageHeader padding="y" heading={title}>
           <SearchBar
-            className="w-full flex mr-2 rounded-md shadow-sm bg-white/5 ring-1 ring-inset ring-white/10 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500"
-            searchClassName="bg-contrast block w-full rounded-md border-0 py-4 pl-10 text-white ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-lg font-bold sm:leading-6"
+            className="w-full flex mr-2 rounded-md shadow-sm border-white ring-1 ring-inset ring-white focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500"
+            searchClassName="bg-contrast block w-full rounded-md border-0 py-4 pl-10 text-white ring-1 ring-inset ring-gray-300 placeholder:text-gray-200 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-lg font-bold sm:leading-6"
             searchTerm={searchTerm}
           />
         </PageHeader>
@@ -147,7 +147,7 @@ function SearchBar({ className, searchClassName, iconClassName, searchTerm }) {
       <Form
         method="get"
         className={classNames(
-          className ? className : '', 'relative'
+          className ? className : '', ''
         )}>
         <div className={classNames(
           iconClassName ? iconClassName : '', 'pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3'
