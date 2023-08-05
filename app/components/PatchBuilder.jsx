@@ -55,7 +55,7 @@ export function PatchBuilder({ product, config, ...props }) {
         ""
       )} />
       <div className={classNames(
-        isPatchBuilder ? "mt-[228px]" : "mt-[225px]",
+        isPatchBuilder ? "" : "mt-[225px]",
         "sm:mt-auto sticky md:pr-4 xl:pr-16 md:-mb-nav md:top-nav md:-translate-y-nav md:pt-nav hiddenScroll md:overflow-y-scroll bg-white md:bg-transparent text-contrast border-2 border-t-2 border-l-2 border-r-2 border-black md:border-none rounded-t-2xl"
       )}>
         <section className="flex flex-col w-full max-w-[33rem] gap-6 p-7 lg:pb-0
@@ -653,7 +653,7 @@ function Visualizer({ formData, className, ...props }) {
     <div className="swimlane md:grid-flow-row hiddenScroll md:p-0 md:overflow-x-auto md:grid-cols-2 w-full justify-center lg:pr-16">
       <div id="visualizer" className={classNames(
         className,
-        "md:col-span-2 aspect-square snap-center flex items-center justify-center overflow-clip rounded-sm w-full max-h-1/2 p-6 py-4 fixed z-50 sm:relative sm:z-10"
+        "md:col-span-2 aspect-square snap-center flex items-center justify-center overflow-clip rounded-sm w-full max-h-1/2 p-6 py-4 sm:relative"
       )}>
         {/* ${scrollPosition >= 100 ? ' w-100 fixed z-50' : ' transition relative'
         } */}
