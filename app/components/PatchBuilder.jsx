@@ -62,7 +62,7 @@ export function PatchBuilder({ product, config, ...props }) {
             md:mx-auto md:px-0
             lg:">
           <div className="grid gap-2">
-          <Heading as="h1" className="text-3xl leading-[2rem] pr-5 sm:pr-0 whitespace-normal">
+            <Heading as="h1" className="text-3xl leading-[2rem] pr-5 sm:pr-0 whitespace-normal">
               <span className="mr-2">
                 {formData.size}
               </span>
@@ -971,14 +971,10 @@ function Form({ formData, setFormData, data, config }) {
     }
   };
 
-  ///////////////////////////////////////////////////////////////////////////////////////////////
-  //  HTML RENDER FOR CUSOTMIZER FORM = TYPE, TEXT, TEXT ADDITIONAL, SIZE, 
-  //  TEXT COLOR, BG COLOR, FLAG, MORE TO ADD
-  ///////////////////////////////////////////////////////////////////////////////////////////////
-  // console.log(formData)
+  // console.log(formData);
+  // console.log(data);
+  // console.log(config);
 
-
-  //console.log(currentStepObj);
   return (
     <>
       <div className="space-y-6">
@@ -1199,29 +1195,13 @@ NKDA"
           ) : (<></>)
           }
         </div>
-        <div className="col-span-6 lg:col-span-5 flex w-full">
-          <button
-            type="button"
-            className="flex-1 rounded-l-full font-bold text-white relative inline-flex items-center justify-center px-3 py-3 text-copy bg-contrast ring-1 ring-inset ring-gray-300 hover:bg-white hover:text-contrast focus:z-10 text-center"
-            onClick={handlePrevious}
-          >
-            Previous
-          </button>
-          <BuilderATC formData={formData} config={config} className="flex-1 relative py-4 bg-transparent border-t-2 border-b-2 border-contrast font-bold px-2" />
-          <button
-            type="button"
-            className="flex-1 rounded-r-full font-bold text-white relative -ml-px inline-flex items-center justify-center px-3 py-3 text-copy bg-contrast ring-1 ring-inset ring-gray-300 hover:bg-white hover:text-contrast focus:z-10 text-center"
-            onClick={handleNext}
-          >
-            Next
-          </button>
-        </div>
+        <FormButton formData={formData} config={config} handlePrevious={handlePrevious} handleNext={handleNext} currentStep={currentStep} steps={steps}/>
       </div>
     </>
   );
 }
 
-function BuilderATC({ formData, className, config }) {
+function BuilderATC({ formData, className, config, currentStep, steps }) {
   const { product, analytics, storeDomain } = useLoaderData();
   const productAnalytics = {
     ...analytics.products[0],
@@ -1238,9 +1218,6 @@ function BuilderATC({ formData, className, config }) {
     "name-tape--flag": "",
   };
 
-  // console.log(formData.markType);
-  console.log(formData.textColor);
-  // console.log(selectedVariant.id)
 
   function getCart(formData) {
     const lines = [
@@ -1322,6 +1299,11 @@ function BuilderATC({ formData, className, config }) {
     amount: formData.price + '.0',
     currencyCode: selectedVariant?.price.currencyCode,
   };
+
+  let disabled = true;
+  if(currentStep === steps.length && formData.agreement) {
+    disabled = false;
+  }
   // console.log(selectedVariant?.price);
   return (
     <>
@@ -1334,25 +1316,24 @@ function BuilderATC({ formData, className, config }) {
           totalValue: parseFloat(productAnalytics.price),
         }}
         className={className}
+        disabled={disabled}
       >
         <Text
           as="span"
-          className="flex items-center justify-between gap-2 text-2xl xl:text-3xl"
+          className={classNames(
+            product.tags.includes("custom_patch") ? "justify-center" : "justify-between",
+        "flex items-center gap-2 text-2xl xl:text-3xl")}
         >
-          <span>{config.addToCartText}</span> {' '}
+         {
+          currentStep === 1 ? 
+          <span>{config.patchBuilder.startingText}</span> :
+          currentStep === steps.length ? <span>{config.addToCartText}</span> : <></>
+         }
           <Money
             withoutTrailingZeros
             data={priceObj}
             as="span"
           />
-          {/* {isOnSale && (
-      <Money
-        withoutTrailingZeros
-        data={selectedVariant?.compareAtPrice}
-        as="span"
-        className="opacity-50 strike"
-      />
-    )} */}
         </Text>
       </AddToCartButton>
     </>
@@ -1391,5 +1372,52 @@ function ProductDetails({ shippingPolicy, refundPolicy }) {
         />
       )}
     </div>
+  );
+}
+
+function FormButton({formData, config, handlePrevious, handleNext, currentStep, steps}) {
+  // console.log(currentStep);
+  // console.log(steps.length)
+  return (
+    <>
+      <div className="col-span-6 lg:col-span-5 flex w-full font-bold text-white text-copy">
+        <button
+          type="button"
+          className={classNames(
+            currentStep === 1 ? "hidden" : 
+            currentStep === steps.length ? "flex-grow-1" : "",
+            "transition flex-1 rounded-l-full items-center justify-center p-3 bg-contrast border-2 border-contrast hover:bg-white hover:text-contrast",
+          )}
+          onClick={handlePrevious}
+        >
+          Previous
+        </button>
+        <div className={classNames(
+          currentStep === 1 ? "rounded-l-full border-2 w-[60%]" :
+          currentStep === steps.length ? "rounded-r-full border-2 w-[70%]" : "",
+          "transition bg-transparent border-t-2 border-b-2 border-contrast font-bold px-2")}>
+           <BuilderATC 
+        formData={formData} 
+        config={config} 
+        currentStep={currentStep}
+        steps={steps}
+        className={classNames(
+          currentStep === 1 ? " " :
+          currentStep === steps.length ? "" : "",
+          "transition text-contrast flex-1 relative py-4 bg-transparent font-bold px-2")} />
+        </div>
+        <button
+          type="button"
+          className={classNames(
+            currentStep === steps.length ? "hidden" : 
+            currentStep === 1 ? "flex-grow-1" : "",
+            "transition flex-1 rounded-r-full items-center justify-center p-3 bg-contrast border-2 border-contrast hover:bg-white hover:text-contrast",
+          )}
+          onClick={handleNext}
+        >
+          Next
+        </button>
+      </div>
+    </>
   );
 }

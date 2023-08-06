@@ -156,7 +156,7 @@ function classNames(...classes) {
 const demo = false;
 
 const bgColors = ["#d100d1", "#8f00ff", "#ff006d", "#01befe", "#ffdd00", "#000", "#fff", "#ff7d00"];
-const bgColor = "bg-[" + bgColors[3] + "]";
+const bgColor = "bg-[" + bgColors[0] + "]";
 
 
 export default function Product() {
@@ -179,7 +179,7 @@ export default function Product() {
         product.tags.includes('custom_patch') ? (
           <>
             <Container no_max padding="y" className={classNames(
-              demo ? bgColor : bgColor, "px-0 md:px-8 lg:px-0")}>
+              demo ? bgColor : "bg-white", "px-0 md:px-8 lg:px-0")}>
               <div className="md:px-0 md:p-20 xl:px-28 xl:p-28 max-w-screen-2xl mx-auto grid 
         items-start md:gap-6 lg:gap-0 md:grid-cols-2"
               >

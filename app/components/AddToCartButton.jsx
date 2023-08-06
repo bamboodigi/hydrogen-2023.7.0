@@ -18,8 +18,7 @@ export function AddToCartButton({
       inputs={{
         lines,
       }}
-      action={CartForm.ACTIONS.LinesAdd}
-    >
+      action={CartForm.ACTIONS.LinesAdd}  >
       {(fetcher) => (
         <>
           <input

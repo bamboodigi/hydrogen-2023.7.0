@@ -261,7 +261,10 @@ const config = {
       id: "product",
       stars: false,
       addToCartText : "Add to Cart",
-      relatedProductsText : "You should checkout:"
+      relatedProductsText : "You should checkout:",
+      patchBuilder : {
+        startingText : "Starting at",
+      }
     },
   },
   header: {

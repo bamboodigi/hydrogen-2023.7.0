@@ -1,4 +1,87 @@
 const newData = {
+  forms: {
+    "id panel": {
+      intro: "Our ID panels come in various sizes. You will be able to custom your ID, blood type or allergy, font & background colors. You will be able to choose from a wide variety of flags or upload one yourself. Get through all the steps and see your patch come to life.",
+      btnText: "Get Started",
+      steps: [
+        {
+          name: "Text",
+          input: [
+            {
+              label: 'Text',
+              type: 'input',
+              placeholder: 'Name',
+            },
+            {
+              label: 'Blood Type & Allergies',
+              type: 'textarea',
+              placeholder: 'APOS\nNKDA',
+            },
+          ],
+        },
+        {
+          name: "Patch Size",
+          input: [
+            {
+              label: 'Size',
+              type: 'select',
+              placeholder: '3" x 2"',
+            },
+          ],
+        },
+        {
+          name: "Font & Background Colors",
+          input: [
+            {
+              label: 'Text Color',
+              type: 'advancedSelect',
+              placeholder: 'Flat Spice Brown',
+            },
+            {
+              label: 'Backgroun Color',
+              type: 'advancedSelect',
+              placeholder: 'Multicam Alpine',
+            },
+          ],
+        },
+        {
+          name: "Flag",
+          input: [
+            {
+              label: 'Flag Type',
+              type: 'select',
+              placeholder: 'Lazer Cut Flag',
+            },
+            {
+              label: 'Flag',
+              type: 'advancedSelect',
+              placeholder: 'USA',
+            },
+            {
+              label: 'Do you want to reverse the flag?',
+              type: 'checkmark',
+              placeholder: '',
+            },
+          ],
+        },
+        {
+          name: "Almost There",
+          input: [
+            {
+              label: 'Add a glow in the dark border? +$10 USD',
+              type: 'checkmark',
+              placeholder: '',
+            },
+            {
+              label: 'I Agree to the Lead Time',
+              type: 'checkmark',
+              placeholder: '<strong>Lead Time:</strong>  - From your order, to design, production, QC, and shipping, takes roughly 10 business days. Don\'t worry, we\'ll keep you updated with what is going on the whole time. Check this box to confirm that you understand that your order will take roughly 10 business days to ship.',
+            },
+          ],
+        },
+      ],
+    },
+  },
   types: {
     "id panel": {
       name: "ID Panel",
@@ -130,7 +213,7 @@ const newData = {
         }
       ]
     },
-    "light sabers"  : {
+    "light sabers": {
       name: "Light Sabers",
       variants: [
         {
@@ -141,7 +224,7 @@ const newData = {
         }
       ]
     },
-    "custom printed patch" : {
+    "custom printed patch": {
       name: "Custom Printed Patch",
       variants: [
         {
@@ -162,7 +245,7 @@ const newData = {
         }
       ]
     },
-    "jacket panel" : {
+    "jacket panel": {
       name: "Jacket Panel",
       variants: [
         {
@@ -177,7 +260,7 @@ const newData = {
         },
       ]
     },
-    "division jacket panel" : {
+    "division jacket panel": {
       name: "Division Jacket Panel",
       variants: [
         {
@@ -189,8 +272,8 @@ const newData = {
       ]
     },
   },
-  colors : {
-    bgColors : [
+  colors: {
+    bgColors: [
       {
         name: 'Black',
         img: 'https://cdn.shopify.com/s/files/1/2242/5805/files/black.jpg?v=1678555191'
@@ -302,7 +385,7 @@ const newData = {
         img: 'https://cdn.shopify.com/s/files/1/2242/5805/files/tropical.jpg?v=1678555191'
       }
     ],
-    fontColors : [
+    fontColors: [
       { name: 'Basic IR', img: 'https://cdn-zeptoapps.com/product-personalizer/images/patchpanel.myshopify.com/Basic-IR.jpg?v=123' },
       { name: 'Pro IR - +$7 (USD)', img: 'https://cdn-zeptoapps.com/product-personalizer/images/patchpanel.myshopify.com/Pro-IR.jpg?v=123' },
       { name: 'Reflective + Glow-in-the-Dark - +$7 (USD)', img: 'https://cdn-zeptoapps.com/product-personalizer/images/patchpanel.myshopify.com/Cyflect-NEW.jpg?v=123' },
@@ -321,8 +404,8 @@ const newData = {
       { name: 'Purple Reflective', img: 'https://cdn-zeptoapps.com/product-personalizer/images/patchpanel.myshopify.com/Purple-Reflective.jpg?v=123' },
     ]
   },
-  flags : {
-    "hi-vis" : [
+  flags: {
+    "hi-vis": [
       {
         name: "USA",
         img: "https://cdn.shopify.com/s/files/1/2242/5805/files/flags-usa.png?v=1678643329",
@@ -896,11 +979,11 @@ const newData = {
         img: "https://cdn.shopify.com/s/files/1/2242/5805/files/flags-black-beard.png?v=1678643329"
       }
     ],
-    "lazer-cut" : [
+    "lazer-cut": [
 
     ],
-    "badge" : [
-      
+    "badge": [
+
     ],
   },
 };

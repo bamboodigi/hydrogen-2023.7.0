@@ -104,8 +104,11 @@ export function ProductCard({
 
   const newTitle = product.title.replace(/ - Sticker$/, '').replace(/ - Limited Edition Patch \+ Sticker$/, '');
 
+  // console.log(product);
+  // // console.log(newTitle.length)
   console.log(product);
-  // console.log(newTitle.length)
+
+  console.log(!exclusionList(product));
 
   return (
     <>
@@ -317,7 +320,7 @@ function exclusionList(product){
 
   if(product.tags.includes("add-on") || product.tags.includes("BOLD_HIDDEN_PRODUCT") || 
     product.tags.includes("PatchClub") || product.tags.includes("OPTIONS_HIDDEN_PRODUCT") 
-    || product.tags.includes("EMAIL_HIDDEN_PRODUCT") || product.tags.includes("exclude_rebuy")
+    || product.tags.includes("EMAIL_HIDDEN_PRODUCT")
     || product.title.includes("PatchClub")) {
     return true;
   }
