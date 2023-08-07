@@ -336,7 +336,7 @@ function CartLineItem({ line }) {
                   as="h3"
                   size="copy"
                 >
-                  <Text class="font-bold">Item Total:</Text>
+                  <Text className="font-bold">Item Total:</Text>
                 </Heading>
               </div>
               <div className="text-right grid gap-2">

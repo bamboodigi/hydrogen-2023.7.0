@@ -104,11 +104,6 @@ export function ProductCard({
 
   const newTitle = product.title.replace(/ - Sticker$/, '').replace(/ - Limited Edition Patch \+ Sticker$/, '');
 
-  // console.log(product);
-  // // console.log(newTitle.length)
-  console.log(product);
-
-  console.log(!exclusionList(product));
 
   return (
     <>
