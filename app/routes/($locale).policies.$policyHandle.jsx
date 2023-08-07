@@ -2,7 +2,7 @@ import {json} from '@shopify/remix-oxygen';
 import {useLoaderData} from '@remix-run/react';
 import invariant from 'tiny-invariant';
 
-import {PageHeader, Section, Button} from '~/components';
+import {PageHeader, Section, Button, Container} from '~/components';
 import {routeHeaders} from '~/data/cache';
 import {seoPayload} from '~/lib/seo.server';
 
@@ -43,9 +43,7 @@ export default function Policies() {
 
   return (
     <>
-      <Section
-        padding="all"
-        display="flex"
+      <Container
         className="flex-col items-baseline w-full gap-8 md:flex-row"
       >
         <PageHeader
@@ -66,7 +64,7 @@ export default function Policies() {
             className="prose dark:prose-invert"
           />
         </div>
-      </Section>
+      </Container>
     </>
   );
 }

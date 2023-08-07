@@ -2,7 +2,7 @@ import {json} from '@shopify/remix-oxygen';
 import {useLoaderData} from '@remix-run/react';
 import {flattenConnection, Image} from '@shopify/hydrogen';
 
-import {Grid, PageHeader, Section, Link} from '~/components';
+import {Grid, PageHeader, Section, Link, Container} from '~/components';
 import {getImageLoadingPriority, PAGINATION_SIZE} from '~/lib/const';
 import {seoPayload} from '~/lib/seo.server';
 import {routeHeaders} from '~/data/cache';
@@ -47,8 +47,8 @@ export default function Journals() {
 
   return (
     <>
+      <Container>
       <PageHeader heading={BLOG_HANDLE} />
-      <Section>
         <Grid as="ol" layout="blog">
           {articles.map((article, i) => (
             <ArticleCard
@@ -59,7 +59,7 @@ export default function Journals() {
             />
           ))}
         </Grid>
-      </Section>
+      </Container>
     </>
   );
 }

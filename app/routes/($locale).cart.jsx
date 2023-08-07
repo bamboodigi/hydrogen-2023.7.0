@@ -1,20 +1,20 @@
-import {Await, useMatches} from '@remix-run/react';
+import { Await, useMatches } from '@remix-run/react';
 import invariant from 'tiny-invariant';
-import {json} from '@shopify/remix-oxygen';
-import {CartForm} from '@shopify/hydrogen';
+import { json } from '@shopify/remix-oxygen';
+import { CartForm } from '@shopify/hydrogen';
 
-import {isLocalPath} from '~/lib/utils';
-import {Cart} from '~/components';
+import { isLocalPath } from '~/lib/utils';
+import { Cart, Container } from '~/components';
 
-export async function action({request, context}) {
-  const {session, cart} = context;
+export async function action({ request, context }) {
+  const { session, cart } = context;
 
   const [formData, customerAccessToken] = await Promise.all([
     request.formData(),
     session.get('customerAccessToken'),
   ]);
 
-  const {action, inputs} = CartForm.getFormInput(formData);
+  const { action, inputs } = CartForm.getFormInput(formData);
   invariant(action, 'No cartAction defined');
 
   let status = 200;
@@ -63,7 +63,7 @@ export async function action({request, context}) {
     headers.set('Location', redirectTo);
   }
 
-  const {cart: cartResult, errors} = result;
+  const { cart: cartResult, errors } = result;
   return json(
     {
       cart: cartResult,
@@ -72,12 +72,12 @@ export async function action({request, context}) {
         cartId,
       },
     },
-    {status, headers},
+    { status, headers },
   );
 }
 
-export async function loader({context}) {
-  const {cart} = context;
+export async function loader({ context }) {
+  const { cart } = context;
   return json(await cart.get());
 }
 
@@ -85,10 +85,12 @@ export default function CartRoute() {
   const [root] = useMatches();
   // @todo: finish on a separate PR
   return (
-    <div className="grid w-full gap-8 p-6 py-8 md:p-8 lg:p-12 justify-items-start">
-      <Await resolve={root.data?.cart}>
-        {(cart) => <Cart layout="page" cart={cart} />}
-      </Await>
-    </div>
+    <Container>
+      <div className="grid w-full gap-8 p-6 py-8 md:p-8 lg:p-12 justify-items-start">
+        <Await resolve={root.data?.cart}>
+          {(cart) => <Cart layout="page" cart={cart} />}
+        </Await>
+      </div>
+    </Container>
   );
 }

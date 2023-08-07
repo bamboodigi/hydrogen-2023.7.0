@@ -3,7 +3,7 @@ import {useLoaderData} from '@remix-run/react';
 import {Image} from '@shopify/hydrogen';
 import invariant from 'tiny-invariant';
 
-import {PageHeader, Section} from '~/components';
+import {PageHeader, Section, Container} from '~/components';
 import {seoPayload} from '~/lib/seo.server';
 import {routeHeaders} from '~/data/cache';
 
@@ -54,12 +54,12 @@ export default function Article() {
 
   return (
     <>
+      <Container>
       <PageHeader heading={title} variant="blogPost">
         <span>
           {formattedDate} &middot; {author?.name}
         </span>
       </PageHeader>
-      <Section as="article" padding="x">
         {image && (
           <Image
             data={image}
@@ -72,7 +72,7 @@ export default function Article() {
           dangerouslySetInnerHTML={{__html: contentHtml}}
           className="article"
         />
-      </Section>
+      </Container>
     </>
   );
 }

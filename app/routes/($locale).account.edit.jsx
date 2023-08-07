@@ -8,7 +8,7 @@ import {
 import clsx from 'clsx';
 import invariant from 'tiny-invariant';
 
-import {Button, Text} from '~/components';
+import {Button, Text, Container} from '~/components';
 import {getInputStyleClasses, assertApiErrors} from '~/lib/utils';
 
 import {getCustomer} from './($locale).account';
@@ -107,6 +107,7 @@ export default function AccountDetailsEdit() {
 
   return (
     <>
+      <Container>
       <Text className="mt-4 mb-6" as="h3" size="lead">
         Update your profile
       </Text>
@@ -226,6 +227,7 @@ export default function AccountDetailsEdit() {
           </Button>
         </div>
       </Form>
+      </Container>
     </>
   );
 }

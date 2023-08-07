@@ -2,7 +2,7 @@ import {json, redirect} from '@shopify/remix-oxygen';
 import {Form, useActionData} from '@remix-run/react';
 import {useState} from 'react';
 
-import {Link} from '~/components';
+import {Link, Container} from '~/components';
 import {getInputStyleClasses} from '~/lib/utils';
 
 export async function loader({context, params}) {
@@ -50,7 +50,8 @@ export default function Recover() {
   const isSubmitted = actionData?.resetRequested;
 
   return (
-    <div className="flex justify-center my-24 px-4">
+    <Container>
+      <div className="flex justify-center my-24 px-4">
       <div className="max-w-md w-full">
         {isSubmitted ? (
           <>
@@ -129,6 +130,7 @@ export default function Recover() {
         )}
       </div>
     </div>
+    </Container>
   );
 }
 

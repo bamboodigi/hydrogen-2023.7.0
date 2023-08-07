@@ -9,7 +9,7 @@ import {
 import {flattenConnection} from '@shopify/hydrogen';
 import invariant from 'tiny-invariant';
 
-import {Button, Text} from '~/components';
+import {Button, Text, Container} from '~/components';
 import {assertApiErrors, getInputStyleClasses} from '~/lib/utils';
 
 const badRequest = (data) => json(data, {status: 400});
@@ -141,6 +141,7 @@ export default function EditAddress() {
 
   return (
     <>
+      <Container>
       <Text className="mt-4 mb-6" as="h3" size="lead">
         {isNewAddress ? 'Add address' : 'Edit address'}
       </Text>
@@ -319,6 +320,7 @@ export default function EditAddress() {
           </div>
         </Form>
       </div>
+      </Container>
     </>
   );
 }

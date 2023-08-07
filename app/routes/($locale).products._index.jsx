@@ -3,7 +3,7 @@ import {useLoaderData} from '@remix-run/react';
 import invariant from 'tiny-invariant';
 import {Pagination, getPaginationVariables} from '@shopify/hydrogen';
 
-import {PageHeader, Section, ProductCard, Grid} from '~/components';
+import {PageHeader, Section, ProductCard, Grid, Container} from '~/components';
 import {PRODUCT_CARD_FRAGMENT} from '~/data/fragments';
 import {getImageLoadingPriority} from '~/lib/const';
 import {seoPayload} from '~/lib/seo.server';
@@ -55,8 +55,8 @@ export default function AllProducts() {
 
   return (
     <>
+      <Container>
       <PageHeader heading="All Products" variant="allCollections" />
-      <Section>
         <Pagination connection={products}>
           {({nodes, isLoading, NextLink, PreviousLink}) => {
             const itemsMarkup = nodes.map((product, i) => (
@@ -84,7 +84,7 @@ export default function AllProducts() {
             );
           }}
         </Pagination>
-      </Section>
+      </Container>
     </>
   );
 }

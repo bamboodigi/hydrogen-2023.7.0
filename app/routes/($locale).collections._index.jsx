@@ -2,7 +2,7 @@ import {json} from '@shopify/remix-oxygen';
 import {useLoaderData} from '@remix-run/react';
 import {Image, Pagination, getPaginationVariables} from '@shopify/hydrogen';
 
-import {Grid, Heading, PageHeader, Section, Link, Button} from '~/components';
+import {Grid, Heading, PageHeader, Section, Link, Button, Container} from '~/components';
 import {getImageLoadingPriority} from '~/lib/const';
 import {seoPayload} from '~/lib/seo.server';
 import {routeHeaders} from '~/data/cache';
@@ -34,8 +34,8 @@ export default function Collections() {
 
   return (
     <>
+      <Container>
       <PageHeader heading="Collections" />
-      <Section>
         <Pagination connection={collections}>
           {({nodes, isLoading, PreviousLink, NextLink}) => (
             <>
@@ -64,7 +64,7 @@ export default function Collections() {
             </>
           )}
         </Pagination>
-      </Section>
+      </Container>
     </>
   );
 }

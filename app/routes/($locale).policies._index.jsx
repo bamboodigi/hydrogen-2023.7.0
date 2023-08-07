@@ -2,7 +2,7 @@ import {json} from '@shopify/remix-oxygen';
 import {useLoaderData} from '@remix-run/react';
 import invariant from 'tiny-invariant';
 
-import {PageHeader, Section, Heading, Link} from '~/components';
+import {PageHeader, Section, Heading, Link, Container} from '~/components';
 import {routeHeaders} from '~/data/cache';
 import {seoPayload} from '~/lib/seo.server';
 
@@ -31,8 +31,8 @@ export default function Policies() {
 
   return (
     <>
+      <Container className="mb-24">
       <PageHeader heading="Policies" />
-      <Section padding="x" className="mb-24">
         {policies.map((policy) => {
           return (
             policy && (
@@ -42,7 +42,7 @@ export default function Policies() {
             )
           );
         })}
-      </Section>
+      </Container>
     </>
   );
 }
