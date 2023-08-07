@@ -39,3 +39,4 @@ export {HeroTiles} from './HeroTiles';
 export {Stats} from './Stats';
 export {FeaturedReviews} from './FeaturedReviews';
 export {CTASection} from './CTASection';
+export {trackViewedProduct, trackAddedToCart, trackLoggedInUsers} from './Klaviyo';

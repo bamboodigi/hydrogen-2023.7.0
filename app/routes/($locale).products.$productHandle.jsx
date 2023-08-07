@@ -1,7 +1,7 @@
-import { useRef, Suspense } from 'react';
+import { useRef, Suspense, useEffect } from 'react';
 import { Disclosure, Listbox } from '@headlessui/react';
 import { defer, redirect } from '@shopify/remix-oxygen';
-import { useLoaderData, Await } from '@remix-run/react';
+import { useLoaderData, Await, } from '@remix-run/react';
 import {
   AnalyticsPageType,
   Money,
@@ -26,6 +26,8 @@ import {
   Button,
   PartialStarIcon,
   PatchBuilder,
+  trackViewedProduct, 
+  trackAddedToCart,
 } from '~/components';
 import { StarIcon } from '@heroicons/react/20/solid'
 import { getExcerpt } from '~/lib/utils';
@@ -163,6 +165,10 @@ export default function Product() {
   const { product, shop, recommended, variants } = useLoaderData();
   const { media, title, vendor, descriptionHtml } = product;
   const { shippingPolicy, refundPolicy } = shop;
+
+  useEffect(() => {
+    trackViewedProduct(product);
+  },[]);
 
   // console.log(product);
 
