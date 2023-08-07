@@ -384,7 +384,7 @@ const config = {
                   // { name: 'Our Process', href: '/pages/our-process', icon: BuildingOffice2Icon },
                   // { name: 'Our Customers', href: '/pages/our-customers', icon: UsersIcon },
                   // { name: 'Press', href: '/pages/press', icon: NewspaperIcon },
-                  { name: 'Blog', href: '/blogs/blog', icon: CalendarDaysIcon },
+                  // { name: 'Blog', href: '/blogs/blog', icon: CalendarDaysIcon },
                 ],
               }, ,
             ],
@@ -407,7 +407,7 @@ const config = {
                 id: 'policies',
                 name: 'Policies & Procedures',
                 items: [
-                  { name: 'Your Privacy', href: '/pages/your-privacy', icon: ShieldCheckIcon },
+                  // { name: 'Your Privacy', href: '/pages/your-privacy', icon: ShieldCheckIcon },
                   { name: 'Returns & Exchanges', href: '/pages/returns-and-exchanges', icon: ArrowPathIcon },
                   { name: 'Shipping Policy', href: '/pages/free-shipping-and-delivery-information', icon: TruckIcon },
                   // { name: 'Freedom of Speech', href: '/pages/freedom-of-speech', icon: ChatBubbleLeftIcon },
@@ -432,7 +432,7 @@ const config = {
         // { name: 'Our Process', href: '/pages/our-process', icon: BuildingOffice2Icon },
         // { name: 'Our Customers', href: '/pages/our-customers', icon: UsersIcon },
         // { name: 'Press', href: '/pages/press', icon: NewspaperIcon },
-        { name: 'Blog', href: '/blogs/blog', icon: CalendarDaysIcon },
+        // { name: 'Blog', href: '/blogs/blog', icon: CalendarDaysIcon },
       ],
       support: [
         { name: 'Contact Us', href: 'https://wmisports.reamaze.com/chat-with-us/' },
@@ -446,7 +446,7 @@ const config = {
         // { name: 'UGC Creator Program', href: '/pages/ugc-creator-program', icon: CameraIcon },
       ],
       policies: [
-        { name: 'Your Privacy', href: '/pages/your-privacy', icon: ShieldCheckIcon },
+        // { name: 'Your Privacy', href: '/pages/your-privacy', icon: ShieldCheckIcon },
         { name: 'Returns & Exchanges', href: '/pages/returns-and-exchanges', icon: ArrowPathIcon },
         { name: 'Shipping Policy', href: '/pages/free-shipping-and-delivery-information', icon: TruckIcon },
         // { name: 'Freedom of Speech', href: '/pages/freedom-of-speech', icon: ChatBubbleLeftIcon },

@@ -2,7 +2,7 @@ import {json} from '@shopify/remix-oxygen';
 import {useLoaderData} from '@remix-run/react';
 import invariant from 'tiny-invariant';
 
-import {PageHeader} from '~/components';
+import {PageHeader, Container} from '~/components';
 import {routeHeaders} from '~/data/cache';
 import {seoPayload} from '~/lib/seo.server';
 
@@ -32,12 +32,14 @@ export default function Page() {
 
   return (
     <>
-      <PageHeader heading={page.title}>
+    <Container>
+    <PageHeader heading={page.title}>
         <div
           dangerouslySetInnerHTML={{__html: page.body}}
           className="prose dark:prose-invert"
         />
       </PageHeader>
+    </Container>
     </>
   );
 }

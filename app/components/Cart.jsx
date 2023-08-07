@@ -200,8 +200,7 @@ function CartLineItem({ line }) {
   const length = parseInt(size?.value?.match(/\d+/g)[0]);
   const isAddon = line.merchandise?.product.handle.includes("add-on");
   const glowBorder = attributes.find((attribute) => attribute.key === 'Glow Border');
-  console.log(fontColor)
-  console.log(fontColor?.value?.includes("Reflective + Glow"));
+
   var newTitle = '';
 
   for (var i = 0; i < attributes.length; i++) {
