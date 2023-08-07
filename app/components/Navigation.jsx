@@ -252,7 +252,7 @@ export function Navigation({ isHome, title, openCart, config, alerts, handle }) 
                     ))}
                   </Tab.Panels>
                 </Tab.Group>
-
+{/* 
                 <div className="space-y-6 border-t border-white px-4 py-4">
                   {navigation.pages.map((page) => (
                     <div onClick={() => setOpen(false)} key={page.name} className="flow-root">
@@ -261,7 +261,7 @@ export function Navigation({ isHome, title, openCart, config, alerts, handle }) 
                       </Link>
                     </div>
                   ))}
-                </div>
+                </div> */}
                 <div className="space-y-6 border-t border-white px-4 py-4">
                   <CountrySelector screen="mobile" />
                   {/* Currency selector */}

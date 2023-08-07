@@ -26,6 +26,9 @@ import fonts from './styles/custom-font.css';
 import {DEFAULT_LOCALE, parseMenu} from './lib/utils';
 import {useAnalytics} from './hooks/useAnalytics';
 
+import React, {useEffect} from 'react';
+import {useLoadScript} from '@shopify/hydrogen-react';
+
 import {useJudgeme} from '@judgeme/shopify-hydrogen'
 
 export const links = () => {
@@ -69,6 +72,9 @@ export async function loader({request, context}) {
       cdnHost: context.env.JUDGEME_CDN_HOST,
       delay: 700, // optional parameter, default to 500ms
     },
+    klaviyo: {
+      publicToken: context.env.KLAVIYO_PUBLIC_TOKEN,
+    }
   });
 }
 
@@ -77,13 +83,21 @@ export default function App() {
   const locale = data.selectedLocale ?? DEFAULT_LOCALE;
   const hasUserConsent = true;
 
-  // const {pathname} = useLocation();
+  console.log(data.klaviyo.publicToken);
 
   useAnalytics(hasUserConsent, locale);
   
   // if(pathname.includes('/products/')) {
   //   useJudgeme(data.judgeme);
   // }
+  const scriptStatus = useLoadScript("//static.klaviyo.com/onsite/js/klaviyo.js?company_id=" + data.klaviyo.publicToken);
+
+  useEffect(() => {
+    if (scriptStatus === 'done') {
+      // do something
+      console.log(scriptStatus);
+    }
+  }, [scriptStatus]);
 
   return (
     <html lang={locale.language}>
