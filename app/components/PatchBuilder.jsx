@@ -116,7 +116,7 @@ function initFormData(product) {
     bgColor: bgColors[18].name,
     bgColorImg: bgColors[18].img,
     markType: '',
-    flagEnabled : false,
+    flagEnabled: false,
     flag: data[5].values[0]["hivis-flags"][0].name,
     flagImg: data[5].values[0]["hivis-flags"][0].img,
     flagReversed: false,
@@ -141,7 +141,7 @@ function initFormData(product) {
         formData.price += 4;
     }
   }
-  
+
   return formData || {};
 }
 
@@ -659,12 +659,12 @@ function Visualizer({ formData, className, ...props }) {
 
               </div>
             </div>
-          ) : formData.type.toLowerCase().includes("name tape") && formData.type.toLowerCase().includes("flag") ? (
+          ) : formData.type.toLowerCase().includes("name tape") && formData.flagEnabled ? (
             <div className="flex w-full h-full">
               <div className="flex flex-0  w-1/3 items-center" style={{}}>
                 <div id="flag" className="mr-1 flex-1 max-h-full max-w-full w-auto h-auto" style={flagStyle}></div>
               </div>
-              <div ref={containerRef} className="flex flex-1 w-2/3 justify-center overflow-y-hidden flex items-center">
+              <div ref={containerRef} className="flex flex-1 w-2/3 justify-center overflow-y-hidden items-center">
                 <p id="main-text" className="inline-block" style={{ ...fontStyle }}>{formData.text.length > 0 ? formData.text : formData.textPlaceholder}</p>
               </div>
             </div>
@@ -677,7 +677,7 @@ function Visualizer({ formData, className, ...props }) {
               <div className="flex flex-0  w-1/2 items-center" style={{}}>
                 <div id="icon" className="h-full w-full" style={{ background: 'black' }}></div>
               </div>
-              <div ref={containerRef} className="flex flex-1 w-1/2 justify-center overflow-y-hidden flex items-center">
+              <div ref={containerRef} className="flex flex-1 w-1/2 justify-center overflow-y-hidden items-center">
                 <p id="main-text" className="inline-block" style={{ ...fontStyle }}>{formData.text.length > 0 ? formData.text : formData.textPlaceholder}</p>
               </div>
             </div>
@@ -1157,7 +1157,7 @@ NKDA"
           ) : (<></>)
           }
         </div>
-        <FormButton formData={formData} config={config} handlePrevious={handlePrevious} handleNext={handleNext} currentStep={currentStep} steps={steps}/>
+        <FormButton formData={formData} config={config} handlePrevious={handlePrevious} handleNext={handleNext} currentStep={currentStep} steps={steps} />
       </div>
     </>
   );
@@ -1263,7 +1263,7 @@ function BuilderATC({ formData, className, config, currentStep, steps }) {
   };
 
   let disabled = true;
-  if(currentStep === steps.length && formData.agreement) {
+  if (currentStep === steps.length && formData.agreement) {
     disabled = false;
   }
   // console.log(selectedVariant?.price);
@@ -1284,13 +1284,13 @@ function BuilderATC({ formData, className, config, currentStep, steps }) {
           as="span"
           className={classNames(
             product.tags.includes("custom_patch") ? "justify-center" : "justify-between",
-        "flex items-center gap-2 text-2xl xl:text-3xl")}
+            "flex items-center gap-2 text-2xl xl:text-3xl")}
         >
-         {
-          currentStep === 1 ? 
-          <span>{config.patchBuilder.startingText}</span> :
-          currentStep === steps.length ? <span>{config.addToCartText}</span> : <></>
-         }
+          {
+            currentStep === 1 ?
+              <span>{config.patchBuilder.startingText}</span> :
+              currentStep === steps.length ? <span>{config.addToCartText}</span> : <></>
+          }
           <Money
             withoutTrailingZeros
             data={priceObj}
@@ -1337,7 +1337,7 @@ function ProductDetails({ shippingPolicy, refundPolicy }) {
   );
 }
 
-function FormButton({formData, config, handlePrevious, handleNext, currentStep, steps}) {
+function FormButton({ formData, config, handlePrevious, handleNext, currentStep, steps }) {
   // console.log(currentStep);
   // console.log(steps.length)
   return (
@@ -1346,8 +1346,8 @@ function FormButton({formData, config, handlePrevious, handleNext, currentStep, 
         <button
           type="button"
           className={classNames(
-            currentStep === 1 ? "hidden" : 
-            currentStep === steps.length ? "flex-grow-1" : "",
+            currentStep === 1 ? "hidden" :
+              currentStep === steps.length ? "flex-grow-1" : "",
             "transition flex-1 rounded-l-full items-center justify-center p-3 bg-contrast border-2 border-contrast hover:bg-white hover:text-contrast",
           )}
           onClick={handlePrevious}
@@ -1356,23 +1356,23 @@ function FormButton({formData, config, handlePrevious, handleNext, currentStep, 
         </button>
         <div className={classNames(
           currentStep === 1 ? "rounded-l-full border-2 w-[60%]" :
-          currentStep === steps.length ? "rounded-r-full border-2 w-[70%]" : "",
+            currentStep === steps.length ? "rounded-r-full border-2 w-[70%]" : "",
           "transition bg-transparent border-t-2 border-b-2 border-contrast font-bold px-2")}>
-           <BuilderATC 
-        formData={formData} 
-        config={config} 
-        currentStep={currentStep}
-        steps={steps}
-        className={classNames(
-          currentStep === 1 ? " " :
-          currentStep === steps.length ? "" : "",
-          "transition text-contrast flex-1 relative py-4 bg-transparent font-bold px-2")} />
+          <BuilderATC
+            formData={formData}
+            config={config}
+            currentStep={currentStep}
+            steps={steps}
+            className={classNames(
+              currentStep === 1 ? " " :
+                currentStep === steps.length ? "" : "",
+              "transition text-contrast flex-1 relative py-4 bg-transparent font-bold px-2")} />
         </div>
         <button
           type="button"
           className={classNames(
-            currentStep === steps.length ? "hidden" : 
-            currentStep === 1 ? "flex-grow-1" : "",
+            currentStep === steps.length ? "hidden" :
+              currentStep === 1 ? "flex-grow-1" : "",
             "transition flex-1 rounded-r-full items-center justify-center p-3 bg-contrast border-2 border-contrast hover:bg-white hover:text-contrast",
           )}
           onClick={handleNext}
