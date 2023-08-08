@@ -83,7 +83,7 @@ export default function App() {
   const locale = data.selectedLocale ?? DEFAULT_LOCALE;
   const hasUserConsent = true;
 
-  console.log(data.klaviyo.publicToken);
+ // console.log(data.klaviyo.publicToken);
 
   useAnalytics(hasUserConsent, locale);
   
@@ -95,7 +95,7 @@ export default function App() {
   useEffect(() => {
     if (scriptStatus === 'done') {
       // do something
-      console.log(scriptStatus);
+  //    console.log(scriptStatus);
     }
   }, [scriptStatus]);
 

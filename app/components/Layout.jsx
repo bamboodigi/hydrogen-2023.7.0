@@ -22,6 +22,7 @@ import {
   Link,
   Navigation,
   Footer,
+  trackLoggedInUsers
 } from '~/components';
 import { useIsHomePath } from '~/lib/utils';
 import { useIsHydrated } from '~/hooks/useIsHydrated';
@@ -36,6 +37,10 @@ function classNames(...classes) {
 export function Layout({ children, layout }) {
   const { headerMenu, footerMenu } = layout;
   const { footer, header, features } = config;
+
+  const [root] = useMatches();
+  const isLoggedIn = root.data?.isLoggedIn;
+
   return (
     <>
       <div className="flex flex-col min-h-screen">

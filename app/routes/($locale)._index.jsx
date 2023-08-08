@@ -94,7 +94,7 @@ export default function Homepage() {
   // TODO: skeletons vs placeholders
   const skeletons = getHeroPlaceholder([{}, {}, {}]);
 
-  console.log(featuredProducts);
+  //console.log(featuredProducts);
 
   return (
     <>
@@ -105,7 +105,7 @@ export default function Homepage() {
      <Await resolve={featuredProducts}>
        {({ products }) => {
          if (!products?.nodes) return <></>;
-         console.log(products);
+        // console.log(products);
          return (
            <div className="mx-auto max-w-screen-2xxl overflow-hidden">
              <Container>

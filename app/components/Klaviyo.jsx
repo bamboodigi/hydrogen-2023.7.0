@@ -16,7 +16,7 @@ _learnq.push(['track', 'Viewed Product', item]);
 
 }
 
-export function trackLoggedInUsers(product) {
+export function trackLoggedInUsers(customer) {
     var _learnq = window._learnq || [];
     _learnq.push([
       'identify',
