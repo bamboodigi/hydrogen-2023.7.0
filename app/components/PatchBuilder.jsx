@@ -141,45 +141,7 @@ function initFormData(product) {
         formData.price += 4;
     }
   }
-
-  // let formData = {
-  //   // input fields
-  //   text: '',
-  //   textMaxLength: '',
-  //   textLines: '',
-  //   textPlaceholder: '',
-  //   textAdditional: '',
-  //   type: '',
-  //   // size list per variant
-  //   typeData: [],
-  //   // size: '3.5” x 2”',
-  //   size: '',
-  //   // font text color name and image
-  //   textColor: fontColors[8].name,
-  //   textColorImg: fontColors[8].img,
-  //   // background color name and image
-  //   bgColor: bgColors[18].name,
-  //   bgColorImg: bgColors[18].img,
-  //   flag: data[5].values[0]["hivis-flags"][0].name,
-  //   flagImg: data[5].values[0]["hivis-flags"][0].img,
-  //   flagVariant: "",
-  //   flagVariantImg: "",
-  //   comments: false,
-  // };
-
-
-  // console.log(product.handle)
-  // console.log(getBuilderTitle(product).toLowerCase());
-
-  // console.log(newData.types[getBuilderTitle(product).toLowerCase()].name);
-  // console.log(newData.types[getBuilderTitle(product).toLowerCase()].variants[0].sizes);
-  // console.log(newData)
-
-  // console.log(newData.types['id panel']);
-
-  //   console.log(isFlag(formData.type));
-  // console.log(formData.type)
-
+  
   return formData || {};
 }
 
