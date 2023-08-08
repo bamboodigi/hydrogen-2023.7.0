@@ -13,6 +13,7 @@ import data from '~/data/visualizer.js';
 import newData from '~/data/newVisualizer.js';
 import sizeOptions from '~/data/size-options.js';
 
+import builderData from '~/data/builder.js';
 
 const bgColors = newData.colors.bgColors;
 const fontColors = newData.colors.fontColors;
@@ -38,8 +39,6 @@ export function PatchBuilder({ product, config, ...props }) {
   var prestyle = {
     width: '300px'
   };
-
-  var title = 'mt-[225px]';
 
   const isPatchBuilder = product.tags.includes("custom_patch");
   //console.log(product.tags.includes("custom_patch"))
@@ -77,11 +76,7 @@ export function PatchBuilder({ product, config, ...props }) {
                 <span className="text-xl mt-2 uppercase block">with {formData.markType}</span>
               )
               }
-              {/* {title} */}
             </Heading>
-            {/* <Heading as="h3" className="mt-1 text-subheading">
-                  {formData.size}
-                </Heading> */}
           </div>
           <Form formData={formData} setFormData={setFormData} data={data} config={config} />
           {/* <pre className="overflow-scroll" style={prestyle}>{JSON.stringify(formData, null, 2)}</pre> */}
@@ -121,6 +116,7 @@ function initFormData(product) {
     bgColor: bgColors[18].name,
     bgColorImg: bgColors[18].img,
     markType: '',
+    flagEnabled : false,
     flag: data[5].values[0]["hivis-flags"][0].name,
     flagImg: data[5].values[0]["hivis-flags"][0].img,
     flagReversed: false,
@@ -954,6 +950,10 @@ function Form({ formData, setFormData, data, config }) {
   };
   const handleFlagReversedChange = (event) => {
     setFormData({ ...formData, flagReversed: event.target.checked });
+  };
+
+  const handleFlagEnabledChange = (event) => {
+    setFormData({ ...formData, flagEnabled: event.target.checked });
   };
 
 
