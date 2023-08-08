@@ -738,15 +738,37 @@ function Visualizer({ formData, className, ...props }) {
 // Form element to customize the patch
 function Form({ formData, setFormData, data, config }) {
 
-  const [steps, setSteps] = useState([
+  let tempSteps = [
     { name: 'Text', href: '#', status: 'current', step: 1 },
     { name: 'Patch Size', href: '#', status: 'current', step: 2 },
     { name: 'Font & Background Colors', href: '#', status: 'upcoming', step: 3 },
     { name: 'Flag', href: '#', status: 'upcoming', step: 4 },
     { name: 'Almost There', href: '#', status: 'upcoming', step: 5 },
-  ]);
-  const [currentStep, setCurrentStep] = useState(steps.find(step => step.status === 'current').step);
+  ];
+
+  switch (formData.type.toLowerCase()) {
+    case 'name tape':
+      tempSteps = builderData.type["name tape"].form.steps;
+      break;
+    default:
+      break;
+  }
+
+  let tempStepObj = {
+    steps: tempSteps,
+    currentStep : 1,
+    obj : tempSteps[0]
+  };
+
+
+  const [steps, setSteps] = useState(tempSteps);
+
+  const [currentStep, setCurrentStep] = useState(steps.indexOf(steps.find(step => step.status === 'current')) + 1);
   const [currentStepObj, setCurrentStepObj] = useState(steps.find(step => step.status === 'current'));
+  // console.log(currentStepObj);
+
+  const [stepForm, setStepForm] = useState(tempStepObj);
+
   ///////////////////////////////////////////////////////////////////////////////////////////////
   //  HANDLE EVENTS = TYPE, TEXT, TEXT ADDITIONAL, SIZE, TEXT COLOR, BG COLOR, FLAG, MORE TO ADD
   ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -919,19 +941,71 @@ function Form({ formData, setFormData, data, config }) {
   };
 
 
+  // const handlePrevious = () => {
+  //   if (currentStep > 1) {
+  //     setCurrentStep(currentStep - 1);
+  //     setCurrentStepObj(steps.find(step => step.step === currentStep - 1));
+  //   }
+  // };
+
+  // const handleNext = () => {
+  //   if (currentStep < steps.length) {
+  //     setCurrentStep(currentStep + 1);
+  //     setCurrentStepObj(steps.find(step => step.step === currentStep + 1));
+  //   }
+  // };
+
   const handlePrevious = () => {
-    if (currentStep > 1) {
-      setCurrentStep(currentStep - 1);
-      setCurrentStepObj(steps.find(step => step.step === currentStep - 1));
+    if (stepForm.currentStep > 1) {
+      console.log(currentStep)
+
+      console.log(currentStep);
+      setStepForm({ ...stepForm, currentStep: stepForm.currentStep - 1, obj: stepForm.steps[stepForm.currentStep - 1] });
     }
+    console.log(currentStep);
   };
 
   const handleNext = () => {
-    if (currentStep < steps.length) {
-      setCurrentStep(currentStep + 1);
-      setCurrentStepObj(steps.find(step => step.step === currentStep + 1));
+    if (stepForm.currentStep < stepForm.steps.length) {
+      setStepForm({ ...stepForm, currentStep: stepForm.currentStep + 1, obj: stepForm.steps[stepForm.currentStep] });
+    }
+    if ((formData.size == '4” x 1”' || formData.size == '5” x 1”') && formData.type.toLowerCase().includes("name tape")) {
+      const flagStep = {
+        name: "Flag",
+        status: 'upcoming',
+        input: [
+          {
+            id: 'flagEnabled',
+            label: 'Do you want to add a flag?',
+            type: 'checkmark',
+            placeholder: '',
+          },
+          {
+            id: 'flagReverse',
+            label: 'Do you want to reverse the flag?',
+            type: 'checkmark',
+            placeholder: '',
+          },
+          {
+            id: 'flag',
+            label: 'HiVis Flag',
+            type: 'advancedSelect',
+          },
+        ],
+      };
+      const index = steps.findIndex(step => step.name === flagStep.name);
+      if (index === -1) {
+        steps.splice(2, 0, flagStep);
+      }
+    } else {
+      const flagStepIndex = steps.findIndex(step => step.name === 'Flag');
+      if (flagStepIndex !== -1) {
+        const newSteps = steps.filter(step => step.name !== 'Flag');
+        setSteps(newSteps);
+      }
     }
   };
+
 
   // console.log(formData);
   // console.log(data);
@@ -941,14 +1015,7 @@ function Form({ formData, setFormData, data, config }) {
     <>
       <div className="space-y-6">
         {/* <Steps /> */}
-        <div className="flex justify-between items-center">
-          <p className="block text-md mt-0 font-bold" style={{ marginTop: '0 !important' }}>{currentStepObj.name}</p>
-          <p className="block text-md mt-0 font-bold">
-            Step {currentStep} / {steps.length}
-          </p>
-        </div>
-        <div className="grid grid-cols-6 gap-6 min-h-[180px]">
-          {/*      
+        {/*      
           ///////////////////////////////////////
          Pick type -> show when you want a master
           ///////////////////////////////////////
@@ -972,192 +1039,397 @@ function Form({ formData, setFormData, data, config }) {
             })}
           </select>
         </div> */}
-          {currentStep === 1 ? (
-            <>
-              <div className="col-span-6 lg:col-span-5">
-                <div className="flex justify-between">
-                  <label htmlFor="text" className="block text-sm font-medium">
-                    Text
-                  </label>
-                  <label htmlFor="text" className="block text-sm font-medium text-right">
-                    {formData.text === 'Your Name' ? formData.textMaxLength + " " : formData.textMaxLength - formData.text.length + " "}
-                    characters left
-                  </label>
-                </div>
-                <input
-                  onFocus={(e) => e.preventDefault()}
-                  type="text"
-                  id="text"
-                  name="text"
-                  value={formData.text}
-                  onChange={handleTextChange}
-                  autoComplete="off"
-                  className="mt-1 block w-full rounded-md border-contrast shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm bg-transparent"
-                  placeholder={formData.textPlaceholder}
-                  maxLength={formData.textMaxLength}
-
-                />
+        {
+          true
+            ? (<>
+              <div className="flex justify-end items-center">
+                {/* <p className="block text-md mt-0 font-bold" style={{ marginTop: '0 !important' }}>{stepForm.obj.name}</p> */}
+                <p className="block text-md mt-0 font-bold">
+                  Step {stepForm.currentStep} / {stepForm.steps.length}
+                </p>
               </div>
-              {isAdditionalText(formData.type) && (
-                <div className="col-span-6 lg:col-span-5">
-                  <div className="flex justify-between">
-                    <label htmlFor="textAdditional" className="block text-sm font-medium">
-                      Blood Type & Allergies
-                    </label>
-                    <label htmlFor="textAdditional" className="block text-sm font-medium text-right">
-                      {formData.text === 'Your Name' ? formData.textMaxLength + " " : formData.textMaxLength - formData.text.length + " "}
-                      characters left
-                    </label>
-                  </div>
-                  <textarea
-                    type="text"
-                    id="textAdditional"
-                    name="textAdditional"
-                    value={formData.textAdditional}
-                    onChange={handleTextAdditionalChange}
-                    autoComplete="off"
-                    rows={rows}
-                    style={{ resize: 'none' }}
-                    className="mt-1 block w-full rounded-md border-contrast shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm bg-transparent"
-                    placeholder="APOS
-NKDA"
-                  />
-                </div>
-              )
-              }
-            </>
-          ) : currentStep === 2 ? (
-            <>
-              <div className="col-span-6 lg:col-span-5">
-                <label htmlFor="size" className="block text-sm font-medium">
-                  Size
-                </label>
-                <select
-                  id="size"
-                  name="size"
-                  value={formData.size}
-                  onChange={handleSizeChange}
-                  className="bg-transparent mt-1 block w-full rounded-md border border-contrast py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-                >
-                  <option value="">Select a size</option>
-                  {formData.typeData.map((val, index) => {
-                    const key = index.toString();
+              <div className="grid grid-cols-6 gap-6 min-h-[13rem]">
+                <div className="col-span-6 lg:col-span-5 grid gap-4">
+                  {stepForm.steps[stepForm.currentStep - 1].input.map((input, i) => {
+                    const childKey = i.toString();
                     return (
-                      <option key={key} value={val.size}>{val.size}</option>
+                      <div key={childKey}>
+                        {input.id.toLowerCase() == "text" ? (
+                          <>
+                            <div className="flex justify-between">
+                              <label htmlFor="text" className="block text-sm font-medium">
+                                Text
+                              </label>
+                              <label htmlFor="text" className="block text-sm font-medium text-right">
+                                {formData.text === 'Your Name' ? formData.textMaxLength + " " : formData.textMaxLength - formData.text.length + " "}
+                                characters left
+                              </label>
+                            </div>
+                            <input
+
+                              onFocus={(e) => e.preventDefault()}
+                              type="text"
+                              id="text"
+                              name="text"
+                              value={formData.text}
+                              onChange={handleTextChange}
+                              autoComplete="off"
+                              className="mt-1 block w-full rounded-md border-contrast shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm bg-transparent"
+                              placeholder={formData.textPlaceholder}
+                              maxLength={formData.textMaxLength}
+
+                            />
+                          </>
+                        ) : input.id.toLowerCase() == "size" ? (
+                          <>
+                            <label htmlFor="size" className="block text-sm font-medium">
+                              Size
+                            </label>
+                            <select
+
+                              id="size"
+                              name="size"
+                              value={formData.size}
+                              onChange={handleSizeChange}
+                              className="bg-transparent mt-1 block w-full rounded-md border border-contrast py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                            >
+                              <option value="">Select a size</option>
+                              {formData.typeData.map((val, index) => {
+                                const key = index.toString();
+                                return (
+                                  <option key={key} value={val.size}>{val.size}</option>
+                                );
+                              })}
+                            </select>
+                          </>
+                        ) : input.id.toLowerCase() == "textcolor" ? (
+                          <>
+                            <AdvancedSelect
+                              id="textColor"
+                              title="Text Color"
+                              name="textColor"
+                              value={formData.textColor}
+                              img={formData.textColorImg}
+                              onChange={handleTextColorChange}
+                              options={fontColors}
+                            />
+                          </>
+                        ) :
+                          input.id.toLowerCase() == "backgroundcolor" ? (
+                            <>
+                              <AdvancedSelect
+                                id="bgColor"
+                                title="Background Color"
+                                name="textColor"
+                                value={formData.bgColor}
+                                img={formData.bgColorImg}
+                                onChange={handleBgColorChange}
+                                options={bgColors}
+                              />
+
+                            </>
+                          ) : input.id.toLowerCase() == "flag" ? (
+                            <>
+                              <AdvancedSelect
+                                // id="bgColor"
+                                title={formData.markType}
+                                name={formData.markType}
+                                value={formData.flag}
+                                img={formData.flagImg}
+                                onChange={handleFlagChange}
+                                options={flags["hi-vis"]}
+                              />
+                            </>
+                          ) : input.id.toLowerCase() == "flagenabled" ? (
+                            <>
+                              <div className="flex items-start">
+                                <div className="flex items-center h-5">
+                                  <input
+                                    id="flag-enabled"
+                                    name="flag-enabled"
+                                    type="checkbox"
+                                    checked={formData.flagEnabled}
+                                    onChange={handleFlagEnabledChange}
+                                    className="bg-transparent h-4 w-4 rounded border-contrast text-indigo-600 focus:ring-indigo-500"
+                                  />
+                                </div>
+                                <div className="text-sm">
+                                  <label htmlFor="agreeLeadTime" className="ml-3 font-medium">
+                                    Do you want to add a flag?
+                                  </label>
+                                </div>
+                              </div>
+                            </>
+                          ) : input.id.toLowerCase() == "flagreverse" ? (
+                            <>
+                              <div className="flex items-start">
+                                <div className="flex items-center h-5">
+                                  <input
+                                    id="flag-reversed"
+                                    name="flag-reversed"
+                                    type="checkbox"
+                                    checked={formData.flagReversed}
+                                    onChange={handleFlagReversedChange}
+                                    className="bg-transparent h-4 w-4 rounded border-contrast text-indigo-600 focus:ring-indigo-500"
+                                  />
+                                </div>
+                                <div className="text-sm">
+                                  <label htmlFor="agreeLeadTime" className="ml-3 font-medium">
+                                    Do you want to reverse the flag?
+                                  </label>
+                                </div>
+                              </div>
+                            </>
+                          ) : input.id.toLowerCase() == "glowinthedark" ? (
+                            <>
+                              <div className="flex items-start">
+                                <div className="flex items-center h-5">
+                                  <input
+                                    id="glow-border"
+                                    name="glow-border"
+                                    type="checkbox"
+                                    checked={formData.glowBorder}
+                                    onChange={handleGlowBorderChange}
+                                    className="bg-transparent h-4 w-4 rounded border-contrast text-indigo-600 focus:ring-indigo-500"
+                                  />
+                                </div>
+                                <div className="text-sm">
+                                  <label htmlFor="agreeLeadTime" className="ml-3 font-medium">
+                                    Add a glow in the dark border? +$10 USD
+                                  </label>
+                                </div>
+                              </div>
+                            </>
+                          ) : input.id.toLowerCase() == "leadtime" ? (
+                            <>
+                              <div className="flex items-start">
+                                <div className="flex items-center h-5">
+                                  <input
+                                    id="agreement"
+                                    name="agreement"
+                                    type="checkbox"
+                                    checked={formData.agreement}
+                                    onChange={handleAgreementChange}
+                                    className="bg-transparent h-4 w-4 rounded border-contrast text-indigo-600 focus:ring-indigo-500"
+                                  />
+                                </div>
+                                <div className="text-sm">
+                                  <label htmlFor="agreeLeadTime" className="ml-3 font-medium">
+                                    I Agree to the Lead Time
+                                  </label>
+                                  <p className="pt-2"><strong>LEAD TIME</strong> - From your order, to design, production, QC, and shipping, takes roughly 10 business days. Don't worry, we'll keep you updated with what is going on the whole time. Check this box to confirm that you understand that your order will take roughly 10 business days to ship.</p>
+                                </div>
+                              </div>
+                            </>
+                          ) :
+                            (
+                              <>
+
+                              </>)}
+                      </div>
                     );
                   })}
-                </select>
+                </div>
               </div>
             </>
-          ) : currentStep === 3 ? (
-            <>
-              <div className="col-span-6 lg:col-span-5">
-                <AdvancedSelect
-                  id="textColor"
-                  title="Text Color"
-                  name="textColor"
-                  value={formData.textColor}
-                  img={formData.textColorImg}
-                  onChange={handleTextColorChange}
-                  options={fontColors}
-                />
-              </div>
-              <div className="col-span-6 lg:col-span-5">
-                <AdvancedSelect
-                  id="bgColor"
-                  title="Background Color"
-                  name="textColor"
-                  value={formData.bgColor}
-                  img={formData.bgColorImg}
-                  onChange={handleBgColorChange}
-                  options={bgColors}
-                />
-              </div>
-            </>
-          ) : currentStep === 4 ? (
-            <>
-              {isFlag(formData.type) && (
-                <>
-                  <div className="col-span-6 lg:col-span-5">
-                    <AdvancedSelect
-                      // id="bgColor"
-                      title={formData.markType}
-                      name={formData.markType}
-                      value={formData.flag}
-                      img={formData.flagImg}
-                      onChange={handleFlagChange}
-                      options={flags["hi-vis"]}
-                    />
-                  </div>
-                  <div className="col-span-6 lg:col-span-5">
-                    <div className="flex items-start">
-                      <div className="flex items-center h-5">
+            ) : (
+              <>
+                <div className="flex justify-between items-center">
+                  <p className="block text-md mt-0 font-bold" style={{ marginTop: '0 !important' }}>{currentStepObj.name}</p>
+                  <p className="block text-md mt-0 font-bold">
+                    Step {currentStep} / {steps.length}
+                  </p>
+                </div>
+                <div className="grid grid-cols-6 gap-6 min-h-[13rem]">
+                  {currentStep === 1 ? (
+                    <>
+                      <div className="col-span-6 lg:col-span-5">
+                        <div className="flex justify-between">
+                          <label htmlFor="text" className="block text-sm font-medium">
+                            Text
+                          </label>
+                          <label htmlFor="text" className="block text-sm font-medium text-right">
+                            {formData.text === 'Your Name' ? formData.textMaxLength + " " : formData.textMaxLength - formData.text.length + " "}
+                            characters left
+                          </label>
+                        </div>
                         <input
-                          id="flag-reversed"
-                          name="flag-reversed"
-                          type="checkbox"
-                          checked={formData.flagReversed}
-                          onChange={handleFlagReversedChange}
-                          className="bg-transparent h-4 w-4 rounded border-contrast text-indigo-600 focus:ring-indigo-500"
+                          onFocus={(e) => e.preventDefault()}
+                          type="text"
+                          id="text"
+                          name="text"
+                          value={formData.text}
+                          onChange={handleTextChange}
+                          autoComplete="off"
+                          className="mt-1 block w-full rounded-md border-contrast shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm bg-transparent"
+                          placeholder={formData.textPlaceholder}
+                          maxLength={formData.textMaxLength}
+
                         />
                       </div>
-                      <div className="text-sm">
-                        <label htmlFor="agreeLeadTime" className="ml-3 font-medium">
-                          Do you want to reverse the flag?
+                      {isAdditionalText(formData.type) && (
+                        <div className="col-span-6 lg:col-span-5">
+                          <div className="flex justify-between">
+                            <label htmlFor="textAdditional" className="block text-sm font-medium">
+                              Blood Type & Allergies
+                            </label>
+                            <label htmlFor="textAdditional" className="block text-sm font-medium text-right">
+                              {formData.text === 'Your Name' ? formData.textMaxLength + " " : formData.textMaxLength - formData.text.length + " "}
+                              characters left
+                            </label>
+                          </div>
+                          <textarea
+                            type="text"
+                            id="textAdditional"
+                            name="textAdditional"
+                            value={formData.textAdditional}
+                            onChange={handleTextAdditionalChange}
+                            autoComplete="off"
+                            rows={rows}
+                            style={{ resize: 'none' }}
+                            className="mt-1 block w-full rounded-md border-contrast shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm bg-transparent"
+                            placeholder="APOS
+  NKDA"
+                          />
+                        </div>
+                      )
+                      }
+                    </>
+                  ) : currentStep === 2 ? (
+                    <>
+                      <div className="col-span-6 lg:col-span-5">
+                        <label htmlFor="size" className="block text-sm font-medium">
+                          Size
                         </label>
+                        <select
+                          id="size"
+                          name="size"
+                          value={formData.size}
+                          onChange={handleSizeChange}
+                          className="bg-transparent mt-1 block w-full rounded-md border border-contrast py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                        >
+                          <option value="">Select a size</option>
+                          {formData.typeData.map((val, index) => {
+                            const key = index.toString();
+                            return (
+                              <option key={key} value={val.size}>{val.size}</option>
+                            );
+                          })}
+                        </select>
                       </div>
-                    </div>
-                  </div>
-                </>
-              )
-              }
-            </>
-          ) : currentStep === 5 ? (
-            <>
-              <div className="col-span-6 lg:col-span-5">
-                <div className="flex items-start">
-                  <div className="flex items-center h-5">
-                    <input
-                      id="glow-border"
-                      name="glow-border"
-                      type="checkbox"
-                      checked={formData.glowBorder}
-                      onChange={handleGlowBorderChange}
-                      className="bg-transparent h-4 w-4 rounded border-contrast text-indigo-600 focus:ring-indigo-500"
-                    />
-                  </div>
-                  <div className="text-sm">
-                    <label htmlFor="agreeLeadTime" className="ml-3 font-medium">
-                      Add a glow in the dark border? +$10 USD
-                    </label>
-                  </div>
+                    </>
+                  ) : currentStep === 3 ? (
+                    <>
+                      <div className="col-span-6 lg:col-span-5">
+                        <AdvancedSelect
+                          id="textColor"
+                          title="Text Color"
+                          name="textColor"
+                          value={formData.textColor}
+                          img={formData.textColorImg}
+                          onChange={handleTextColorChange}
+                          options={fontColors}
+                        />
+                      </div>
+                      <div className="col-span-6 lg:col-span-5">
+                        <AdvancedSelect
+                          id="bgColor"
+                          title="Background Color"
+                          name="textColor"
+                          value={formData.bgColor}
+                          img={formData.bgColorImg}
+                          onChange={handleBgColorChange}
+                          options={bgColors}
+                        />
+                      </div>
+                    </>
+                  ) : currentStep === 4 ? (
+                    <>
+                      {isFlag(formData.type) && (
+                        <>
+                          <div className="col-span-6 lg:col-span-5">
+                            <AdvancedSelect
+                              // id="bgColor"
+                              title={formData.markType}
+                              name={formData.markType}
+                              value={formData.flag}
+                              img={formData.flagImg}
+                              onChange={handleFlagChange}
+                              options={flags["hi-vis"]}
+                            />
+                          </div>
+                          <div className="col-span-6 lg:col-span-5">
+                            <div className="flex items-start">
+                              <div className="flex items-center h-5">
+                                <input
+                                  id="flag-reversed"
+                                  name="flag-reversed"
+                                  type="checkbox"
+                                  checked={formData.flagReversed}
+                                  onChange={handleFlagReversedChange}
+                                  className="bg-transparent h-4 w-4 rounded border-contrast text-indigo-600 focus:ring-indigo-500"
+                                />
+                              </div>
+                              <div className="text-sm">
+                                <label htmlFor="agreeLeadTime" className="ml-3 font-medium">
+                                  Do you want to reverse the flag?
+                                </label>
+                              </div>
+                            </div>
+                          </div>
+                        </>
+                      )
+                      }
+                    </>
+                  ) : currentStep === 5 ? (
+                    <>
+                      <div className="col-span-6 lg:col-span-5">
+                        <div className="flex items-start">
+                          <div className="flex items-center h-5">
+                            <input
+                              id="glow-border"
+                              name="glow-border"
+                              type="checkbox"
+                              checked={formData.glowBorder}
+                              onChange={handleGlowBorderChange}
+                              className="bg-transparent h-4 w-4 rounded border-contrast text-indigo-600 focus:ring-indigo-500"
+                            />
+                          </div>
+                          <div className="text-sm">
+                            <label htmlFor="agreeLeadTime" className="ml-3 font-medium">
+                              Add a glow in the dark border? +$10 USD
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-span-6 lg:col-span-5">
+                        <div className="flex items-start">
+                          <div className="flex items-center h-5">
+                            <input
+                              id="agreement"
+                              name="agreement"
+                              type="checkbox"
+                              checked={formData.agreement}
+                              onChange={handleAgreementChange}
+                              className="bg-transparent h-4 w-4 rounded border-contrast text-indigo-600 focus:ring-indigo-500"
+                            />
+                          </div>
+                          <div className="text-sm">
+                            <label htmlFor="agreeLeadTime" className="ml-3 font-medium">
+                              I Agree to the Lead Time
+                            </label>
+                            <p className="pt-2"><strong>LEAD TIME</strong> - From your order, to design, production, QC, and shipping, takes roughly 10 business days. Don't worry, we'll keep you updated with what is going on the whole time. Check this box to confirm that you understand that your order will take roughly 10 business days to ship.</p>
+                          </div>
+                        </div>
+                      </div>
+                    </>
+                  ) : (<></>)
+                  }
                 </div>
-              </div>
-              <div className="col-span-6 lg:col-span-5">
-                <div className="flex items-start">
-                  <div className="flex items-center h-5">
-                    <input
-                      id="agreement"
-                      name="agreement"
-                      type="checkbox"
-                      checked={formData.agreement}
-                      onChange={handleAgreementChange}
-                      className="bg-transparent h-4 w-4 rounded border-contrast text-indigo-600 focus:ring-indigo-500"
-                    />
-                  </div>
-                  <div className="text-sm">
-                    <label htmlFor="agreeLeadTime" className="ml-3 font-medium">
-                      I Agree to the Lead Time
-                    </label>
-                    <p className="pt-2"><strong>LEAD TIME</strong> - From your order, to design, production, QC, and shipping, takes roughly 10 business days. Don't worry, we'll keep you updated with what is going on the whole time. Check this box to confirm that you understand that your order will take roughly 10 business days to ship.</p>
-                  </div>
-                </div>
-              </div>
-            </>
-          ) : (<></>)
-          }
-        </div>
-        <FormButton formData={formData} config={config} handlePrevious={handlePrevious} handleNext={handleNext} currentStep={currentStep} steps={steps} />
+              </>
+            )
+        }
+        <FormButton formData={formData} config={config} handlePrevious={handlePrevious} handleNext={handleNext} currentStep={stepForm.currentStep} steps={stepForm.steps} />
       </div>
     </>
   );
@@ -1180,6 +1452,7 @@ function BuilderATC({ formData, className, config, currentStep, steps }) {
     "name-tape--flag": "",
   };
 
+  console.log(getAttributes());
 
   function getCart(formData) {
     const lines = [
@@ -1227,7 +1500,7 @@ function BuilderATC({ formData, className, config, currentStep, steps }) {
       { key: "Size", value: formData.size },
       { key: "Price", value: formData.price + "" },
       { key: "Flag", value: formData.flag },
-      { key: "Mark Type", value: formData.markType },
+      { key: "Mark Type", value: formData.markType || "n/a" },
       { key: "Flag Reversed?", value: formData.flagReversed ? "Yes" : "No" },
       { key: "Select Base Material", value: formData.textColor },
       { key: "Main Text", value: formData.text || "Left Blank" },
@@ -1278,7 +1551,7 @@ function BuilderATC({ formData, className, config, currentStep, steps }) {
           totalValue: parseFloat(productAnalytics.price),
         }}
         className={className}
-        disabled={disabled}
+        // disabled={disabled}
       >
         <Text
           as="span"
