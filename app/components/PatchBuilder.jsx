@@ -199,7 +199,7 @@ function getBuilderTitle(product) {
       result = 'quote';
       break;
     case 'quotes':
-      result = 'light sabers';
+      result = 'light saber';
       break;
     case 'custom-printed-patch-1':
       result = 'custom printed patch';
@@ -697,7 +697,7 @@ function Visualizer({ formData, className, ...props }) {
             <div ref={containerRef} className="h-full text-center overflow-x-hidden flex items-center justify-center">
               <p id="main-text" className="inline-block" style={{ ...fontStyle }}>{formData.text.length > 0 ? formData.text : formData.textPlaceholder}</p>
             </div>
-          ) : formData.type.toLowerCase().includes("light sabers") ? (
+          ) : formData.type.toLowerCase().includes("light saber") ? (
             <div ref={containerRef} className="h-full text-center overflow-x-hidden flex items-center justify-center">
               <p id="main-text" className="inline-block" style={{ ...fontStyle }}>{formData.text.length > 0 ? formData.text : formData.textPlaceholder}</p>
             </div>
@@ -737,7 +737,6 @@ function Visualizer({ formData, className, ...props }) {
 
 // Form element to customize the patch
 function Form({ formData, setFormData, data, config }) {
-
   let tempSteps = [
     { name: 'Text', href: '#', status: 'current', step: 1 },
     { name: 'Patch Size', href: '#', status: 'current', step: 2 },
@@ -746,18 +745,43 @@ function Form({ formData, setFormData, data, config }) {
     { name: 'Almost There', href: '#', status: 'upcoming', step: 5 },
   ];
 
+  console.log(formData.type.toLowerCase());
+  console.log(builderData.type["id panel"].form.steps)
   switch (formData.type.toLowerCase()) {
     case 'name tape':
       tempSteps = builderData.type["name tape"].form.steps;
+      break;
+    case 'id panel':
+      tempSteps = builderData.type["id panel"].form.steps;
+      break;
+    case 'medical patch':
+      tempSteps = builderData.type["medical patch"].form.steps;
+      break;
+    case 'flag':
+      tempSteps = builderData.type["flag"].form.steps;
+      break;
+    case 'light saber':
+      tempSteps = builderData.type["light saber"].form.steps;
+      break;
+    case 'custom printed patch':
+      tempSteps = builderData.type["custom printed"].form.steps;
+      break;
+    case 'jacket panel':
+      tempSteps = builderData.type["jacket panel"].form.steps;
+      break;
+    case 'division jacket panel':
+      tempSteps = builderData.type["division jacket panel"].form.steps;
       break;
     default:
       break;
   }
 
+  console.log(tempSteps)
+
   let tempStepObj = {
     steps: tempSteps,
-    currentStep : 1,
-    obj : tempSteps[0]
+    currentStep: 1,
+    obj: tempSteps[0]
   };
 
 
@@ -969,7 +993,7 @@ function Form({ formData, setFormData, data, config }) {
     if (stepForm.currentStep < stepForm.steps.length) {
       setStepForm({ ...stepForm, currentStep: stepForm.currentStep + 1, obj: stepForm.steps[stepForm.currentStep] });
     }
-    if ((formData.size == '4” x 1”' || formData.size == '5” x 1”') && formData.type.toLowerCase().includes("name tape")) {
+    if ((formData.size == '4” x 1”' || formData.size == '5” x 1”') && formData.type.toLowerCase() == "name tape") {
       const flagStep = {
         name: "Flag",
         status: 'upcoming',
@@ -1004,13 +1028,14 @@ function Form({ formData, setFormData, data, config }) {
         setSteps(newSteps);
       }
     }
+    if (formData.size == '3.5” x 2”' && formData.type.toLowerCase() == "medical patch") {
+    }
   };
 
 
   // console.log(formData);
   // console.log(data);
   // console.log(config);
-
   return (
     <>
       <div className="space-y-6">
@@ -1078,6 +1103,31 @@ function Form({ formData, setFormData, data, config }) {
                               placeholder={formData.textPlaceholder}
                               maxLength={formData.textMaxLength}
 
+                            />
+                          </>
+                        ) : input.id.toLowerCase() == "bloodtype" ? (
+                          <>
+                            <div className="flex justify-between">
+                              <label htmlFor="textAdditional" className="block text-sm font-medium">
+                                Blood Type & Allergies
+                              </label>
+                              <label htmlFor="textAdditional" className="block text-sm font-medium text-right">
+                                {formData.text === 'Your Name' ? formData.textMaxLength + " " : formData.textMaxLength - formData.text.length + " "}
+                                characters left
+                              </label>
+                            </div>
+                            <textarea
+                              type="text"
+                              id="textAdditional"
+                              name="textAdditional"
+                              value={formData.textAdditional}
+                              onChange={handleTextAdditionalChange}
+                              autoComplete="off"
+                              rows={rows}
+                              style={{ resize: 'none' }}
+                              className="mt-1 block w-full rounded-md border-contrast shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm bg-transparent"
+                              placeholder="APOS
+NKDA"
                             />
                           </>
                         ) : input.id.toLowerCase() == "size" ? (
@@ -1452,7 +1502,7 @@ function BuilderATC({ formData, className, config, currentStep, steps }) {
     "name-tape--flag": "",
   };
 
-  console.log(getAttributes());
+  //console.log(getAttributes());
 
   function getCart(formData) {
     const lines = [
@@ -1551,7 +1601,7 @@ function BuilderATC({ formData, className, config, currentStep, steps }) {
           totalValue: parseFloat(productAnalytics.price),
         }}
         className={className}
-        // disabled={disabled}
+      // disabled={disabled}
       >
         <Text
           as="span"
