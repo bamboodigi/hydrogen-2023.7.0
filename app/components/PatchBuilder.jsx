@@ -558,6 +558,16 @@ function Visualizer({ formData, className, ...props }) {
     }
   }, [formData.flagReversed]);
 
+  useEffect(() => {
+    console.log(formData.glowBorder);
+    if (formData.glowBorder) {
+      setStyle(prevStyle => ({ ...prevStyle, "-webkit-text-stroke": `2px white` }));
+    } else {
+      setStyle(prevStyle => ({ ...prevStyle, "-webkit-text-stroke" : `initial` }));
+    }
+  }, [formData.glowBorder]);
+
+
   const count2 = 0;
   //Use the useEffect hook to manage side effects
   useEffect(() => {
@@ -1164,118 +1174,116 @@ NKDA"
                               options={fontColors}
                             />
                           </>
-                        ) :
-                          input.id.toLowerCase() == "backgroundcolor" ? (
-                            <>
-                              <AdvancedSelect
-                                id="bgColor"
-                                title="Background Color"
-                                name="textColor"
-                                value={formData.bgColor}
-                                img={formData.bgColorImg}
-                                onChange={handleBgColorChange}
-                                options={bgColors}
-                              />
+                        ) : input.id.toLowerCase() == "backgroundcolor" ? (
+                          <>
+                            <AdvancedSelect
+                              id="bgColor"
+                              title="Background Color"
+                              name="textColor"
+                              value={formData.bgColor}
+                              img={formData.bgColorImg}
+                              onChange={handleBgColorChange}
+                              options={bgColors}
+                            />
 
-                            </>
-                          ) : input.id.toLowerCase() == "flag" ? (
-                            <>
-                              <AdvancedSelect
-                                // id="bgColor"
-                                title={formData.markType}
-                                name={formData.markType}
-                                value={formData.flag}
-                                img={formData.flagImg}
-                                onChange={handleFlagChange}
-                                options={flags["hi-vis"]}
-                              />
-                            </>
-                          ) : input.id.toLowerCase() == "flagenabled" ? (
-                            <>
-                              <div className="flex items-start">
-                                <div className="flex items-center h-5">
-                                  <input
-                                    id="flag-enabled"
-                                    name="flag-enabled"
-                                    type="checkbox"
-                                    checked={formData.flagEnabled}
-                                    onChange={handleFlagEnabledChange}
-                                    className="bg-transparent h-4 w-4 rounded border-contrast text-indigo-600 focus:ring-indigo-500"
-                                  />
-                                </div>
-                                <div className="text-sm">
-                                  <label htmlFor="agreeLeadTime" className="ml-3 font-medium">
-                                    Do you want to add a flag?
-                                  </label>
-                                </div>
+                          </>
+                        ) : input.id.toLowerCase() == "flag" ? (
+                          <>
+                            <AdvancedSelect
+                              // id="bgColor"
+                              title={formData.markType}
+                              name={formData.markType}
+                              value={formData.flag}
+                              img={formData.flagImg}
+                              onChange={handleFlagChange}
+                              options={flags["hi-vis"]}
+                            />
+                          </>
+                        ) : input.id.toLowerCase() == "flagenabled" ? (
+                          <>
+                            <div className="flex items-start">
+                              <div className="flex items-center h-5">
+                                <input
+                                  id="flag-enabled"
+                                  name="flag-enabled"
+                                  type="checkbox"
+                                  checked={formData.flagEnabled}
+                                  onChange={handleFlagEnabledChange}
+                                  className="bg-transparent h-4 w-4 rounded border-contrast text-indigo-600 focus:ring-indigo-500"
+                                />
                               </div>
-                            </>
-                          ) : input.id.toLowerCase() == "flagreverse" ? (
-                            <>
-                              <div className="flex items-start">
-                                <div className="flex items-center h-5">
-                                  <input
-                                    id="flag-reversed"
-                                    name="flag-reversed"
-                                    type="checkbox"
-                                    checked={formData.flagReversed}
-                                    onChange={handleFlagReversedChange}
-                                    className="bg-transparent h-4 w-4 rounded border-contrast text-indigo-600 focus:ring-indigo-500"
-                                  />
-                                </div>
-                                <div className="text-sm">
-                                  <label htmlFor="agreeLeadTime" className="ml-3 font-medium">
-                                    Do you want to reverse the flag?
-                                  </label>
-                                </div>
+                              <div className="text-sm">
+                                <label htmlFor="agreeLeadTime" className="ml-3 font-medium">
+                                  Do you want to add a flag?
+                                </label>
                               </div>
-                            </>
-                          ) : input.id.toLowerCase() == "glowinthedark" ? (
-                            <>
-                              <div className="flex items-start">
-                                <div className="flex items-center h-5">
-                                  <input
-                                    id="glow-border"
-                                    name="glow-border"
-                                    type="checkbox"
-                                    checked={formData.glowBorder}
-                                    onChange={handleGlowBorderChange}
-                                    className="bg-transparent h-4 w-4 rounded border-contrast text-indigo-600 focus:ring-indigo-500"
-                                  />
-                                </div>
-                                <div className="text-sm">
-                                  <label htmlFor="agreeLeadTime" className="ml-3 font-medium">
-                                    Add a glow in the dark border? +$10 USD
-                                  </label>
-                                </div>
+                            </div>
+                          </>
+                        ) : input.id.toLowerCase() == "flagreverse" ? (
+                          <>
+                            <div className="flex items-start">
+                              <div className="flex items-center h-5">
+                                <input
+                                  id="flag-reversed"
+                                  name="flag-reversed"
+                                  type="checkbox"
+                                  checked={formData.flagReversed}
+                                  onChange={handleFlagReversedChange}
+                                  className="bg-transparent h-4 w-4 rounded border-contrast text-indigo-600 focus:ring-indigo-500"
+                                />
                               </div>
-                            </>
-                          ) : input.id.toLowerCase() == "leadtime" ? (
-                            <>
-                              <div className="flex items-start">
-                                <div className="flex items-center h-5">
-                                  <input
-                                    id="agreement"
-                                    name="agreement"
-                                    type="checkbox"
-                                    checked={formData.agreement}
-                                    onChange={handleAgreementChange}
-                                    className="bg-transparent h-4 w-4 rounded border-contrast text-indigo-600 focus:ring-indigo-500"
-                                  />
-                                </div>
-                                <div className="text-sm">
-                                  <label htmlFor="agreeLeadTime" className="ml-3 font-medium">
-                                    I Agree to the Lead Time
-                                  </label>
-                                  <p className="pt-2"><strong>LEAD TIME</strong> - From your order, to design, production, QC, and shipping, takes roughly 10 business days. Don't worry, we'll keep you updated with what is going on the whole time. Check this box to confirm that you understand that your order will take roughly 10 business days to ship.</p>
-                                </div>
+                              <div className="text-sm">
+                                <label htmlFor="agreeLeadTime" className="ml-3 font-medium">
+                                  Do you want to reverse the flag?
+                                </label>
                               </div>
-                            </>
-                          ) :
-                            (
-                              <>
-
-                              </>)}
+                            </div>
+                          </>
+                        ) : input.id.toLowerCase() == "glowinthedark" ? (
+                          <>
+                            <div className="flex items-start">
+                              <div className="flex items-center h-5">
+                                <input
+                                  id="glow-border"
+                                  name="glow-border"
+                                  type="checkbox"
+                                  checked={formData.glowBorder}
+                                  onChange={handleGlowBorderChange}
+                                  className="bg-transparent h-4 w-4 rounded border-contrast text-indigo-600 focus:ring-indigo-500"
+                                />
+                              </div>
+                              <div className="text-sm">
+                                <label htmlFor="agreeLeadTime" className="ml-3 font-medium">
+                                  Add a glow in the dark border? +$10 USD
+                                </label>
+                              </div>
+                            </div>
+                          </>
+                        ) : input.id.toLowerCase() == "leadtime" ? (
+                          <>
+                            <div className="flex items-start">
+                              <div className="flex items-center h-5">
+                                <input
+                                  id="agreement"
+                                  name="agreement"
+                                  type="checkbox"
+                                  checked={formData.agreement}
+                                  onChange={handleAgreementChange}
+                                  className="bg-transparent h-4 w-4 rounded border-contrast text-indigo-600 focus:ring-indigo-500"
+                                />
+                              </div>
+                              <div className="text-sm">
+                                <label htmlFor="agreeLeadTime" className="ml-3 font-medium">
+                                  I Agree to the Lead Time
+                                </label>
+                                <p className="pt-2"><strong>LEAD TIME</strong> - From your order, to design, production, QC, and shipping, takes roughly 10 business days. Don't worry, we'll keep you updated with what is going on the whole time. Check this box to confirm that you understand that your order will take roughly 10 business days to ship.</p>
+                              </div>
+                            </div>
+                          </>
+                        ) : (
+                          <>
+                          </>
+                        )}
                       </div>
                     );
                   })}
