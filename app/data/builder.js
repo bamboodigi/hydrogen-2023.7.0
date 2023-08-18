@@ -2,33 +2,113 @@ const builderData = {
   type: {
     "id panel": {
       name: "ID Panel",
+      basePrice: 23,
       config: {
         "sizes": [
           {
-            size: '3” x 2”', maxLength: 13, lines: 1, placeholder: 'Name',
-            maxLength2: null, lines2: null, placeholder2: null
+            size: '3” x 2”',
+            maxLength: 13,
+            lines: 1,
+            placeholder: 'Name',
+            maxLength2: 12,
+            lines2: 2,
+            placeholder2: 'APOS\nNKDA',
+            hasFlag: true,
+            sizeUpsell: 0,
+            glowInTheDark: 0,
+            hiVis: 3,
+            badge: 25,
           },
           {
-            size: '3.5” x 2”', maxLength: 13, lines: 1, placeholder: 'Name',
-            maxLength2: null, lines2: null, placeholder2: null
+            size: '3.5” x 2”',
+            maxLength: 13,
+            lines: 1,
+            placeholder: 'Name',
+            maxLength2: 12,
+            lines2: 2,
+            placeholder2: 'APOS\nNKDA',
+            hasFlag: true,
+            sizeUpsell: 1,
+            glowInTheDark: 0,
+            hiVis: 3,
+            badge: 25,
           },
           {
-            size: '4” x 2”', maxLength: 13, lines: 1, placeholder: 'Name',
-            maxLength2: null, lines2: null, placeholder2: null
+            size: '4” x 2”',
+            maxLength: 13,
+            lines: 1,
+            placeholder: 'Name',
+            maxLength2: 12,
+            lines2: 2,
+            placeholder2: 'APOS\nNKDA',
+            hasFlag: true,
+            sizeUpsell: 0,
+            glowInTheDark: 5,
           },
           {
-            size: '6” x 2”', maxLength: 13, lines: 1, placeholder: 'Name',
-            maxLength2: null, lines2: null, placeholder2: null
+            size: '5” x 3”',
+            maxLength: 13,
+            lines: 1,
+            placeholder: 'Name',
+            maxLength2: 12,
+            lines2: 2,
+            placeholder2: 'APOS\nNKDA',
+            hasFlag: true,
+            sizeUpsell: 8,
+            glowInTheDark: 10,
+            hiVis: 5,
+            badge: 25,
           },
           {
-            size: '5” x 3”', maxLength: 13, lines: 1, placeholder: 'Name',
-            maxLength2: null, lines2: null, placeholder2: null
+            size: '6” x 2”',
+            maxLength: 13,
+            lines: 1,
+            placeholder: 'Name',
+            maxLength2: 12,
+            lines2: 2,
+            placeholder2: 'APOS\nNKDA',
+            hasFlag: true,
+            sizeUpsell: 3,
+            hiVis: 5,
+            glowInTheDark: 10,
+            badge: 25,
           },
           {
-            size: '6” x 3”', maxLength: 13, lines: 1, placeholder: 'Name',
-            maxLength2: null, lines2: null, placeholder2: null
+            size: '6” x 3”',
+            maxLength: 13,
+            lines: 1,
+            placeholder: 'Name',
+            maxLength2: 12,
+            lines2: 2,
+            placeholder2: 'APOS\nNKDA',
+            hasFlag: true,
+            sizeUpsell: 8,
+            hiVis: 5,
+            glowInTheDark: 10,
+            badge: 25,
+            tRexArms: true,
+            policeID: 19,
           }
         ],
+        extra: [
+          {
+            name: "DeadBug DV2",
+            size: '6” x 4”',
+            maxLength: 13,
+            lines: 1,
+            placeholder: 'Name',
+            maxLength2: 12,
+            lines2: 2,
+            placeholder2: 'APOS\nNKDA',
+            hasFlag: true,
+            sizeUpsell: 8,
+            hiVis: 5,
+            glowInTheDark: 10,
+            badge: 25,
+            tRexArms: true,
+            policeID: 19,
+          }
+        ]
       },
       form: {
         intro: "Our ID panels come in various sizes. You will be able to custom your ID, blood type or allergy, font & background colors. You will be able to choose from a wide variety of flags or upload one yourself. Get through all the steps and see your patch come to life.",
@@ -124,13 +204,14 @@ const builderData = {
     },
     "name tape": {
       name: "Name Tape",
+      basePrice: 13,
       config: {
         sizes: [
-          { size: '3” x 1”', maxLength: 9, lines: 1, placeholder: 'Your Name', hasFlag: false, sizeUpsell: 0, glowInTheDark: 5 }, 
+          { size: '3” x 1”', maxLength: 9, lines: 1, placeholder: 'Your Name', hasFlag: false, sizeUpsell: 0, glowInTheDark: 5 },
           { size: '4” x 1”', maxLength: 10, lines: 1, placeholder: 'Your Name', hasFlag: true, sizeUpsell: 1, glowInTheDark: 5 },
           { size: '4” x 1.5”', maxLength: 10, lines: 1, placeholder: 'Your Name', hasFlag: false, sizeUpsell: 3, glowInTheDark: 5 },
           { size: '5” x 1”', maxLength: 13, lines: 1, placeholder: 'Your Name', hasFlag: true, sizeUpsell: 2, glowInTheDark: 5, tacTecCarrier: 2, tacTecTrainer: 3, tRexArms: 0 },
-          { size: '5” x 1.5”', maxLength: 13, lines: 1, placeholder: 'Your Name', hasFlag: false, sizeUpsell: 4, glowInTheDark: 5},
+          { size: '5” x 1.5”', maxLength: 13, lines: 1, placeholder: 'Your Name', hasFlag: false, sizeUpsell: 4, glowInTheDark: 5 },
           { size: '6” x 2”', maxLength: 10, lines: 1, placeholder: 'Your Name', hasFlag: false, sizeUpsell: 8, glowInTheDark: 10, policeBlueLine: 5, sheriffBlueLine: 5, },
           { size: '8” x 2”', maxLength: 10, lines: 1, placeholder: 'Yp to 2 Lines', hasFlag: false, sizeUpsell: 9, glowInTheDark: 10, tRexArms: 4 },
           { size: '8” x 3”', maxLength: 13, lines: 2, placeholder: 'Up to 2 Lines', hasFlag: false, sizeUpsell: 14, glowInTheDark: 10 },
@@ -140,9 +221,9 @@ const builderData = {
           { size: '11” x 3”', maxLength: 16, lines: 2, placeholder: 'Up to 2 Lines', hasFlag: false, sizeUpsell: 17, glowInTheDark: 15 },
           { size: '12” x 4”', maxLength: 18, lines: 3, placeholder: 'Up to 3 Lines of Text', hasFlag: false, sizeUpsell: 41, glowInTheDark: 20 },
         ],
-        extra : [
-            { size: '2.5” x 1”', maxLength: 7, lines: 1, placeholder: 'Your Nm', hasFlag: false, sizeUpsell: 1, glowInTheDark: 5, name : "Custom ID Tag" }, 
-            { size: '5” x 1”', maxLength: 4, lines: 1, placeholder: 'Dad', hasFlag: false, sizeUpsell: 9, glowInTheDark: 7, name : "* As Fuck Name Tape" }, 
+        extra: [
+          { size: '2.5” x 1”', maxLength: 7, lines: 1, placeholder: 'Your Nm', hasFlag: false, sizeUpsell: 1, glowInTheDark: 5, name: "Custom ID Tag" },
+          { size: '5” x 1”', maxLength: 4, lines: 1, placeholder: 'Dad', hasFlag: false, sizeUpsell: 9, glowInTheDark: 7, name: "* As Fuck Name Tape" },
         ],
       },
       form: {
@@ -208,11 +289,15 @@ const builderData = {
     },
     "medical patch": {
       name: "Medical Patch",
+      basePrice: 10,
       config: {
-        "sizes": [
-          { size: '1” x 1”', maxLength: null, lines: null, placeholder: null, hasFlag: false, sizeUpsell: 0 },
-          { size: '2” x 2”', maxLength: null, lines: null, placeholder: null, hasFlag: false, sizeUpsell: 3 },
-          { size: '3.5” x 2”', maxLength: 12, lines: 1, placeholder: 'nkda', hasFlag: false, sizeUpsell: 9 },
+        sizes: [
+          { size: '1” x 1”', maxLength: null, lines: null, placeholder: null, hasFlag: true, sizeUpsell: 0 },
+          { size: '2” x 2”', maxLength: null, lines: null, placeholder: null, hasFlag: true, sizeUpsell: 3 },
+          { size: '3.5” x 2”', maxLength: 12, lines: 1, placeholder: 'nkda', hasFlag: true, sizeUpsell: 9 },
+        ],
+        extra: [
+          { name: "Hexagonal", size: '3.5” x 3.5”', maxLength: null, lines: null, placeholder: null, hasFlag: true, sizeUpsell: 9 },
         ]
       },
       form: {
@@ -269,22 +354,20 @@ const builderData = {
         ],
       },
     },
-    "flag" : {
+    "flag": {
       name: "Flag",
+      basePrice: 15,
       config: {
-        "sizes": [
-          { size: '1” x 1”', maxLength: null, lines: null, placeholder: null },
-          { size: '3” x 1”', maxLength: null, lines: null, placeholder: null },
-          { size: '4” x 1”', maxLength: null, lines: null, placeholder: null },
-          { size: '5” x 1”', maxLength: null, lines: null, placeholder: null },
-          { size: '2” x 2”', maxLength: null, lines: null, placeholder: null },
-          { size: '3” x 2”', maxLength: null, lines: null, placeholder: null },
-          { size: '3.5” x 2”', maxLength: null, lines: null, placeholder: null },
-          { size: '4” x 2”', maxLength: null, lines: null, placeholder: null },
-          { size: '6” x 2”', maxLength: null, lines: null, placeholder: null },
-          { size: '5” x 3”', maxLength: null, lines: null, placeholder: null },
-          { size: '6” x 3”', maxLength: null, lines: null, placeholder: null }
+        sizes: [
+          { size: '3” x 2”', maxLength: null, lines: null, placeholder: null, hasFlag: true, sizeUpsell: 0,  hiVis: 5 },
+          { size: '3.5” x 2”', maxLength: null, lines: null, placeholder: null, hasFlag: true, sizeUpsell: 1, thinLine: 4, hiVis: 5 },
+          { size: '5” x 3”', maxLength: null, lines: null, placeholder: null, hasFlag: true, sizeUpsell: 5, tRexArms: 6, hiVis: 5 },
+          { size: '6” x 2”', maxLength: null, lines: null, placeholder: null, hasFlag: true, sizeUpsell: 9, hiVis: 5 },
+          { size: '6” x 3”', maxLength: null, lines: null, placeholder: null, hasFlag: true, sizeUpsell: 13, hiVis: 5 }
         ],
+        extra: [
+          { name: "Hexagonal", size: '3.5” x 3.5”', maxLength: null, lines: null, placeholder: null, hasFlag: true, sizeUpsell: 3 },
+        ]
       },
       form: {
         intro: "Our Flag Patches come in Lazer Cut or Reflective Hi Vis.",
@@ -346,7 +429,7 @@ const builderData = {
         ],
       },
     },
-    "light saber" : {
+    "light saber": {
       name: "Flag",
       config: {
         "sizes": [
@@ -401,7 +484,7 @@ const builderData = {
         ],
       },
     },
-    "custom printed patch" : {
+    "custom printed patch": {
       name: "Custom Printed Patch",
       config: {
         "sizes": [
@@ -450,6 +533,7 @@ const builderData = {
         ],
       },
     },
+    "jacket panel": {
       name: "Jacket Panel",
       config: {
         "sizes": [
@@ -551,6 +635,7 @@ const builderData = {
           },
         ]
       },
+    }
   }
 };
 
