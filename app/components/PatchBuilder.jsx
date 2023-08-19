@@ -521,7 +521,7 @@ function Visualizer({ formData, className, ...props }) {
       if (count == 0) {
         setTimeout(() => {
           updateFontSize(containerRef, setFontStyle, formData);
-        }, 100);
+        }, 1000);
       } else {
         updateFontSize(containerRef, setFontStyle, formData);
       }
@@ -675,7 +675,12 @@ function Visualizer({ formData, className, ...props }) {
             </div>
           ) : formData.type.toLowerCase().includes("name tape") ? (
             <div ref={containerRef} className="h-full text-center overflow-x-hidden overflow-y-hidden flex items-center justify-center">
-              <p id="main-text" className="inline-block" style={{ ...fontStyle }}>{formData.text.length > 0 ? formData.text : 
+              <p id="main-text" className="inline-block" style={{ ...fontStyle }}>{formData.text.length > 0 ? formData.text.split('\n').map((line, index) => (
+                      <React.Fragment key={index}>
+                        {index > 0 && <br />}
+                        {line}
+                      </React.Fragment>
+                    )) : 
               formData.textPlaceholder.split('\n').map((line, index) => (
                       <React.Fragment key={index}>
                         {index > 0 && <br />}
