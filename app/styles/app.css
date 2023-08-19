@@ -81,13 +81,13 @@ transition: height 0.3s ease-in-out !important;
   -moz-box-shadow: var(--shadow-elevation-medium);
   -o-box-shadow: var(--shadow-elevation-medium);
   -ms-box-shadow: var(--shadow-elevation-medium);
+
 /* 
   -webkit-transition: background-image 0.3s ease-in-out, height 0.4s ease-in-out, width 0.4s ease-in-out !important;
   -moz-transition: background-image 0.3s ease-in-out, height 0.4s ease-in-out, width 0.4s ease-in-out !important;
   -ms-transition: background-image 0.3s ease-in-out, height 0.4s ease-in-out, width 0.4s ease-in-out !important;
   -o-transition: background-image 0.3s ease-in-out, height 0.4s ease-in-out, width 0.4s ease-in-out !important;
   transition: background-image 0.3s ease-in-out, height 0.4s ease-in-out, width 0.4s ease-in-out !important; */
-  
 }
 
 #flag {

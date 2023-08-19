@@ -41,22 +41,12 @@ export function PatchBuilder({ product, config, ...props }) {
   };
 
   const isPatchBuilder = product.tags.includes("custom_patch");
-  //console.log(product.tags.includes("custom_patch"))
 
-  //console.log(newData.types[getBuilderTitle(product).toLowerCase()].variants);
-
-  //console.log(data[3].values.find(obj => obj.name.toLowerCase().includes(getBuilderTitle(product).toLowerCase())))
-  //console.log(product)
   return (
     <>
-      <Visualizer formData={formData} className={classNames(
-        isPatchBuilder ? "top-[56px] md:top-0" : "top-[96px]",
-        ""
-      )} />
-      <div className={classNames(
-        isPatchBuilder ? "" : "mt-[225px]",
-        "sm:mt-auto sticky md:pr-4 xl:pr-16 md:-mb-nav md:top-nav md:-translate-y-nav md:pt-nav hiddenScroll md:overflow-y-scroll bg-white md:bg-transparent text-contrast border-2 border-t-2 border-l-2 border-r-2 border-black md:border-none rounded-t-2xl"
-      )}>
+      <Visualizer formData={formData} className="" />
+      <div className="sm:mt-auto sticky md:pr-4 xl:pr-16 md:-mb-nav md:top-nav md:-translate-y-nav md:pt-nav hiddenScroll md:overflow-y-scroll bg-white md:bg-transparent text-contrast border-2 border-t-2 border-l-2 border-r-2 border-black md:border-none rounded-t-2xl"
+      >
         <section className="flex flex-col w-full max-w-[33rem] gap-6 p-7 lg:pb-0
             md:mx-auto md:px-0
             lg:">
@@ -563,7 +553,7 @@ function Visualizer({ formData, className, ...props }) {
     if (formData.glowBorder) {
       setStyle(prevStyle => ({ ...prevStyle, "-webkit-text-stroke": `2px white` }));
     } else {
-      setStyle(prevStyle => ({ ...prevStyle, "-webkit-text-stroke" : `initial` }));
+      setStyle(prevStyle => ({ ...prevStyle, "-webkit-text-stroke": `initial` }));
     }
   }, [formData.glowBorder]);
 
@@ -625,7 +615,7 @@ function Visualizer({ formData, className, ...props }) {
       )}>
         {/* ${scrollPosition >= 100 ? ' w-100 fixed z-50' : ' transition relative'
         } */}
-        <div id="patch" className="flex items-center justify-center" style={style}>
+        <div id="patch" className="flex items-center justify-center transform lg:scale-150" style={style}>
 
           {formData.type.toLowerCase().includes("id panel") && formData.size == '6” x 2”' ? (
             <div className="w-full h-full flex">
@@ -670,7 +660,7 @@ function Visualizer({ formData, className, ...props }) {
               </div>
             </div>
           ) : formData.type.toLowerCase().includes("name tape") && formData.flagEnabled ? (
-            <div className="flex w-full h-full">
+            <div className="flex w-full h-full gap-2">
               <div className="flex flex-0  w-1/3 items-center" style={{}}>
                 <div id="flag" className="mr-1 flex-1 max-h-full max-w-full w-auto h-auto" style={flagStyle}></div>
               </div>
@@ -755,8 +745,8 @@ function Form({ formData, setFormData, data, config }) {
     { name: 'Almost There', href: '#', status: 'upcoming', step: 5 },
   ];
 
-  console.log(formData.type.toLowerCase());
-  console.log(builderData.type["id panel"].form.steps)
+  // console.log(formData.type.toLowerCase());
+  // console.log(builderData.type["id panel"].form.steps)
   switch (formData.type.toLowerCase()) {
     case 'name tape':
       tempSteps = builderData.type["name tape"].form.steps;
@@ -786,7 +776,7 @@ function Form({ formData, setFormData, data, config }) {
       break;
   }
 
-  console.log(tempSteps)
+  // console.log(tempSteps)
 
   let tempStepObj = {
     steps: tempSteps,
@@ -1054,8 +1044,8 @@ function Form({ formData, setFormData, data, config }) {
           ///////////////////////////////////////
          Pick type -> show when you want a master
           ///////////////////////////////////////
-          <div className="col-span-6 lg:col-span-5">
-          <label htmlFor="type" className="block text-sm font-medium">
+          <div className="col-span-6">
+          <label htmlFor="type" className="block text-sm xl:text-lg font-medium">
             Type
           </label>
           <select
@@ -1063,7 +1053,7 @@ function Form({ formData, setFormData, data, config }) {
             name="type"
             value={formData.type}
             onChange={handleTypeChange}
-            className="bg-transparent mt-1 block w-full rounded-md border border-contrast py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            className="bg-transparent mt-1 block w-full rounded-md border border-contrast py-3 xl:py-4 xl:px-5 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 xl:text-lg"
           >
             <option value="">Select a type</option>
             {data[3].values.map((val, index) => {
@@ -1083,8 +1073,8 @@ function Form({ formData, setFormData, data, config }) {
                   Step {stepForm.currentStep} / {stepForm.steps.length}
                 </p>
               </div>
-              <div className="grid grid-cols-6 gap-6 min-h-[13rem]">
-                <div className="col-span-6 lg:col-span-5 grid gap-4">
+              <div className="grid grid-cols-6 gap-6 min-h-[13rem] xl:min-h-[14rem]">
+                <div className="col-span-6 grid gap-4">
                   {stepForm.steps[stepForm.currentStep - 1].input.map((input, i) => {
                     const childKey = i.toString();
                     return (
@@ -1092,36 +1082,56 @@ function Form({ formData, setFormData, data, config }) {
                         {input.id.toLowerCase() == "text" ? (
                           <>
                             <div className="flex justify-between">
-                              <label htmlFor="text" className="block text-sm font-medium">
+                              <label htmlFor="text" className="block text-sm xl:text-lg font-medium">
                                 Text
                               </label>
-                              <label htmlFor="text" className="block text-sm font-medium text-right">
+                              <label htmlFor="text" className="block text-sm xl:text-lg font-medium text-right">
                                 {formData.text === 'Your Name' ? formData.textMaxLength + " " : formData.textMaxLength - formData.text.length + " "}
                                 characters left
                               </label>
                             </div>
-                            <input
+                            {formData.textLines > 1 ? (
+                              <>
+                                <textarea
+                                  type="text"
+                                  id="textAdditional"
+                                  name="textAdditional"
+                                  value={formData.text}
+                                  onChange={handleTextChange}
+                                  autoComplete="off"
+                                  rows={formData.textLines}
+                                  style={{ resize: 'none' }}
+                                  className="mt-1 block w-full rounded-md border-contrast shadow-sm focus:border-indigo-500 focus:ring-indigo-500 xl:text-lg bg-transparent"
+                                  placeholder={formData.textPlaceholder}
+                                  maxLength={formData.textMaxLength}
+                                />
+                              </>
+                            ) : (
+                              <>
+                                <input
 
-                              onFocus={(e) => e.preventDefault()}
-                              type="text"
-                              id="text"
-                              name="text"
-                              value={formData.text}
-                              onChange={handleTextChange}
-                              autoComplete="off"
-                              className="mt-1 block w-full rounded-md border-contrast shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm bg-transparent"
-                              placeholder={formData.textPlaceholder}
-                              maxLength={formData.textMaxLength}
+                                  onFocus={(e) => e.preventDefault()}
+                                  type="text"
+                                  id="text"
+                                  name="text"
+                                  value={formData.text}
+                                  onChange={handleTextChange}
+                                  autoComplete="off"
+                                  className="mt-1 py-3 xl:py-4 block w-full rounded-md border-contrast shadow-sm focus:border-indigo-500 focus:ring-indigo-500 xl:text-lg bg-transparent"
+                                  placeholder={formData.textPlaceholder}
+                                  maxLength={formData.textMaxLength}
 
-                            />
+                                />
+                              </>
+                            )}
                           </>
                         ) : input.id.toLowerCase() == "bloodtype" ? (
                           <>
                             <div className="flex justify-between">
-                              <label htmlFor="textAdditional" className="block text-sm font-medium">
+                              <label htmlFor="textAdditional" className="block text-sm xl:text-lg font-medium">
                                 Blood Type & Allergies
                               </label>
-                              <label htmlFor="textAdditional" className="block text-sm font-medium text-right">
+                              <label htmlFor="textAdditional" className="block text-sm xl:text-lg font-medium text-right">
                                 {formData.text === 'Your Name' ? formData.textMaxLength + " " : formData.textMaxLength - formData.text.length + " "}
                                 characters left
                               </label>
@@ -1135,14 +1145,14 @@ function Form({ formData, setFormData, data, config }) {
                               autoComplete="off"
                               rows={rows}
                               style={{ resize: 'none' }}
-                              className="mt-1 block w-full rounded-md border-contrast shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm bg-transparent"
+                              className="mt-1 block w-full rounded-md border-contrast shadow-sm focus:border-indigo-500 focus:ring-indigo-500 xl:text-lg bg-transparent"
                               placeholder="APOS
 NKDA"
                             />
                           </>
                         ) : input.id.toLowerCase() == "size" ? (
                           <>
-                            <label htmlFor="size" className="block text-sm font-medium">
+                            <label htmlFor="size" className="block text-sm xl:text-lg font-medium">
                               Size
                             </label>
                             <select
@@ -1151,7 +1161,7 @@ NKDA"
                               name="size"
                               value={formData.size}
                               onChange={handleSizeChange}
-                              className="bg-transparent mt-1 block w-full rounded-md border border-contrast py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                              className="bg-transparent mt-1 block w-full rounded-md border border-contrast py-3 xl:py-4 xl:px-5 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 xl:text-lg"
                             >
                               <option value="">Select a size</option>
                               {formData.typeData.map((val, index) => {
@@ -1298,15 +1308,15 @@ NKDA"
                     Step {currentStep} / {steps.length}
                   </p>
                 </div>
-                <div className="grid grid-cols-6 gap-6 min-h-[13rem]">
+                <div className="grid grid-cols-6 gap-6 min-h-[13rem] xl:min-h-[14rem]">
                   {currentStep === 1 ? (
                     <>
-                      <div className="col-span-6 lg:col-span-5">
+                      <div className="col-span-6">
                         <div className="flex justify-between">
-                          <label htmlFor="text" className="block text-sm font-medium">
+                          <label htmlFor="text" className="block text-sm xl:text-lg font-medium">
                             Text
                           </label>
-                          <label htmlFor="text" className="block text-sm font-medium text-right">
+                          <label htmlFor="text" className="block text-sm xl:text-lg font-medium text-right">
                             {formData.text === 'Your Name' ? formData.textMaxLength + " " : formData.textMaxLength - formData.text.length + " "}
                             characters left
                           </label>
@@ -1319,19 +1329,19 @@ NKDA"
                           value={formData.text}
                           onChange={handleTextChange}
                           autoComplete="off"
-                          className="mt-1 block w-full rounded-md border-contrast shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm bg-transparent"
+                          className="mt-1 block w-full rounded-md border-contrast shadow-sm focus:border-indigo-500 focus:ring-indigo-500 xl:text-lg bg-transparent"
                           placeholder={formData.textPlaceholder}
                           maxLength={formData.textMaxLength}
 
                         />
                       </div>
                       {isAdditionalText(formData.type) && (
-                        <div className="col-span-6 lg:col-span-5">
+                        <div className="col-span-6">
                           <div className="flex justify-between">
-                            <label htmlFor="textAdditional" className="block text-sm font-medium">
+                            <label htmlFor="textAdditional" className="block text-sm xl:text-lg font-medium">
                               Blood Type & Allergies
                             </label>
-                            <label htmlFor="textAdditional" className="block text-sm font-medium text-right">
+                            <label htmlFor="textAdditional" className="block text-sm xl:text-lg font-medium text-right">
                               {formData.text === 'Your Name' ? formData.textMaxLength + " " : formData.textMaxLength - formData.text.length + " "}
                               characters left
                             </label>
@@ -1345,7 +1355,7 @@ NKDA"
                             autoComplete="off"
                             rows={rows}
                             style={{ resize: 'none' }}
-                            className="mt-1 block w-full rounded-md border-contrast shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm bg-transparent"
+                            className="mt-1 block w-full rounded-md border-contrast shadow-sm focus:border-indigo-500 focus:ring-indigo-500 xl:text-lg bg-transparent"
                             placeholder="APOS
   NKDA"
                           />
@@ -1355,8 +1365,8 @@ NKDA"
                     </>
                   ) : currentStep === 2 ? (
                     <>
-                      <div className="col-span-6 lg:col-span-5">
-                        <label htmlFor="size" className="block text-sm font-medium">
+                      <div className="col-span-6">
+                        <label htmlFor="size" className="block text-sm xl:text-lg font-medium">
                           Size
                         </label>
                         <select
@@ -1364,7 +1374,7 @@ NKDA"
                           name="size"
                           value={formData.size}
                           onChange={handleSizeChange}
-                          className="bg-transparent mt-1 block w-full rounded-md border border-contrast py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                          className="bg-transparent mt-1 block w-full rounded-md border border-contrast py-3 xl:py-4 xl:px-5 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 xl:text-lg"
                         >
                           <option value="">Select a size</option>
                           {formData.typeData.map((val, index) => {
@@ -1378,7 +1388,7 @@ NKDA"
                     </>
                   ) : currentStep === 3 ? (
                     <>
-                      <div className="col-span-6 lg:col-span-5">
+                      <div className="col-span-6">
                         <AdvancedSelect
                           id="textColor"
                           title="Text Color"
@@ -1389,7 +1399,7 @@ NKDA"
                           options={fontColors}
                         />
                       </div>
-                      <div className="col-span-6 lg:col-span-5">
+                      <div className="col-span-6">
                         <AdvancedSelect
                           id="bgColor"
                           title="Background Color"
@@ -1405,7 +1415,7 @@ NKDA"
                     <>
                       {isFlag(formData.type) && (
                         <>
-                          <div className="col-span-6 lg:col-span-5">
+                          <div className="col-span-6">
                             <AdvancedSelect
                               // id="bgColor"
                               title={formData.markType}
@@ -1416,7 +1426,7 @@ NKDA"
                               options={flags["hi-vis"]}
                             />
                           </div>
-                          <div className="col-span-6 lg:col-span-5">
+                          <div className="col-span-6">
                             <div className="flex items-start">
                               <div className="flex items-center h-5">
                                 <input
@@ -1441,7 +1451,7 @@ NKDA"
                     </>
                   ) : currentStep === 5 ? (
                     <>
-                      <div className="col-span-6 lg:col-span-5">
+                      <div className="col-span-6">
                         <div className="flex items-start">
                           <div className="flex items-center h-5">
                             <input
@@ -1460,7 +1470,7 @@ NKDA"
                           </div>
                         </div>
                       </div>
-                      <div className="col-span-6 lg:col-span-5">
+                      <div className="col-span-6">
                         <div className="flex items-start">
                           <div className="flex items-center h-5">
                             <input
@@ -1615,7 +1625,7 @@ function BuilderATC({ formData, className, config, currentStep, steps }) {
           as="span"
           className={classNames(
             product.tags.includes("custom_patch") ? "justify-center" : "justify-between",
-            "flex items-center gap-2 text-2xl xl:text-3xl")}
+            "flex items-center gap-2 text-2xl xl:text-2xl")}
         >
           {
             currentStep === 1 ?
@@ -1673,13 +1683,13 @@ function FormButton({ formData, config, handlePrevious, handleNext, currentStep,
   // console.log(steps.length)
   return (
     <>
-      <div className="col-span-6 lg:col-span-5 flex w-full font-bold text-white text-copy">
+      <div className="col-span-6 flex w-full font-bold text-white text-copy">
         <button
           type="button"
           className={classNames(
             currentStep === 1 ? "hidden" :
               currentStep === steps.length ? "flex-grow-1" : "",
-            "transition flex-1 rounded-l-full items-center justify-center p-3 bg-contrast border-2 border-contrast hover:bg-white hover:text-contrast",
+            "transition flex-1 rounded-l-full items-center justify-center p-3 bg-contrast border-2 border-contrast hover:bg-white hover:text-contrast text-copy xl:text-2xl",
           )}
           onClick={handlePrevious}
         >
@@ -1695,16 +1705,16 @@ function FormButton({ formData, config, handlePrevious, handleNext, currentStep,
             currentStep={currentStep}
             steps={steps}
             className={classNames(
-              currentStep === 1 ? " " :
+              currentStep === 1 ? "" :
                 currentStep === steps.length ? "" : "",
-              "transition text-contrast flex-1 relative py-4 bg-transparent font-bold px-2")} />
+              "transition text-contrast flex-1 relative py-3 bg-transparent font-bold px-2")} />
         </div>
         <button
           type="button"
           className={classNames(
             currentStep === steps.length ? "hidden" :
               currentStep === 1 ? "flex-grow-1" : "",
-            "transition flex-1 rounded-r-full items-center justify-center p-3 bg-contrast border-2 border-contrast hover:bg-white hover:text-contrast",
+            "transition flex-1 rounded-r-full items-center justify-center p-3 bg-contrast border-2 border-contrast hover:bg-white hover:text-contrast text-copy xl:text-2xl",
           )}
           onClick={handleNext}
         >

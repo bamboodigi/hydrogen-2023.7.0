@@ -56,11 +56,11 @@ export function AdvancedSelect({ title, value, img, onChange, options, ...props 
         <Combobox as="div" value={value} onChange={onChange}>
             <Combobox.Label className="block text-sm font-medium">{title}</Combobox.Label>
             <div className="relative mt-2">
-                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-2">
-                    <img src={img} alt="" className="border border-contrast h-6 w-6 flex-shrink-0 rounded-full" />
+                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-2 xl:pl-3">
+                    <img src={img} alt="" className="border border-contrast h-6 w-6 xl:h-7 xl:w-7 flex-shrink-0 rounded-full" />
                 </div>
                 <Combobox.Input
-                    className="bg-transparent pl-10 mt-1 block w-full rounded-md border border-contrast py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                    className="bg-transparent pl-10 xl:pl-12 mt-1 block w-full rounded-md border border-contrast py-3 xl:py-4 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 xl:text-lg"
                     onChange={queryChange}
                     displayValue={handleValue}
                 />
@@ -69,14 +69,14 @@ export function AdvancedSelect({ title, value, img, onChange, options, ...props 
                 </Combobox.Button>
 
                 {filteredOptions.length > 0 && (
-                    <Combobox.Options className="absolute z-10 mt-1 max-h-56 w-full overflow-auto bg-white border border-contrast rounded-md py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                    <Combobox.Options className="absolute z-10 mt-1 max-h-56 w-full overflow-auto bg-white border border-contrast rounded-md py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none xl:text-lg">
                         {filteredOptions.map((option, index) => (
                             <Combobox.Option
                                 key={index}
                                 value={option}
                                 className={({ active }) =>
                                     classNames(
-                                        'relative cursor-default select-none py-2 pl-3 pr-9',
+                                        'relative cursor-default select-none py-3 xl:py-4 pl-3 pr-9',
                                         active ? 'bg-indigo-600' : 'text-gray-900'
                                     )
                                 }
