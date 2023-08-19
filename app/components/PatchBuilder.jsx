@@ -15,9 +15,10 @@ import sizeOptions from '~/data/size-options.js';
 
 import builderData from '~/data/builder.js';
 
-const bgColors = newData.colors.bgColors;
-const fontColors = newData.colors.fontColors;
-const flags = newData.flags;
+const bgColors = builderData.colors.bgColors;
+const fontColors = builderData.colors.fontColors;
+const flags = builderData.flags;
+
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -25,7 +26,7 @@ function classNames(...classes) {
 
 // Patch Builder Component. This is the component that will show a tailored patch unique to the user's selections.
 export function PatchBuilder({ product, config, ...props }) {
-
+ 
   // Destructure variables from useLoaderData and useFetcher hooks
   const { shop } = useLoaderData();
 
@@ -68,7 +69,7 @@ export function PatchBuilder({ product, config, ...props }) {
               }
             </Heading>
           </div>
-          <Form formData={formData} setFormData={setFormData} data={data} config={config} />
+          <Form formData={formData} setFormData={setFormData} data={data} config={config} product={product} />
           {/* <pre className="overflow-scroll" style={prestyle}>{JSON.stringify(formData, null, 2)}</pre> */}
           <ProductDetails shippingPolicy={shippingPolicy} refundPolicy={refundPolicy} />
         </section>
@@ -79,6 +80,9 @@ export function PatchBuilder({ product, config, ...props }) {
 
 
 function initFormData(product) {
+  const patchType = builderData.type[getBuilderTitle(product).toLowerCase()];
+
+  console.log(patchType.config.sizes);
 
   ///////////////////////////////////////////////////////////////////////////////////////////////
   //  FORMDATA OBJ = TEXT, TEXTMAXLENGTH, TEXTLINES, TEXTPLACEHOLDER, TEXTADDITIONAL, TYPE,
@@ -88,17 +92,17 @@ function initFormData(product) {
   let formData = {
     // input fields
     text: '',
-    textMaxLength: newData.types[getBuilderTitle(product).toLowerCase()].variants[0].sizes[0].maxLength || '',
-    textLines: newData.types[getBuilderTitle(product).toLowerCase()].variants[0].sizes[0].lines || '',
-    textPlaceholder: newData.types[getBuilderTitle(product).toLowerCase()].variants[0].sizes[0].placeholder || '',
+    textMaxLength: patchType.config.sizes[0].maxLength || '',
+    textLines: patchType.config.sizes[0].lines || '',
+    textPlaceholder: patchType.config.sizes[0].placeholder || '',
     textAdditional: '',
     textAddtionalMaxLength: '',
     textAdditionalLines: '',
     textAdditionalPlaceholder: '',
-    type: newData.types[getBuilderTitle(product).toLowerCase()].name || '',
+    type: patchType.name || '',
     // size list per variant
     // size: '3.5” x 2”',
-    size: newData.types[getBuilderTitle(product).toLowerCase()].variants[0].sizes[0].size || '',
+    size: patchType.config.sizes[0].size || '',
     // font text color name and image
     textColor: fontColors[8].name,
     textColorImg: fontColors[8].img,
@@ -116,7 +120,7 @@ function initFormData(product) {
     glowBorder: false,
     proIRFontColor: false,
     reflectiveGlowFontColor: false,
-    typeData: newData.types[getBuilderTitle(product).toLowerCase()].variants[0].sizes || [],
+    typeData: patchType.config.sizes || [],
     price: parseInt(product.variants.nodes[0].price.amount),
   };
 
@@ -325,9 +329,10 @@ function updateFontSize(containerRef, setFontStyle) {
     newFontSize = maxFontSize;
   }
 
+
   // Calculate the new margin top based on the font size
 
-  const marginTop = (newFontSize) / 9;
+  const marginTop = (newFontSize) / 8;
 
   // Set the font style using setFontStyle()
   setFontStyle(prevStyle => ({ ...prevStyle, fontSize: `${newFontSize}px`, lineHeight: `${newFontSize}px`, marginTop: `${marginTop}px` }));
@@ -516,7 +521,7 @@ function Visualizer({ formData, className, ...props }) {
       if (count == 0) {
         setTimeout(() => {
           updateFontSize(containerRef, setFontStyle, formData);
-        }, 1000);
+        }, 100);
       } else {
         updateFontSize(containerRef, setFontStyle, formData);
       }
@@ -669,8 +674,14 @@ function Visualizer({ formData, className, ...props }) {
               </div>
             </div>
           ) : formData.type.toLowerCase().includes("name tape") ? (
-            <div ref={containerRef} className="h-full text-center overflow-x-hidden flex items-center justify-center">
-              <p id="main-text" className="inline-block" style={{ ...fontStyle }}>{formData.text.length > 0 ? formData.text : formData.textPlaceholder}</p>
+            <div ref={containerRef} className="h-full text-center overflow-x-hidden overflow-y-hidden flex items-center justify-center">
+              <p id="main-text" className="inline-block" style={{ ...fontStyle }}>{formData.text.length > 0 ? formData.text : 
+              formData.textPlaceholder.split('\n').map((line, index) => (
+                      <React.Fragment key={index}>
+                        {index > 0 && <br />}
+                        {line}
+                      </React.Fragment>
+                    ))}</p>
             </div>
           ) : formData.type.toLowerCase().includes("medical patch") && formData.size == '3.5” x 2”' ? (
             <div className="flex w-full h-full">
@@ -736,7 +747,8 @@ function Visualizer({ formData, className, ...props }) {
 }
 
 // Form element to customize the patch
-function Form({ formData, setFormData, data, config }) {
+function Form({ formData, setFormData, data, config, product }) {
+  const patchType = builderData.type[getBuilderTitle(product).toLowerCase()];
   let tempSteps = [
     { name: 'Text', href: '#', status: 'current', step: 1 },
     { name: 'Patch Size', href: '#', status: 'current', step: 2 },
@@ -895,7 +907,7 @@ function Form({ formData, setFormData, data, config }) {
   // Define a function to handle the change of the size dropdown menu
   const handleSizeChange = (event) => {
 
-    const obj = newData.types[formData.type.toLowerCase()].variants[0];
+    const obj = patchType.config;
     const objSizes = obj.sizes.find(value => value.size === event.target.value);
 
     setFormData({
