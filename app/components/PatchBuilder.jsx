@@ -356,13 +356,13 @@ function updateFontSize(containerRef, setFontStyle, formData) {
   let marginTop = null;
   if (textLines > 1) {
     marginTop = (newFontSize) / 7;
-    console.log("ok")
+    let newLineHeight = newFontSize * .87;
+    setFontStyle(prevStyle => ({ ...prevStyle, fontSize: `${newFontSize}px`, lineHeight: `${newLineHeight}px`, marginTop: `${marginTop}px` }));
+
   } else {
     marginTop = (newFontSize) / 8;
+    setFontStyle(prevStyle => ({ ...prevStyle, fontSize: `${newFontSize}px`, lineHeight: `${newFontSize}px`, marginTop: `${marginTop}px` }));
   }
-
-  // Set the font style using setFontStyle()
-  setFontStyle(prevStyle => ({ ...prevStyle, fontSize: `${newFontSize}px`, lineHeight: `${newFontSize}px`, marginTop: `${marginTop}px` }));
 }
 
 function updateAdditionalFontSize(containerSecondaryRef, setFontSecondaryStyle) {
