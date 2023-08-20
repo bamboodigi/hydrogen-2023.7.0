@@ -26,7 +26,7 @@ function classNames(...classes) {
 
 // Patch Builder Component. This is the component that will show a tailored patch unique to the user's selections.
 export function PatchBuilder({ product, config, ...props }) {
- 
+
   // Destructure variables from useLoaderData and useFetcher hooks
   const { shop } = useLoaderData();
 
@@ -296,22 +296,34 @@ function initVisualizerStyle(formData) {
   return obj;
 }
 
-function updateFontSize(containerRef, setFontStyle) {
+function updateFontSize(containerRef, setFontStyle, formData) {
+  const textLines = formData.textLines;
+  // console.log(textLines)
+  // console.log(formData.textLines)
   // console.log(formData.type.toLowerCase())
   // console.log(formData.size == '6” x 2”')
-
+  const currentLines = formData.text.split("\n").length;
+  // console.log(formData.text.split("\n").length)
   //  console.log(formData.type.toLowerCase().includes("name tape") && formData.type.toLowerCase().includes("flag"))
   // console log that formData.type.toLowercase() contains id panel and formData.size == '6” x 2”' is true
   // console.log(formData.type.toLowerCase().includes('id panel') && formData.size == '6” x 2”')
   const container = containerRef.current;
 
   const textElement = container.querySelector('#main-text');
-  // Get the container width and height, text width and height, and current font size
+  // console.log(containerRef);
+  // console.log(textElement)
+  // // Get the container width and height, text width and height, and current font size
   const containerWidth = container.offsetWidth;
   const containerHeight = container.offsetHeight + 10;
-  const textWidth = textElement.offsetWidth;
+  let textWidth = textElement.offsetWidth;
+
+  // if(textWidth > containerWidth) {
+  //   textWidth = containerWidth;
+  // }
   const textHeight = textElement.offsetHeight;
   const currentFontSize = parseFloat(getComputedStyle(textElement).fontSize);
+
+  // console.log(textWidth);
 
   // console.log(containerWidth)
   // console.log(containerHeight)
@@ -322,6 +334,10 @@ function updateFontSize(containerRef, setFontStyle) {
   let newFontSizeWidth = (containerWidth / textWidth) * currentFontSize;
   let newFontSizeHeight = (containerHeight / textHeight) * currentFontSize;
 
+  // console.log(currentFontSize)
+  // console.log(newFontSizeWidth)
+  // console.log(newFontSizeHeight)
+
   let newFontSize = Math.min(newFontSizeWidth, newFontSizeHeight);
   // Limit the font size to a maximum value of 96px
   const maxFontSize = containerHeight;
@@ -331,8 +347,13 @@ function updateFontSize(containerRef, setFontStyle) {
 
 
   // Calculate the new margin top based on the font size
-
-  const marginTop = (newFontSize) / 8;
+  let marginTop = null;
+  if (textLines > 1) {
+    marginTop = (newFontSize) / 7;
+    console.log("ok")
+  } else {
+    marginTop = (newFontSize) / 8;
+  }
 
   // Set the font style using setFontStyle()
   setFontStyle(prevStyle => ({ ...prevStyle, fontSize: `${newFontSize}px`, lineHeight: `${newFontSize}px`, marginTop: `${marginTop}px` }));
@@ -510,7 +531,7 @@ function Visualizer({ formData, className, ...props }) {
   // This useEffect hook adjusts the font size of the text inside a container element
   // based on the size of the container and the text. It also sets the line height to
   // match the font size.
-  const count = 0;
+  let count = 0;
   useEffect(() => {
 
     // Define a function to adjust the font size
@@ -520,9 +541,12 @@ function Visualizer({ formData, className, ...props }) {
 
       if (count == 0) {
         setTimeout(() => {
+          console.log("bing")
           updateFontSize(containerRef, setFontStyle, formData);
+          count++;
         }, 1000);
       } else {
+        console.log("bing");
         updateFontSize(containerRef, setFontStyle, formData);
       }
     };
@@ -674,19 +698,19 @@ function Visualizer({ formData, className, ...props }) {
               </div>
             </div>
           ) : formData.type.toLowerCase().includes("name tape") ? (
-            <div ref={containerRef} className="h-full text-center overflow-x-hidden overflow-y-hidden flex items-center justify-center">
+            <div ref={containerRef} className="h-full w-full text-center overflow-x-hidden overflow-y-hidden flex items-center justify-center">
               <p id="main-text" className="inline-block" style={{ ...fontStyle }}>{formData.text.length > 0 ? formData.text.split('\n').map((line, index) => (
-                      <React.Fragment key={index}>
-                        {index > 0 && <br />}
-                        {line}
-                      </React.Fragment>
-                    )) : 
-              formData.textPlaceholder.split('\n').map((line, index) => (
-                      <React.Fragment key={index}>
-                        {index > 0 && <br />}
-                        {line}
-                      </React.Fragment>
-                    ))}</p>
+                <React.Fragment key={index}>
+                  {index > 0 && <br />}
+                  {line}
+                </React.Fragment>
+              )) :
+                formData.textPlaceholder.split('\n').map((line, index) => (
+                  <React.Fragment key={index}>
+                    {index > 0 && <br />}
+                    {line}
+                  </React.Fragment>
+                ))}</p>
             </div>
           ) : formData.type.toLowerCase().includes("medical patch") && formData.size == '3.5” x 2”' ? (
             <div className="flex w-full h-full">
@@ -836,8 +860,10 @@ function Form({ formData, setFormData, data, config, product }) {
 
   // Define a function to handle the change of the text input field
   const handleTextChange = (event) => {
+    console.log(formData.text.split("\n").length);
     setFormData({ ...formData, text: event.target.value });
   };
+
   const maxRows = 2;
   const [rows, setRows] = useState(maxRows);
   // Define a function to handle the change of the additional text input field
@@ -1111,8 +1137,8 @@ function Form({ formData, setFormData, data, config, product }) {
                               <>
                                 <textarea
                                   type="text"
-                                  id="textAdditional"
-                                  name="textAdditional"
+                                  id="text"
+                                  name="text"
                                   value={formData.text}
                                   onChange={handleTextChange}
                                   autoComplete="off"
@@ -1121,6 +1147,19 @@ function Form({ formData, setFormData, data, config, product }) {
                                   className="mt-1 block w-full rounded-md border-contrast shadow-sm focus:border-indigo-500 focus:ring-indigo-500 xl:text-lg bg-transparent"
                                   placeholder={formData.textPlaceholder}
                                   maxLength={formData.textMaxLength}
+                                  onKeyDown={(e) => {
+                                    const currentLines = formData.text.split("\n").length;
+                                    const textLines = formData.textLines;
+                                    const letterPerLine = formData.textMaxLength / formData.textLines;
+                                    const currentLineLength = formData.text.split("\n").pop().length;
+                                    if (currentLines >= textLines && e.key === 'Enter') {
+                                      e.preventDefault();
+                                    } else if (currentLineLength >= letterPerLine && currentLines < textLines && e.key == 'Backspace') {
+                                      setFormData({ ...formData, text: formData.text });
+                                    } else if (currentLineLength >= letterPerLine && currentLines < textLines && e.key !== 'Enter') {
+                                      setFormData({ ...formData, text: formData.text + '\n' + e.key });
+                                    }
+                                  }}
                                 />
                               </>
                             ) : (
