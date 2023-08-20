@@ -286,12 +286,18 @@ function initVisualizerStyle(formData) {
     },
   };
 
-  switch (formData.type) {
+  switch (formData.type.toLowerCase()) {
     case 'id panel':
       obj.patch.minHeight = 'calc(290px*3)/2)';
       break;
-
+    case 'name tape':
+      obj.font.fontSize = '48.6397px';
+      obj.font.lineHeight = '48.6397px';
+      obj.font.marginTop = '6.07996px';
+      break;
   }
+
+  console.log(formData.type)
 
   return obj;
 }
@@ -539,16 +545,17 @@ function Visualizer({ formData, className, ...props }) {
       // If the containerRef is not set, return
       if (!containerRef.current) return;
 
-      if (count == 0) {
-        setTimeout(() => {
-          console.log("bing")
-          updateFontSize(containerRef, setFontStyle, formData);
-          count++;
-        }, 1000);
-      } else {
-        console.log("bing");
-        updateFontSize(containerRef, setFontStyle, formData);
-      }
+      updateFontSize(containerRef, setFontStyle, formData);
+
+      // if (count == 0) {
+      //   setTimeout(() => {
+      //     updateFontSize(containerRef, setFontStyle, formData);
+      //     count++;
+      //   }, 0);
+      // } else {
+      //   console.log("bing");
+      //   updateFontSize(containerRef, setFontStyle, formData);
+      // }
     };
 
     // Call adjustFontSize() immediately to set the font size on mount
@@ -580,9 +587,9 @@ function Visualizer({ formData, className, ...props }) {
   useEffect(() => {
     console.log(formData.glowBorder);
     if (formData.glowBorder) {
-      setStyle(prevStyle => ({ ...prevStyle, "-webkit-text-stroke": `2px white` }));
+      setStyle(prevStyle => ({ ...prevStyle, WebkitTextStroke: `2px white` }));
     } else {
-      setStyle(prevStyle => ({ ...prevStyle, "-webkit-text-stroke": `initial` }));
+      setStyle(prevStyle => ({ ...prevStyle, WebkitTextStroke: `initial` }));
     }
   }, [formData.glowBorder]);
 
