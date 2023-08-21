@@ -82,7 +82,7 @@ export function PatchBuilder({ product, config, ...props }) {
 function initFormData(product) {
   const patchType = builderData.type[getBuilderTitle(product).toLowerCase()];
 
-  console.log(patchType.config.sizes);
+  // console.log(patchType.config.sizes);
 
   ///////////////////////////////////////////////////////////////////////////////////////////////
   //  FORMDATA OBJ = TEXT, TEXTMAXLENGTH, TEXTLINES, TEXTPLACEHOLDER, TEXTADDITIONAL, TYPE,
@@ -288,7 +288,14 @@ function initVisualizerStyle(formData) {
 
   switch (formData.type.toLowerCase()) {
     case 'id panel':
-      obj.patch.minHeight = 'calc(290px*3)/2)';
+      obj.patch.height = 'calc(290px*3)/2)';
+      obj.font.fontSize = '96px';
+      obj.font.lineHeight = '96px';
+      obj.font.marginTop = 'calc(96px/9)';
+      obj.font2.marginTop = '8px';
+      obj.font2.marginLeft = '6px';
+      obj.font2.lineHeight = '30.8475px';
+      obj.font2.fontSize = '36.6316px';
       break;
     case 'name tape':
       obj.font.fontSize = '48.6397px';
@@ -297,7 +304,7 @@ function initVisualizerStyle(formData) {
       break;
   }
 
-  console.log(formData.type)
+  //console.log(formData.type)
 
   return obj;
 }
@@ -331,18 +338,18 @@ function updateFontSize(containerRef, setFontStyle, formData) {
 
   // console.log(textWidth);
 
-  // console.log(containerWidth)
-  // console.log(containerHeight)
-  // console.log(textWidth)
-  // console.log(textHeight)
+  console.log(containerWidth)
+  console.log(containerHeight)
+  console.log(textWidth)
+  console.log(textHeight)
 
   // Calculate the new font size based on the container and text size
   let newFontSizeWidth = (containerWidth / textWidth) * currentFontSize;
   let newFontSizeHeight = (containerHeight / textHeight) * currentFontSize;
 
-  // console.log(currentFontSize)
-  // console.log(newFontSizeWidth)
-  // console.log(newFontSizeHeight)
+  console.log(currentFontSize)
+  console.log(newFontSizeWidth)
+  console.log(newFontSizeHeight)
 
   let newFontSize = Math.min(newFontSizeWidth, newFontSizeHeight);
   // Limit the font size to a maximum value of 96px
@@ -360,7 +367,7 @@ function updateFontSize(containerRef, setFontStyle, formData) {
     setFontStyle(prevStyle => ({ ...prevStyle, fontSize: `${newFontSize}px`, lineHeight: `${newLineHeight}px`, marginTop: `${marginTop}px` }));
 
   } else {
-    marginTop = (newFontSize) / 8;
+    marginTop = (newFontSize) / 9;
     setFontStyle(prevStyle => ({ ...prevStyle, fontSize: `${newFontSize}px`, lineHeight: `${newFontSize}px`, marginTop: `${marginTop}px` }));
   }
 }
@@ -1036,7 +1043,7 @@ function Form({ formData, setFormData, data, config, product }) {
       console.log(currentStep);
       setStepForm({ ...stepForm, currentStep: stepForm.currentStep - 1, obj: stepForm.steps[stepForm.currentStep - 1] });
     }
-    console.log(currentStep);
+   // console.log(currentStep);
   };
 
   const handleNext = () => {
@@ -1127,6 +1134,8 @@ function Form({ formData, setFormData, data, config, product }) {
                 <div className="col-span-6 grid gap-4">
                   {stepForm.steps[stepForm.currentStep - 1].input.map((input, i) => {
                     const childKey = i.toString();
+                    console.log(stepForm.steps[stepForm.currentStep - 1]);
+                    console.log(input);
                     return (
                       <div key={childKey}>
                         {input.id.toLowerCase() == "text" ? (

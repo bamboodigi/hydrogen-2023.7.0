@@ -162,12 +162,12 @@ const builderData = {
           {
             name: "Flag",
             input: [
-              {
-                flag: 'flagType',
-                label: 'Flag Type',
-                type: 'select',
-                placeholder: 'Lazer Cut Flag',
-              },
+              // {
+              //   flag: 'flagType',
+              //   label: 'Flag Type',
+              //   type: 'select',
+              //   placeholder: 'Lazer Cut Flag',
+              // },
               {
                 id: 'flag',
                 label: 'Flag',
