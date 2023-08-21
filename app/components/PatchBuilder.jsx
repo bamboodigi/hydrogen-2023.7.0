@@ -83,7 +83,7 @@ function initFormData(product) {
   const patchType = builderData.type[getBuilderTitle(product).toLowerCase()];
 
   // console.log(patchType.config.sizes);
-
+console.log(patchType.config.sizes[0].maxLength2);
   ///////////////////////////////////////////////////////////////////////////////////////////////
   //  FORMDATA OBJ = TEXT, TEXTMAXLENGTH, TEXTLINES, TEXTPLACEHOLDER, TEXTADDITIONAL, TYPE,
   //  TYPEDATA, SIZE, TEXTCOLOR, TEXTCOLORIMG, BGCOLOR, BGCOLORIMG, FLAG, FLAGIMG, FLAGVARIANT, 
@@ -96,9 +96,9 @@ function initFormData(product) {
     textLines: patchType.config.sizes[0].lines || '',
     textPlaceholder: patchType.config.sizes[0].placeholder || '',
     textAdditional: '',
-    textAddtionalMaxLength: '',
-    textAdditionalLines: '',
-    textAdditionalPlaceholder: '',
+    textAddtionalMaxLength: patchType.config.sizes[0].maxLength2 || '',
+    textAdditionalLines: patchType.config.sizes[0].lines2 || '',
+    textAdditionalPlaceholder: patchType.config.sizes[0].placeholder2 || '',
     type: patchType.name || '',
     // size list per variant
     // size: '3.5” x 2”',
@@ -135,7 +135,6 @@ function initFormData(product) {
         formData.price += 4;
     }
   }
-
   return formData || {};
 }
 
@@ -446,7 +445,7 @@ function updateAdditionalFontSize(containerSecondaryRef, setFontSecondaryStyle) 
 
     // Set the font style using setFontStyle()
     setFontSecondaryStyle(prevStyle => ({ ...prevStyle, fontSize: `${newFontSize}px`, lineHeight: `${newLineHeight}px` }));
-  }, 1000);
+  }, 400);
 
 
 
@@ -1043,7 +1042,7 @@ function Form({ formData, setFormData, data, config, product }) {
       console.log(currentStep);
       setStepForm({ ...stepForm, currentStep: stepForm.currentStep - 1, obj: stepForm.steps[stepForm.currentStep - 1] });
     }
-   // console.log(currentStep);
+    // console.log(currentStep);
   };
 
   const handleNext = () => {
@@ -1121,454 +1120,269 @@ function Form({ formData, setFormData, data, config, product }) {
             })}
           </select>
         </div> */}
-        {
-          true
-            ? (<>
-              <div className="flex justify-end items-center">
-                {/* <p className="block text-md mt-0 font-bold" style={{ marginTop: '0 !important' }}>{stepForm.obj.name}</p> */}
-                <p className="block text-md mt-0 font-bold">
-                  Step {stepForm.currentStep} / {stepForm.steps.length}
-                </p>
-              </div>
-              <div className="grid grid-cols-6 gap-6 min-h-[13rem] xl:min-h-[14rem]">
-                <div className="col-span-6 grid gap-4">
-                  {stepForm.steps[stepForm.currentStep - 1].input.map((input, i) => {
-                    const childKey = i.toString();
-                    console.log(stepForm.steps[stepForm.currentStep - 1]);
-                    console.log(input);
-                    return (
-                      <div key={childKey}>
-                        {input.id.toLowerCase() == "text" ? (
-                          <>
-                            <div className="flex justify-between">
-                              <label htmlFor="text" className="block text-sm xl:text-lg font-medium">
-                                Text
-                              </label>
-                              <label htmlFor="text" className="block text-sm xl:text-lg font-medium text-right">
-                                {formData.text === 'Your Name' ? formData.textMaxLength + " " : formData.textMaxLength - formData.text.length + " "}
-                                characters left
-                              </label>
-                            </div>
-                            {formData.textLines > 1 ? (
-                              <>
-                                <textarea
-                                  type="text"
-                                  id="text"
-                                  name="text"
-                                  value={formData.text}
-                                  onChange={handleTextChange}
-                                  autoComplete="off"
-                                  rows={formData.textLines}
-                                  style={{ resize: 'none' }}
-                                  className="mt-1 block w-full rounded-md border-contrast shadow-sm focus:border-indigo-500 focus:ring-indigo-500 xl:text-lg bg-transparent"
-                                  placeholder={formData.textPlaceholder}
-                                  maxLength={formData.textMaxLength}
-                                  onKeyDown={(e) => {
-                                    const currentLines = formData.text.split("\n").length;
-                                    const textLines = formData.textLines;
-                                    const letterPerLine = formData.textMaxLength / formData.textLines;
-                                    const currentLineLength = formData.text.split("\n").pop().length;
-                                    if (currentLines >= textLines && e.key === 'Enter') {
-                                      e.preventDefault();
-                                    } else if (currentLineLength >= letterPerLine && currentLines < textLines && e.key == 'Backspace') {
-                                      setFormData({ ...formData, text: formData.text });
-                                    } else if (currentLineLength >= letterPerLine && currentLines < textLines && e.key !== 'Enter') {
-                                      setFormData({ ...formData, text: formData.text + '\n' + e.key });
-                                    }
-                                  }}
-                                />
-                              </>
-                            ) : (
-                              <>
-                                <input
 
-                                  onFocus={(e) => e.preventDefault()}
-                                  type="text"
-                                  id="text"
-                                  name="text"
-                                  value={formData.text}
-                                  onChange={handleTextChange}
-                                  autoComplete="off"
-                                  className="mt-1 py-3 xl:py-4 block w-full rounded-md border-contrast shadow-sm focus:border-indigo-500 focus:ring-indigo-500 xl:text-lg bg-transparent"
-                                  placeholder={formData.textPlaceholder}
-                                  maxLength={formData.textMaxLength}
-
-                                />
-                              </>
-                            )}
-                          </>
-                        ) : input.id.toLowerCase() == "bloodtype" ? (
-                          <>
-                            <div className="flex justify-between">
-                              <label htmlFor="textAdditional" className="block text-sm xl:text-lg font-medium">
-                                Blood Type & Allergies
-                              </label>
-                              <label htmlFor="textAdditional" className="block text-sm xl:text-lg font-medium text-right">
-                                {formData.text === 'Your Name' ? formData.textMaxLength + " " : formData.textMaxLength - formData.text.length + " "}
-                                characters left
-                              </label>
-                            </div>
-                            <textarea
-                              type="text"
-                              id="textAdditional"
-                              name="textAdditional"
-                              value={formData.textAdditional}
-                              onChange={handleTextAdditionalChange}
-                              autoComplete="off"
-                              rows={rows}
-                              style={{ resize: 'none' }}
-                              className="mt-1 block w-full rounded-md border-contrast shadow-sm focus:border-indigo-500 focus:ring-indigo-500 xl:text-lg bg-transparent"
-                              placeholder="APOS
-NKDA"
-                            />
-                          </>
-                        ) : input.id.toLowerCase() == "size" ? (
-                          <>
-                            <label htmlFor="size" className="block text-sm xl:text-lg font-medium">
-                              Size
-                            </label>
-                            <select
-
-                              id="size"
-                              name="size"
-                              value={formData.size}
-                              onChange={handleSizeChange}
-                              className="bg-transparent mt-1 block w-full rounded-md border border-contrast py-3 xl:py-4 xl:px-5 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 xl:text-lg"
-                            >
-                              <option value="">Select a size</option>
-                              {formData.typeData.map((val, index) => {
-                                const key = index.toString();
-                                return (
-                                  <option key={key} value={val.size}>{val.size}</option>
-                                );
-                              })}
-                            </select>
-                          </>
-                        ) : input.id.toLowerCase() == "textcolor" ? (
-                          <>
-                            <AdvancedSelect
-                              id="textColor"
-                              title="Text Color"
-                              name="textColor"
-                              value={formData.textColor}
-                              img={formData.textColorImg}
-                              onChange={handleTextColorChange}
-                              options={fontColors}
-                            />
-                          </>
-                        ) : input.id.toLowerCase() == "backgroundcolor" ? (
-                          <>
-                            <AdvancedSelect
-                              id="bgColor"
-                              title="Background Color"
-                              name="textColor"
-                              value={formData.bgColor}
-                              img={formData.bgColorImg}
-                              onChange={handleBgColorChange}
-                              options={bgColors}
-                            />
-
-                          </>
-                        ) : input.id.toLowerCase() == "flag" ? (
-                          <>
-                            <AdvancedSelect
-                              // id="bgColor"
-                              title={formData.markType}
-                              name={formData.markType}
-                              value={formData.flag}
-                              img={formData.flagImg}
-                              onChange={handleFlagChange}
-                              options={flags["hi-vis"]}
-                            />
-                          </>
-                        ) : input.id.toLowerCase() == "flagenabled" ? (
-                          <>
-                            <div className="flex items-start">
-                              <div className="flex items-center h-5">
-                                <input
-                                  id="flag-enabled"
-                                  name="flag-enabled"
-                                  type="checkbox"
-                                  checked={formData.flagEnabled}
-                                  onChange={handleFlagEnabledChange}
-                                  className="bg-transparent h-4 w-4 rounded border-contrast text-indigo-600 focus:ring-indigo-500"
-                                />
-                              </div>
-                              <div className="text-sm">
-                                <label htmlFor="agreeLeadTime" className="ml-3 font-medium">
-                                  Do you want to add a flag?
-                                </label>
-                              </div>
-                            </div>
-                          </>
-                        ) : input.id.toLowerCase() == "flagreverse" ? (
-                          <>
-                            <div className="flex items-start">
-                              <div className="flex items-center h-5">
-                                <input
-                                  id="flag-reversed"
-                                  name="flag-reversed"
-                                  type="checkbox"
-                                  checked={formData.flagReversed}
-                                  onChange={handleFlagReversedChange}
-                                  className="bg-transparent h-4 w-4 rounded border-contrast text-indigo-600 focus:ring-indigo-500"
-                                />
-                              </div>
-                              <div className="text-sm">
-                                <label htmlFor="agreeLeadTime" className="ml-3 font-medium">
-                                  Do you want to reverse the flag?
-                                </label>
-                              </div>
-                            </div>
-                          </>
-                        ) : input.id.toLowerCase() == "glowinthedark" ? (
-                          <>
-                            <div className="flex items-start">
-                              <div className="flex items-center h-5">
-                                <input
-                                  id="glow-border"
-                                  name="glow-border"
-                                  type="checkbox"
-                                  checked={formData.glowBorder}
-                                  onChange={handleGlowBorderChange}
-                                  className="bg-transparent h-4 w-4 rounded border-contrast text-indigo-600 focus:ring-indigo-500"
-                                />
-                              </div>
-                              <div className="text-sm">
-                                <label htmlFor="agreeLeadTime" className="ml-3 font-medium">
-                                  Add a glow in the dark border? +$10 USD
-                                </label>
-                              </div>
-                            </div>
-                          </>
-                        ) : input.id.toLowerCase() == "leadtime" ? (
-                          <>
-                            <div className="flex items-start">
-                              <div className="flex items-center h-5">
-                                <input
-                                  id="agreement"
-                                  name="agreement"
-                                  type="checkbox"
-                                  checked={formData.agreement}
-                                  onChange={handleAgreementChange}
-                                  className="bg-transparent h-4 w-4 rounded border-contrast text-indigo-600 focus:ring-indigo-500"
-                                />
-                              </div>
-                              <div className="text-sm">
-                                <label htmlFor="agreeLeadTime" className="ml-3 font-medium">
-                                  I Agree to the Lead Time
-                                </label>
-                                <p className="pt-2"><strong>LEAD TIME</strong> - From your order, to design, production, QC, and shipping, takes roughly 10 business days. Don't worry, we'll keep you updated with what is going on the whole time. Check this box to confirm that you understand that your order will take roughly 10 business days to ship.</p>
-                              </div>
-                            </div>
-                          </>
-                        ) : (
-                          <>
-                          </>
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            </>
-            ) : (
-              <>
-                <div className="flex justify-between items-center">
-                  <p className="block text-md mt-0 font-bold" style={{ marginTop: '0 !important' }}>{currentStepObj.name}</p>
-                  <p className="block text-md mt-0 font-bold">
-                    Step {currentStep} / {steps.length}
-                  </p>
-                </div>
-                <div className="grid grid-cols-6 gap-6 min-h-[13rem] xl:min-h-[14rem]">
-                  {currentStep === 1 ? (
+        <div className="flex justify-end items-center">
+          {/* <p className="block text-md mt-0 font-bold" style={{ marginTop: '0 !important' }}>{stepForm.obj.name}</p> */}
+          <p className="block text-md mt-0 font-bold">
+            Step {stepForm.currentStep} / {stepForm.steps.length}
+          </p>
+        </div>
+        <div className="grid grid-cols-6 gap-6 min-h-[13rem] xl:min-h-[14rem]">
+          <div className="col-span-6 grid gap-4">
+            {stepForm.steps[stepForm.currentStep - 1].input.map((input, i) => {
+              const childKey = i.toString();
+              console.log(stepForm.steps[stepForm.currentStep - 1]);
+              console.log(input);
+              console.log( formData.textAdditionalMaxLength )
+              console.log(formData.textAddtionalLines)
+              return (
+                <div key={childKey}>
+                  {input.id.toLowerCase() == "text" ? (
                     <>
-                      <div className="col-span-6">
-                        <div className="flex justify-between">
-                          <label htmlFor="text" className="block text-sm xl:text-lg font-medium">
-                            Text
-                          </label>
-                          <label htmlFor="text" className="block text-sm xl:text-lg font-medium text-right">
-                            {formData.text === 'Your Name' ? formData.textMaxLength + " " : formData.textMaxLength - formData.text.length + " "}
-                            characters left
-                          </label>
-                        </div>
-                        <input
-                          onFocus={(e) => e.preventDefault()}
-                          type="text"
-                          id="text"
-                          name="text"
-                          value={formData.text}
-                          onChange={handleTextChange}
-                          autoComplete="off"
-                          className="mt-1 block w-full rounded-md border-contrast shadow-sm focus:border-indigo-500 focus:ring-indigo-500 xl:text-lg bg-transparent"
-                          placeholder={formData.textPlaceholder}
-                          maxLength={formData.textMaxLength}
-
-                        />
+                      <div className="flex justify-between">
+                        <label htmlFor="text" className="block text-sm xl:text-lg font-medium">
+                          Text
+                        </label>
+                        <label htmlFor="text" className="block text-sm xl:text-lg font-medium text-right">
+                          {formData.text === 'Your Name' ? formData.textMaxLength + " " : formData.textMaxLength - formData.text.length + " "}
+                          characters left
+                        </label>
                       </div>
-                      {isAdditionalText(formData.type) && (
-                        <div className="col-span-6">
-                          <div className="flex justify-between">
-                            <label htmlFor="textAdditional" className="block text-sm xl:text-lg font-medium">
-                              Blood Type & Allergies
-                            </label>
-                            <label htmlFor="textAdditional" className="block text-sm xl:text-lg font-medium text-right">
-                              {formData.text === 'Your Name' ? formData.textMaxLength + " " : formData.textMaxLength - formData.text.length + " "}
-                              characters left
-                            </label>
-                          </div>
+                      {formData.textLines > 1 ? (
+                        <>
                           <textarea
                             type="text"
-                            id="textAdditional"
-                            name="textAdditional"
-                            value={formData.textAdditional}
-                            onChange={handleTextAdditionalChange}
+                            id="text"
+                            name="text"
+                            value={formData.text}
+                            onChange={handleTextChange}
                             autoComplete="off"
-                            rows={rows}
+                            rows={formData.textLines}
                             style={{ resize: 'none' }}
                             className="mt-1 block w-full rounded-md border-contrast shadow-sm focus:border-indigo-500 focus:ring-indigo-500 xl:text-lg bg-transparent"
-                            placeholder="APOS
-  NKDA"
+                            placeholder={formData.textPlaceholder}
+                            maxLength={formData.textMaxLength}
+                            onKeyDown={(e) => {
+                              const currentLines = formData.text.split("\n").length;
+                              const textLines = formData.textLines;
+                              const letterPerLine = formData.textMaxLength / formData.textLines;
+                              const currentLineLength = formData.text.split("\n").pop().length;
+                              if (currentLines >= textLines && e.key === 'Enter') {
+                                e.preventDefault();
+                              } else if (currentLineLength >= letterPerLine && currentLines < textLines && e.key == 'Backspace') {
+                                setFormData({ ...formData, textAdditional: formData.textAdditional });
+                              } else if (currentLineLength >= letterPerLine && currentLines < textLines && e.key !== 'Enter') {
+                                setFormData({ ...formData, textAdditional: formData.textAdditional + '\n' + e.key });
+                              }
+                            }}
+                          />
+                        </>
+                      ) : (
+                        <>
+                          <input
+
+                            onFocus={(e) => e.preventDefault()}
+                            type="text"
+                            id="text"
+                            name="text"
+                            value={formData.text}
+                            onChange={handleTextChange}
+                            autoComplete="off"
+                            className="mt-1 py-3 xl:py-4 block w-full rounded-md border-contrast shadow-sm focus:border-indigo-500 focus:ring-indigo-500 xl:text-lg bg-transparent"
+                            placeholder={formData.textPlaceholder}
+                            maxLength={formData.textMaxLength}
+
+                          />
+                        </>
+                      )}
+                    </>
+                  ) : input.id.toLowerCase() == "bloodtype" ? (
+                    <>
+                      <div className="flex justify-between">
+                        <label htmlFor="textAdditional" className="block text-sm xl:text-lg font-medium">
+                          Blood Type & Allergies
+                        </label>
+                        <label htmlFor="textAdditional" className="block text-sm xl:text-lg font-medium text-right">
+                          { formData.textAdditionalMaxLength - formData.textAdditional.length + " " }
+                          characters left
+                        </label>
+                      </div>
+                      <textarea
+                        type="text"
+                        id="textAdditional"
+                        name="textAdditional"
+                        value={formData.textAdditional}
+                        onChange={handleTextAdditionalChange}
+                        onKeyDown={(e) => {
+                          const currentLines = formData.textAdditional.split("\n").length;
+                          const textLines = formData.textAdditionalLines;
+                          const letterPerLine = formData.textAdditionalMaxLength / formData.textAdditionalLines;
+                          const currentLineLength = formData.textAdditional.split("\n").pop().length;
+                          if (currentLines >= textLines && e.key === 'Enter') {
+                            e.preventDefault();
+                          } else if (currentLineLength >= letterPerLine && currentLines < textLines && e.key == 'Backspace') {
+                            setFormData({ ...formData, text: formData.text });
+                          } else if (currentLineLength >= letterPerLine && currentLines < textLines && e.key !== 'Enter') {
+                            setFormData({ ...formData, text: formData.text + '\n' + e.key });
+                          }
+                        }}
+                        autoComplete="off"
+                        rows={rows}
+                        style={{ resize: 'none' }}
+                        className="mt-1 block w-full rounded-md border-contrast shadow-sm focus:border-indigo-500 focus:ring-indigo-500 xl:text-lg bg-transparent"
+                        placeholder={formData.textAdditionalPlaceholder}
+                      />
+                    </>
+                  ) : input.id.toLowerCase() == "size" ? (
+                    <>
+                      <label htmlFor="size" className="block text-sm xl:text-lg font-medium">
+                        Size
+                      </label>
+                      <select
+
+                        id="size"
+                        name="size"
+                        value={formData.size}
+                        onChange={handleSizeChange}
+                        className="bg-transparent mt-1 block w-full rounded-md border border-contrast py-3 xl:py-4 xl:px-5 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 xl:text-lg"
+                      >
+                        <option value="">Select a size</option>
+                        {formData.typeData.map((val, index) => {
+                          const key = index.toString();
+                          return (
+                            <option key={key} value={val.size}>{val.size}</option>
+                          );
+                        })}
+                      </select>
+                    </>
+                  ) : input.id.toLowerCase() == "textcolor" ? (
+                    <>
+                      <AdvancedSelect
+                        id="textColor"
+                        title="Text Color"
+                        name="textColor"
+                        value={formData.textColor}
+                        img={formData.textColorImg}
+                        onChange={handleTextColorChange}
+                        options={fontColors}
+                      />
+                    </>
+                  ) : input.id.toLowerCase() == "backgroundcolor" ? (
+                    <>
+                      <AdvancedSelect
+                        id="bgColor"
+                        title="Background Color"
+                        name="textColor"
+                        value={formData.bgColor}
+                        img={formData.bgColorImg}
+                        onChange={handleBgColorChange}
+                        options={bgColors}
+                      />
+
+                    </>
+                  ) : input.id.toLowerCase() == "flag" ? (
+                    <>
+                      <AdvancedSelect
+                        // id="bgColor"
+                        title={formData.markType}
+                        name={formData.markType}
+                        value={formData.flag}
+                        img={formData.flagImg}
+                        onChange={handleFlagChange}
+                        options={flags["hi-vis"]}
+                      />
+                    </>
+                  ) : input.id.toLowerCase() == "flagenabled" ? (
+                    <>
+                      <div className="flex items-start">
+                        <div className="flex items-center h-5">
+                          <input
+                            id="flag-enabled"
+                            name="flag-enabled"
+                            type="checkbox"
+                            checked={formData.flagEnabled}
+                            onChange={handleFlagEnabledChange}
+                            className="bg-transparent h-4 w-4 rounded border-contrast text-indigo-600 focus:ring-indigo-500"
                           />
                         </div>
-                      )
-                      }
-                    </>
-                  ) : currentStep === 2 ? (
-                    <>
-                      <div className="col-span-6">
-                        <label htmlFor="size" className="block text-sm xl:text-lg font-medium">
-                          Size
-                        </label>
-                        <select
-                          id="size"
-                          name="size"
-                          value={formData.size}
-                          onChange={handleSizeChange}
-                          className="bg-transparent mt-1 block w-full rounded-md border border-contrast py-3 xl:py-4 xl:px-5 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 xl:text-lg"
-                        >
-                          <option value="">Select a size</option>
-                          {formData.typeData.map((val, index) => {
-                            const key = index.toString();
-                            return (
-                              <option key={key} value={val.size}>{val.size}</option>
-                            );
-                          })}
-                        </select>
-                      </div>
-                    </>
-                  ) : currentStep === 3 ? (
-                    <>
-                      <div className="col-span-6">
-                        <AdvancedSelect
-                          id="textColor"
-                          title="Text Color"
-                          name="textColor"
-                          value={formData.textColor}
-                          img={formData.textColorImg}
-                          onChange={handleTextColorChange}
-                          options={fontColors}
-                        />
-                      </div>
-                      <div className="col-span-6">
-                        <AdvancedSelect
-                          id="bgColor"
-                          title="Background Color"
-                          name="textColor"
-                          value={formData.bgColor}
-                          img={formData.bgColorImg}
-                          onChange={handleBgColorChange}
-                          options={bgColors}
-                        />
-                      </div>
-                    </>
-                  ) : currentStep === 4 ? (
-                    <>
-                      {isFlag(formData.type) && (
-                        <>
-                          <div className="col-span-6">
-                            <AdvancedSelect
-                              // id="bgColor"
-                              title={formData.markType}
-                              name={formData.markType}
-                              value={formData.flag}
-                              img={formData.flagImg}
-                              onChange={handleFlagChange}
-                              options={flags["hi-vis"]}
-                            />
-                          </div>
-                          <div className="col-span-6">
-                            <div className="flex items-start">
-                              <div className="flex items-center h-5">
-                                <input
-                                  id="flag-reversed"
-                                  name="flag-reversed"
-                                  type="checkbox"
-                                  checked={formData.flagReversed}
-                                  onChange={handleFlagReversedChange}
-                                  className="bg-transparent h-4 w-4 rounded border-contrast text-indigo-600 focus:ring-indigo-500"
-                                />
-                              </div>
-                              <div className="text-sm">
-                                <label htmlFor="agreeLeadTime" className="ml-3 font-medium">
-                                  Do you want to reverse the flag?
-                                </label>
-                              </div>
-                            </div>
-                          </div>
-                        </>
-                      )
-                      }
-                    </>
-                  ) : currentStep === 5 ? (
-                    <>
-                      <div className="col-span-6">
-                        <div className="flex items-start">
-                          <div className="flex items-center h-5">
-                            <input
-                              id="glow-border"
-                              name="glow-border"
-                              type="checkbox"
-                              checked={formData.glowBorder}
-                              onChange={handleGlowBorderChange}
-                              className="bg-transparent h-4 w-4 rounded border-contrast text-indigo-600 focus:ring-indigo-500"
-                            />
-                          </div>
-                          <div className="text-sm">
-                            <label htmlFor="agreeLeadTime" className="ml-3 font-medium">
-                              Add a glow in the dark border? +$10 USD
-                            </label>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col-span-6">
-                        <div className="flex items-start">
-                          <div className="flex items-center h-5">
-                            <input
-                              id="agreement"
-                              name="agreement"
-                              type="checkbox"
-                              checked={formData.agreement}
-                              onChange={handleAgreementChange}
-                              className="bg-transparent h-4 w-4 rounded border-contrast text-indigo-600 focus:ring-indigo-500"
-                            />
-                          </div>
-                          <div className="text-sm">
-                            <label htmlFor="agreeLeadTime" className="ml-3 font-medium">
-                              I Agree to the Lead Time
-                            </label>
-                            <p className="pt-2"><strong>LEAD TIME</strong> - From your order, to design, production, QC, and shipping, takes roughly 10 business days. Don't worry, we'll keep you updated with what is going on the whole time. Check this box to confirm that you understand that your order will take roughly 10 business days to ship.</p>
-                          </div>
+                        <div className="text-sm">
+                          <label htmlFor="agreeLeadTime" className="ml-3 font-medium">
+                            Do you want to add a flag?
+                          </label>
                         </div>
                       </div>
                     </>
-                  ) : (<></>)
-                  }
+                  ) : input.id.toLowerCase() == "flagreverse" ? (
+                    <>
+                      <div className="flex items-start">
+                        <div className="flex items-center h-5">
+                          <input
+                            id="flag-reversed"
+                            name="flag-reversed"
+                            type="checkbox"
+                            checked={formData.flagReversed}
+                            onChange={handleFlagReversedChange}
+                            className="bg-transparent h-4 w-4 rounded border-contrast text-indigo-600 focus:ring-indigo-500"
+                          />
+                        </div>
+                        <div className="text-sm">
+                          <label htmlFor="agreeLeadTime" className="ml-3 font-medium">
+                            Do you want to reverse the flag?
+                          </label>
+                        </div>
+                      </div>
+                    </>
+                  ) : input.id.toLowerCase() == "glowinthedark" ? (
+                    <>
+                      <div className="flex items-start">
+                        <div className="flex items-center h-5">
+                          <input
+                            id="glow-border"
+                            name="glow-border"
+                            type="checkbox"
+                            checked={formData.glowBorder}
+                            onChange={handleGlowBorderChange}
+                            className="bg-transparent h-4 w-4 rounded border-contrast text-indigo-600 focus:ring-indigo-500"
+                          />
+                        </div>
+                        <div className="text-sm">
+                          <label htmlFor="agreeLeadTime" className="ml-3 font-medium">
+                            Add a glow in the dark border? +$10 USD
+                          </label>
+                        </div>
+                      </div>
+                    </>
+                  ) : input.id.toLowerCase() == "leadtime" ? (
+                    <>
+                      <div className="flex items-start">
+                        <div className="flex items-center h-5">
+                          <input
+                            id="agreement"
+                            name="agreement"
+                            type="checkbox"
+                            checked={formData.agreement}
+                            onChange={handleAgreementChange}
+                            className="bg-transparent h-4 w-4 rounded border-contrast text-indigo-600 focus:ring-indigo-500"
+                          />
+                        </div>
+                        <div className="text-sm">
+                          <label htmlFor="agreeLeadTime" className="ml-3 font-medium">
+                            I Agree to the Lead Time
+                          </label>
+                          <p className="pt-2"><strong>LEAD TIME</strong> - From your order, to design, production, QC, and shipping, takes roughly 10 business days. Don't worry, we'll keep you updated with what is going on the whole time. Check this box to confirm that you understand that your order will take roughly 10 business days to ship.</p>
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                    </>
+                  )}
                 </div>
-              </>
-            )
-        }
+              );
+            })}
+          </div>
+        </div>
+
         <FormButton formData={formData} config={config} handlePrevious={handlePrevious} handleNext={handleNext} currentStep={stepForm.currentStep} steps={stepForm.steps} />
       </div>
     </>
