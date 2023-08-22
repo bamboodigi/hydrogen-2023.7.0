@@ -81,9 +81,6 @@ export function PatchBuilder({ product, config, ...props }) {
 
 function initFormData(product) {
   const patchType = builderData.type[getBuilderTitle(product).toLowerCase()];
-
-  // console.log(patchType.config.sizes);
-console.log(patchType.config.sizes[0].maxLength2);
   ///////////////////////////////////////////////////////////////////////////////////////////////
   //  FORMDATA OBJ = TEXT, TEXTMAXLENGTH, TEXTLINES, TEXTPLACEHOLDER, TEXTADDITIONAL, TYPE,
   //  TYPEDATA, SIZE, TEXTCOLOR, TEXTCOLORIMG, BGCOLOR, BGCOLORIMG, FLAG, FLAGIMG, FLAGVARIANT, 
@@ -221,10 +218,7 @@ function getBuilderTitle(product) {
   }
 }
 
-// get Visualizer Data for visu
-function getVisalizerData() {
 
-}
 
 function initVisualizerStyle(formData) {
 
@@ -267,12 +261,10 @@ function initVisualizerStyle(formData) {
       WebkitTextFillColor: 'transparent',
       fontFamily: 'WMIStencil-Black',
       backgroundClip: 'text',
-      width: '100%',
+      width: 'auto',
       textAlign: 'center',
       lineHeight: '38px',
       fontSize: '32px',
-      marginTop: '4px',
-      marginLeft: '8px',
     },
     flag: {
       backgroundImage: flagImg,
@@ -291,8 +283,8 @@ function initVisualizerStyle(formData) {
       obj.font.fontSize = '96px';
       obj.font.lineHeight = '96px';
       obj.font.marginTop = 'calc(96px/9)';
-      obj.font2.marginTop = '8px';
-      obj.font2.marginLeft = '6px';
+      // obj.font2.marginTop = '8px';
+      // obj.font2.marginLeft = '6px';
       obj.font2.lineHeight = '30.8475px';
       obj.font2.fontSize = '36.6316px';
       break;
@@ -337,18 +329,22 @@ function updateFontSize(containerRef, setFontStyle, formData) {
 
   // console.log(textWidth);
 
-  console.log(containerWidth)
-  console.log(containerHeight)
-  console.log(textWidth)
-  console.log(textHeight)
+  // console.log(containerWidth)
+  // console.log(containerHeight)
+  // console.log(textWidth)
+  // console.log(textHeight)
 
   // Calculate the new font size based on the container and text size
   let newFontSizeWidth = (containerWidth / textWidth) * currentFontSize;
   let newFontSizeHeight = (containerHeight / textHeight) * currentFontSize;
 
-  console.log(currentFontSize)
-  console.log(newFontSizeWidth)
-  console.log(newFontSizeHeight)
+  // console.log(currentFontSize)
+  // console.log(newFontSizeWidth)
+  // console.log(newFontSizeHeight)
+
+  if (containerHeight === textHeight) {
+    newFontSizeHeight = textHeight;
+  }
 
   let newFontSize = Math.min(newFontSizeWidth, newFontSizeHeight);
   // Limit the font size to a maximum value of 96px
@@ -376,76 +372,53 @@ function updateAdditionalFontSize(containerSecondaryRef, setFontSecondaryStyle) 
   // container
   // textContainer
   // how many lines
+  const container = containerSecondaryRef.current;
+  const textElement = container.querySelector('#secondary-text');
+  const textLines = 1;
+  // Get the container width and height, text width and height, and current font size
+  const containerWidth = container.offsetWidth;
+  const containerHeight = container.offsetHeight;
+  const textWidth = textElement.offsetWidth;
+  const textHeight = textElement.offsetHeight;
+  const currentFontSize = parseFloat(getComputedStyle(textElement).fontSize);
 
 
+  let newFontSizeWidth = ((containerWidth / textWidth) * currentFontSize);
+  let newFontSizeHeight = ((containerHeight / textHeight) * currentFontSize);
 
+  if (containerHeight === textHeight) {
+    newFontSizeHeight = textHeight;
+  }
+  console.log(containerSecondaryRef);
+  console.log(containerHeight);
+  console.log(textHeight);
+  console.log(containerHeight / textHeight);
 
-  setTimeout(() => {
-    const container = containerSecondaryRef.current;
-    const textElement = container.querySelector('#secondary-text');
-    const textLines = 1;
-    // Get the container width and height, text width and height, and current font size
-    const containerWidth = container.offsetWidth - 4;
-    const containerHeight = container.offsetHeight;
-    const textWidth = textElement.offsetWidth - 8;
-    const textHeight = textElement.offsetHeight;
-    const currentFontSize = parseFloat(getComputedStyle(textElement).fontSize);
+  console.log(containerWidth);
+  console.log(textWidth);
+  console.log(containerWidth / textWidth);
 
-    // console.log(containerSecondaryRef);
-    // console.log(containerSecondaryRef.current.children["secondary-text"].clientHeight)
-    // console.log(containerSecondaryRef.current);
-    // console.log(containerHeight)
-    // console.log(textElement);
-    // console.log(textHeight)
-    // console.log(currentFontSize)
-    let newFontSizeWidth = ((containerWidth / textWidth) * currentFontSize);
-    let newFontSizeHeight = ((containerHeight / textHeight) * currentFontSize);
+  console.log(newFontSizeWidth);
+  console.log(newFontSizeHeight);
 
-    // console.log(containerHeight);
-    // console.log(textHeight);
-    // console.log(currentFontSize);
+  let newFontSize = Math.min(newFontSizeWidth, newFontSizeHeight);
+  // Limit the font size to a maximum value of 96px
+  const maxFontSize = 37;
+  const minFontSize = 15;
+  if (newFontSize > maxFontSize) {
+    newFontSize = maxFontSize;
+  }
 
-    // console.log(containerHeight / textHeight);
+  if (newFontSize < minFontSize) {
+    newFontSize = minFontSize;
+  }
 
-    // console.log(newFontSizeWidth)
-    // console.log(newFontSizeHeight)
+  let newLineHeight = newFontSize * .8421;
 
+  // console.log("yes");
 
-
-    // Calculate the new font size based on the container and text size
-    // if (formData.type.toLowerCase().includes('id panel') && formData.size == '6” x 2”') {
-    //   newFontSizeWidth = ((containerWidth / textWidth) * currentFontSize);
-    //   newFontSizeHeight = ((containerHeight / textHeight) * currentFontSize);
-    //   //  console.log('yes')
-    // } else {
-    //   // console.log('no')
-    //   newFontSizeWidth = ((containerWidth / textWidth) * currentFontSize) * 0.8;
-    //   newFontSizeHeight = ((containerHeight / textHeight) * currentFontSize) * 0.8;
-    // }
-
-
-    //  console.log(newFontSizeWidth)
-    //  console.log(newFontSizeHeight)
-
-    let newFontSize = Math.min(newFontSizeWidth, newFontSizeHeight);
-    // Limit the font size to a maximum value of 96px
-    const maxFontSize = 37;
-    const minFontSize = 20;
-    if (newFontSize > maxFontSize) {
-      newFontSize = maxFontSize;
-    }
-
-    if (newFontSize < minFontSize) {
-      newFontSize = minFontSize;
-    }
-
-    let newLineHeight = newFontSize * .8421;
-
-    // console.log("yes");
-
-    // Set the font style using setFontStyle()
-    setFontSecondaryStyle(prevStyle => ({ ...prevStyle, fontSize: `${newFontSize}px`, lineHeight: `${newLineHeight}px` }));
-  }, 400);
+  // Set the font style using setFontStyle()
+  setFontSecondaryStyle(prevStyle => ({ ...prevStyle, fontSize: `${newFontSize}px`, lineHeight: `${newLineHeight}px` }));
 
 
 
@@ -537,6 +510,32 @@ function Visualizer({ formData, className, ...props }) {
     if (countSize) {
       setCanvasStyle(prevStyle => ({ ...prevStyle, height: '230px' }));
     }
+
+       // Define a function to adjust the font size
+       const adjustFontSize = () => {
+        // If the containerRef is not set, return
+        if (!containerRef.current) return;
+  
+        updateFontSize(containerRef, setFontStyle, formData);
+  
+      };
+  
+      // Call adjustFontSize() immediately to set the font size on mount
+      adjustFontSize();
+  
+      // Attach the adjustFontSize() function as an event listener for the window resize event
+      window.addEventListener('resize', adjustFontSize);
+  
+      // Create a MutationObserver to listen for changes to the container's child nodes,
+      // and attach the observer to the containerRef
+      const observer = new MutationObserver(adjustFontSize);
+      observer.observe(containerRef.current, { childList: true, characterData: true, subtree: true });
+  
+      // Return a cleanup function to remove the event listeners and observer when the component unmounts
+      return () => {
+        window.removeEventListener('resize', adjustFontSize);
+        observer.disconnect();
+      };
   }, [formData.size]);
 
   //Use the useEffect hook to manage side effects
@@ -553,14 +552,44 @@ function Visualizer({ formData, className, ...props }) {
 
       updateFontSize(containerRef, setFontStyle, formData);
 
-      // if (count == 0) {
+    };
+
+    // Call adjustFontSize() immediately to set the font size on mount
+    adjustFontSize();
+
+    // Attach the adjustFontSize() function as an event listener for the window resize event
+    window.addEventListener('resize', adjustFontSize);
+
+    // Create a MutationObserver to listen for changes to the container's child nodes,
+    // and attach the observer to the containerRef
+    const observer = new MutationObserver(adjustFontSize);
+    observer.observe(containerRef.current, { childList: true, characterData: true, subtree: true });
+
+    // Return a cleanup function to remove the event listeners and observer when the component unmounts
+    return () => {
+      window.removeEventListener('resize', adjustFontSize);
+      observer.disconnect();
+    };
+  }, [formData.text]);
+
+  const count2 = 0;
+  //Use the useEffect hook to manage side effects
+  useEffect(() => {
+    const adjustFontSize = () => {
+      console.log("hi")
+      console.log(containerSecondaryRef.current.offsetHeight)
+      // If the containerRef is not set, return
+      if (!containerSecondaryRef.current) return;
+
+      updateAdditionalFontSize(containerSecondaryRef, setFontSecondaryStyle);
+
+      // if (count2 == 0) {
+      //   console.log("check");
       //   setTimeout(() => {
-      //     updateFontSize(containerRef, setFontStyle, formData);
-      //     count++;
-      //   }, 0);
+      //     updateAdditionalFontSize(containerSecondaryRef, setFontSecondaryStyle);
+      //   }, 700);
       // } else {
-      //   console.log("bing");
-      //   updateFontSize(containerRef, setFontStyle, formData);
+      //   updateAdditionalFontSize(containerSecondaryRef, setFontSecondaryStyle);
       // }
     };
 
@@ -580,7 +609,8 @@ function Visualizer({ formData, className, ...props }) {
       window.removeEventListener('resize', adjustFontSize);
       observer.disconnect();
     };
-  }, [formData.text, formData.size]);
+  }, [formData.textAdditional, formData.size]);
+
 
   useEffect(() => {
     if (formData.flagReversed) {
@@ -591,7 +621,6 @@ function Visualizer({ formData, className, ...props }) {
   }, [formData.flagReversed]);
 
   useEffect(() => {
-    console.log(formData.glowBorder);
     if (formData.glowBorder) {
       setStyle(prevStyle => ({ ...prevStyle, WebkitTextStroke: `2px white` }));
     } else {
@@ -599,39 +628,6 @@ function Visualizer({ formData, className, ...props }) {
     }
   }, [formData.glowBorder]);
 
-
-  const count2 = 0;
-  //Use the useEffect hook to manage side effects
-  useEffect(() => {
-    const adjustFontSize = () => {
-      // If the containerRef is not set, return
-      if (!containerSecondaryRef.current) return;
-      if (count2 == 0) {
-        setTimeout(() => {
-          updateAdditionalFontSize(containerSecondaryRef, setFontSecondaryStyle);
-        }, 1000);
-      } else {
-        updateAdditionalFontSize(containerSecondaryRef, setFontSecondaryStyle);
-      }
-    };
-
-    // Call adjustFontSize() immediately to set the font size on mount
-    adjustFontSize();
-
-    // Attach the adjustFontSize() function as an event listener for the window resize event
-    window.addEventListener('resize', adjustFontSize);
-
-    // Create a MutationObserver to listen for changes to the container's child nodes,
-    // and attach the observer to the containerRef
-    const observer = new MutationObserver(adjustFontSize);
-    observer.observe(containerRef.current, { childList: true, characterData: true, subtree: true });
-
-    // Return a cleanup function to remove the event listeners and observer when the component unmounts
-    return () => {
-      window.removeEventListener('resize', adjustFontSize);
-      observer.disconnect();
-    };
-  }, [formData.textAdditional, formData.size]);
 
   const [scrollPosition, setScrollPosition] = useState(0);
 
@@ -661,44 +657,55 @@ function Visualizer({ formData, className, ...props }) {
 
           {formData.type.toLowerCase().includes("id panel") && formData.size == '6” x 2”' ? (
             <div className="w-full h-full flex">
-              <div className="w-1/2 flex items-center p-2 pb-0">
+              <div className="w-1/2 flex items-center px-2">
                 <div id="flag" className="w-full" style={flagStyle}></div>
               </div>
-              <div className="flex flex-col w-1/2" style={{}}>
+              <div className="flex flex-col w-1/2 gap-2" style={{}}>
                 <div ref={containerRef} className=" h-3/5 text-center overflow-x-hidden flex items-center justify-center">
                   <p id="main-text" className="pt-2.5 inline-block" style={{ ...fontStyle }}>{formData.text.length > 0 ? formData.text : formData.textPlaceholder}</p>
                 </div>
                 <div ref={containerSecondaryRef} className="h-2/5 text-center overflow-x-hidden flex items-end justify-center">
-                  <p id="secondary-text" className="inline-block" style={{ ...fontSecondaryStyle }}>
-                    {formData.textAdditional.length > 0 ? formData.textAdditional : 'APOS\nNKDA'}
+                  <p id="secondary-text" className="inline-block h-full whitespace-nowrap" style={{ ...fontSecondaryStyle }}>
+                    {formData.textAdditional.length > 0 ? formData.textAdditional : 'APOS  NKDA'}
                   </p>
                 </div>
               </div>
             </div>
           ) : formData.type.toLowerCase().includes("id panel") ? (
-            <div className="w-full h-full">
+            <div className={classNames(
+              formData.size === '3.5” x 2”' || '4" x 2"' ? "gap-2" : "",
+              "flex flex-col w-full h-full"
+            )}>
               <div ref={containerRef} className="h-1/2 justify-center overflow-y-hidden flex items-center">
                 <p id="main-text" className="inline-block" style={{ ...fontStyle }}>{formData.text.length > 0 ? formData.text : formData.textPlaceholder}</p>
               </div>
-              <div ref={containerSecondaryRef} className="flex h-1/2 items-center" style={{}}>
+              <div className="flex h-1/2 items-center" style={{}}>
                 <div id="flag"
                   className={classNames(
-                    formData.size === '3” x 2”' ? "min-w-3/5 " : "min-w-1/2",
+                    formData.size === '3” x 2”' ? "min-w-3/5" : "min-w-1/2",
                     "flex-1 max-h-full max-w-full h-auto"
                   )}
                   style={flagStyle}></div>
-                <p id="secondary-text" className="flex-initial w-2/5" style={{ ...fontSecondaryStyle }}>
-                  {formData.textAdditional.length > 0 ? formData.textAdditional :
-                    'APOS\nNKDA'.split('\n').map((line, index) => (
+                <div ref={containerSecondaryRef} className={classNames(
+                  formData.size === '3” x 2”' ? "w-2/5" : "w-1/2",
+                  "flex items-center justify-center h-full"
+                )}>
+                  <p id="secondary-text" className="pl-2 pt-2" style={{ ...fontSecondaryStyle }}>
+                    {formData.textAdditional.length > 0 ? formData.textAdditional.split('\n').map((line, index) => (
                       <React.Fragment key={index}>
                         {index > 0 && <br />}
                         {line}
                       </React.Fragment>
-                    ))
-                  }
-                </p>
-                {/* <p id="secondary-text" className="flex-1 w-2/5" style={{ ...fontSecondaryStyle }}>APOS<br/>NKDA</p> */}
-
+                    )) :
+                      formData.textAdditionalPlaceholder.split('\n').map((line, index) => (
+                        <React.Fragment key={index}>
+                          {index > 0 && <br />}
+                          {line}
+                        </React.Fragment>
+                      ))
+                    }
+                  </p>
+                </div>
               </div>
             </div>
           ) : formData.type.toLowerCase().includes("name tape") && formData.flagEnabled ? (
@@ -1131,10 +1138,7 @@ function Form({ formData, setFormData, data, config, product }) {
           <div className="col-span-6 grid gap-4">
             {stepForm.steps[stepForm.currentStep - 1].input.map((input, i) => {
               const childKey = i.toString();
-              console.log(stepForm.steps[stepForm.currentStep - 1]);
-              console.log(input);
-              console.log( formData.textAdditionalMaxLength )
-              console.log(formData.textAddtionalLines)
+
               return (
                 <div key={childKey}>
                   {input.id.toLowerCase() == "text" ? (
@@ -1144,7 +1148,7 @@ function Form({ formData, setFormData, data, config, product }) {
                           Text
                         </label>
                         <label htmlFor="text" className="block text-sm xl:text-lg font-medium text-right">
-                          {formData.text === 'Your Name' ? formData.textMaxLength + " " : formData.textMaxLength - formData.text.length + " "}
+                          {formData.text === 'Your Name' ? formData.textMaxLength + " " : formData.textMaxLength - formData.text.replace(/\n/g, '').length + " "}
                           characters left
                         </label>
                       </div>
@@ -1161,7 +1165,7 @@ function Form({ formData, setFormData, data, config, product }) {
                             style={{ resize: 'none' }}
                             className="mt-1 block w-full rounded-md border-contrast shadow-sm focus:border-indigo-500 focus:ring-indigo-500 xl:text-lg bg-transparent"
                             placeholder={formData.textPlaceholder}
-                            maxLength={formData.textMaxLength}
+                            maxLength={formData.textMaxLength + formData.textLines - 1}
                             onKeyDown={(e) => {
                               const currentLines = formData.text.split("\n").length;
                               const textLines = formData.textLines;
@@ -1170,9 +1174,9 @@ function Form({ formData, setFormData, data, config, product }) {
                               if (currentLines >= textLines && e.key === 'Enter') {
                                 e.preventDefault();
                               } else if (currentLineLength >= letterPerLine && currentLines < textLines && e.key == 'Backspace') {
-                                setFormData({ ...formData, textAdditional: formData.textAdditional });
+                                setFormData({ ...formData, text: formData.text });
                               } else if (currentLineLength >= letterPerLine && currentLines < textLines && e.key !== 'Enter') {
-                                setFormData({ ...formData, textAdditional: formData.textAdditional + '\n' + e.key });
+                                setFormData({ ...formData, text: formData.text + '\n' });
                               }
                             }}
                           />
@@ -1198,41 +1202,70 @@ function Form({ formData, setFormData, data, config, product }) {
                     </>
                   ) : input.id.toLowerCase() == "bloodtype" ? (
                     <>
-                      <div className="flex justify-between">
-                        <label htmlFor="textAdditional" className="block text-sm xl:text-lg font-medium">
-                          Blood Type & Allergies
-                        </label>
-                        <label htmlFor="textAdditional" className="block text-sm xl:text-lg font-medium text-right">
-                          { formData.textAdditionalMaxLength - formData.textAdditional.length + " " }
-                          characters left
-                        </label>
-                      </div>
-                      <textarea
-                        type="text"
-                        id="textAdditional"
-                        name="textAdditional"
-                        value={formData.textAdditional}
-                        onChange={handleTextAdditionalChange}
-                        maxLength={formData.textAdditionalMaxLength}
-                        onKeyDown={(e) => {
-                          const currentLines = formData.textAdditional.split("\n").length;
-                          const textLines = formData.textAdditionalLines;
-                          const letterPerLine = formData.textAdditionalMaxLength / formData.textAdditionalLines;
-                          const currentLineLength = formData.textAdditional.split("\n").pop().length;
-                          if (currentLines >= textLines && e.key === 'Enter') {
-                            e.preventDefault();
-                          } else if (currentLineLength >= letterPerLine && currentLines < textLines && e.key == 'Backspace') {
-                            setFormData({ ...formData, textAdditional: formData.textAdditional });
-                          } else if (currentLineLength >= letterPerLine && currentLines < textLines && e.key !== 'Enter') {
-                            setFormData({ ...formData, textAdditional: formData.textAdditional + '\n' + e.key });
-                          }
-                        }}
-                        autoComplete="off"
-                        rows={rows}
-                        style={{ resize: 'none' }}
-                        className="mt-1 block w-full rounded-md border-contrast shadow-sm focus:border-indigo-500 focus:ring-indigo-500 xl:text-lg bg-transparent"
-                        placeholder={formData.textAdditionalPlaceholder}
-                      />
+
+                      {formData.size === '6" x 2"' ? (
+                        <>
+                          <div className="flex justify-between">
+                            <label htmlFor="textAdditional" className="block text-sm xl:text-lg font-medium">
+                              Blood Type & Allergies
+                            </label>
+                            <label htmlFor="textAdditional" className="block text-sm xl:text-lg font-medium text-right">
+                              {formData.textAdditionalMaxLength - formData.textAdditional.replace(/\n/g, '').length + " "}
+                              characters left
+                            </label>
+                          </div>
+                          <textarea
+                            type="text"
+                            id="textAdditional"
+                            name="textAdditional"
+                            value={formData.textAdditional}
+                            onChange={handleTextAdditionalChange}
+                            maxLength={formData.textAdditionalMaxLength + formData.textAdditionalLines - 1}
+                            onKeyDown={(e) => {
+                              const currentLines = formData.textAdditional.split("\n").length;
+                              const textLines = formData.textAdditionalLines;
+                              const letterPerLine = formData.textAdditionalMaxLength / formData.textAdditionalLines;
+                              const currentLineLength = formData.textAdditional.split("\n").pop().length;
+                              if (currentLines >= textLines && e.key === 'Enter') {
+                                e.preventDefault();
+                              } else if (currentLineLength >= letterPerLine && currentLines < textLines && e.key == 'Backspace') {
+                                setFormData({ ...formData, textAdditional: formData.textAdditional });
+                              } else if (currentLineLength >= letterPerLine && currentLines < textLines && e.key !== 'Enter') {
+                                setFormData({ ...formData, textAdditional: formData.textAdditional + '\n' });
+                              }
+                            }}
+                            autoComplete="off"
+                            rows={rows}
+                            style={{ resize: 'none' }}
+                            className="mt-1 block w-full rounded-md border-contrast shadow-sm focus:border-indigo-500 focus:ring-indigo-500 xl:text-lg bg-transparent"
+                            placeholder={formData.textAdditionalPlaceholder}
+                          />
+                        </>
+                      ) : (
+                        <>
+                          <div className="flex justify-between">
+                            <label htmlFor="textAdditional" className="block text-sm xl:text-lg font-medium">
+                              Blood Type & Allergies
+                            </label>
+                            <label htmlFor="textAdditional" className="block text-sm xl:text-lg font-medium text-right">
+                              {10 - formData.textAdditional.replace(/\n/g, '').length + " "}
+                              characters left
+                            </label>
+                          </div>
+                          <input
+                            onFocus={(e) => e.preventDefault()}
+                            type="text"
+                            id="textAdditional"
+                            name="textAdditional"
+                            value={formData.textAdditional}
+                            onChange={handleTextAdditionalChange}
+                            autoComplete="off"
+                            className="mt-1 py-3 xl:py-4 block w-full rounded-md border-contrast shadow-sm focus:border-indigo-500 focus:ring-indigo-500 xl:text-lg bg-transparent"
+                            placeholder="APOS NDKA"
+                            maxLength={10}
+                          />
+                        </>
+                      )}
                     </>
                   ) : input.id.toLowerCase() == "size" ? (
                     <>
@@ -1465,11 +1498,11 @@ function BuilderATC({ formData, className, config, currentStep, steps }) {
       { key: "I agree to the Lead Time", value: formData.agreement ? "Yes" : "No" },
     );
 
-    // arr.push({ key: "Flag", value: formData.flag });
-    // arr.push({ key: "Select Base Material", value: formData.textColor });
-    // arr.push({ key: "Main Text", value: formData.text });
-    // arr.push({ key: "Fabric Pattern", value: formData.bgColor });
-    // arr.push({ key: "Blood Type and Allergies", value: formData.textadditional });
+    // arr.push({key: "Flag", value: formData.flag });
+    // arr.push({key: "Select Base Material", value: formData.textColor });
+    // arr.push({key: "Main Text", value: formData.text });
+    // arr.push({key: "Fabric Pattern", value: formData.bgColor });
+    // arr.push({key: "Blood Type and Allergies", value: formData.textadditional });
 
     //console.log(arr);
     return arr;

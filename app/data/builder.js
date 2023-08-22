@@ -115,6 +115,17 @@ const builderData = {
         btnText: "Get Started",
         steps: [
           {
+            name: "Patch Size",
+            input: [
+              {
+                id: 'size',
+                label: 'Size',
+                type: 'select',
+                placeholder: '3" x 2"',
+              },
+            ],
+          },
+          {
             name: "Text",
             input: [
               {
@@ -128,17 +139,6 @@ const builderData = {
                 label: 'Blood Type & Allergies',
                 type: 'textarea',
                 placeholder: 'APOS\nNKDA',
-              },
-            ],
-          },
-          {
-            name: "Patch Size",
-            input: [
-              {
-                id: 'size',
-                label: 'Size',
-                type: 'select',
-                placeholder: '3" x 2"',
               },
             ],
           },

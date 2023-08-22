@@ -57,11 +57,11 @@
 }
 
 #visualizer {
-  -webkit-transition: height 0.3s ease-in-out !important;
--moz-transition: height 0.3s ease-in-out !important;
--ms-transition: height 0.3s ease-in-out !important;
--o-transition: height 0.3s ease-in-out !important;
-transition: height 0.3s ease-in-out !important;
+  -webkit-transition: height 0.1s ease-in-out !important;
+-moz-transition: height 0.1s ease-in-out !important;
+-ms-transition: height 0.1s ease-in-out !important;
+-o-transition: height 0.1s ease-in-out !important;
+transition: height 0.1s ease-in-out !important;
 
 &.fixed {
   /* top: 96px; */
@@ -83,33 +83,33 @@ transition: height 0.3s ease-in-out !important;
   -ms-box-shadow: var(--shadow-elevation-medium);
 
 /* 
-  -webkit-transition: background-image 0.3s ease-in-out, height 0.4s ease-in-out, width 0.4s ease-in-out !important;
-  -moz-transition: background-image 0.3s ease-in-out, height 0.4s ease-in-out, width 0.4s ease-in-out !important;
-  -ms-transition: background-image 0.3s ease-in-out, height 0.4s ease-in-out, width 0.4s ease-in-out !important;
-  -o-transition: background-image 0.3s ease-in-out, height 0.4s ease-in-out, width 0.4s ease-in-out !important;
-  transition: background-image 0.3s ease-in-out, height 0.4s ease-in-out, width 0.4s ease-in-out !important; */
+  -webkit-transition: background-image 0.1s ease-in-out, height 0.4s ease-in-out, width 0.4s ease-in-out !important;
+  -moz-transition: background-image 0.1s ease-in-out, height 0.4s ease-in-out, width 0.4s ease-in-out !important;
+  -ms-transition: background-image 0.1s ease-in-out, height 0.4s ease-in-out, width 0.4s ease-in-out !important;
+  -o-transition: background-image 0.1s ease-in-out, height 0.4s ease-in-out, width 0.4s ease-in-out !important;
+  transition: background-image 0.1s ease-in-out, height 0.4s ease-in-out, width 0.4s ease-in-out !important; */
 }
 
 #flag {
-  -webkit-transition: background-image 0.3s ease-in-out !important;
--moz-transition: background-image 0.3s ease-in-out !important;
--ms-transition: background-image 0.3s ease-in-out !important;
--o-transition: background-image 0.3s ease-in-out !important;
-transition: background-image 0.3s ease-in-out !important;
+  -webkit-transition: background-image 0.1s ease-in-out !important;
+-moz-transition: background-image 0.1s ease-in-out !important;
+-ms-transition: background-image 0.1s ease-in-out !important;
+-o-transition: background-image 0.1s ease-in-out !important;
+transition: background-image 0.1s ease-in-out !important;
 
--webkit-transition: transform 0.3s ease-in-out !important;
--moz-transition: transform 0.3s ease-in-out !important;
--ms-transition: transform 0.3s ease-in-out !important;
--o-transition: transform 0.3s ease-in-out !important;
-transition: transform 0.3s ease-in-out !important;
+-webkit-transition: transform 0.1s ease-in-out !important;
+-moz-transition: transform 0.1s ease-in-out !important;
+-ms-transition: transform 0.1s ease-in-out !important;
+-o-transition: transform 0.1s ease-in-out !important;
+transition: transform 0.1s ease-in-out !important;
 }
 
 #patch p {
-  -webkit-transition: background-image 0.3s ease-in-out, font-size 0.3s ease-in-out !important;
--moz-transition: background-image 0.3s ease-in-out, font-size 0.3s ease-in-out !important;
--ms-transition: background-image 0.3s ease-in-out, font-size 0.3s ease-in-out !important;
--o-transition: background-image 0.3s ease-in-out, font-size 0.3s ease-in-out !important;
-transition: background-image 0.3s ease-in-out, font-size 0.3s ease-in-out !important;
+  -webkit-transition: background-image 0.1s ease-in-out, font-size 0.1s ease-in-out !important;
+-moz-transition: background-image 0.1s ease-in-out, font-size 0.1s ease-in-out !important;
+-ms-transition: background-image 0.1s ease-in-out, font-size 0.1s ease-in-out !important;
+-o-transition: background-image 0.1s ease-in-out, font-size 0.1s ease-in-out !important;
+transition: background-image 0.1s ease-in-out, font-size 0.1s ease-in-out !important;
 
 -webkit-background-clip: text;
 -webkit-text-fill-color: transparent;
