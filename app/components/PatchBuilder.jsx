@@ -96,7 +96,7 @@ console.log(patchType.config.sizes[0].maxLength2);
     textLines: patchType.config.sizes[0].lines || '',
     textPlaceholder: patchType.config.sizes[0].placeholder || '',
     textAdditional: '',
-    textAddtionalMaxLength: patchType.config.sizes[0].maxLength2 || '',
+    textAdditionalMaxLength: patchType.config.sizes[0].maxLength2 || '',
     textAdditionalLines: patchType.config.sizes[0].lines2 || '',
     textAdditionalPlaceholder: patchType.config.sizes[0].placeholder2 || '',
     type: patchType.name || '',
@@ -1213,6 +1213,7 @@ function Form({ formData, setFormData, data, config, product }) {
                         name="textAdditional"
                         value={formData.textAdditional}
                         onChange={handleTextAdditionalChange}
+                        maxLength={formData.textAdditionalMaxLength}
                         onKeyDown={(e) => {
                           const currentLines = formData.textAdditional.split("\n").length;
                           const textLines = formData.textAdditionalLines;
@@ -1221,9 +1222,9 @@ function Form({ formData, setFormData, data, config, product }) {
                           if (currentLines >= textLines && e.key === 'Enter') {
                             e.preventDefault();
                           } else if (currentLineLength >= letterPerLine && currentLines < textLines && e.key == 'Backspace') {
-                            setFormData({ ...formData, text: formData.text });
+                            setFormData({ ...formData, textAdditional: formData.textAdditional });
                           } else if (currentLineLength >= letterPerLine && currentLines < textLines && e.key !== 'Enter') {
-                            setFormData({ ...formData, text: formData.text + '\n' + e.key });
+                            setFormData({ ...formData, textAdditional: formData.textAdditional + '\n' + e.key });
                           }
                         }}
                         autoComplete="off"
