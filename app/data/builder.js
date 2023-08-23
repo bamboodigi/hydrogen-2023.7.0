@@ -359,7 +359,7 @@ const builderData = {
       basePrice: 15,
       config: {
         sizes: [
-          { size: '3” x 2”', maxLength: null, lines: null, placeholder: null, hasFlag: true, sizeUpsell: 0,  hiVis: 5 },
+          { size: '3” x 2”', maxLength: null, lines: null, placeholder: null, hasFlag: true, sizeUpsell: 0, hiVis: 5 },
           { size: '3.5” x 2”', maxLength: null, lines: null, placeholder: null, hasFlag: true, sizeUpsell: 1, thinLine: 4, hiVis: 5 },
           { size: '5” x 3”', maxLength: null, lines: null, placeholder: null, hasFlag: true, sizeUpsell: 5, tRexArms: 6, hiVis: 5 },
           { size: '6” x 2”', maxLength: null, lines: null, placeholder: null, hasFlag: true, sizeUpsell: 9, hiVis: 5 },
@@ -769,7 +769,7 @@ const builderData = {
       { name: 'Purple Reflective', img: 'https://cdn-zeptoapps.com/product-personalizer/images/patchpanel.myshopify.com/Purple-Reflective.jpg?v=123' },
     ]
   },
-  flags: {
+  imgs: {
     "hi-vis": [
       {
         name: "USA",
@@ -1350,6 +1350,104 @@ const builderData = {
     "badge": [
 
     ],
+    symbols: {
+    "medical patch": {
+      "1 x 1" : [
+        {
+          name: "TQ",
+          img: "https://cdn.shopify.com/s/files/1/2242/5805/files/symbols-tq.png?v=1678643371",
+          glow: "https://cdn.shopify.com/s/files/1/2242/5805/files/symbols-tq-glow-border.png?v=1678643371",
+          icon: "https://cdn.shopify.com/s/files/1/2242/5805/files/symbols-tq-icon.png?v=1678643371"
+        },
+        {
+          name: "K9",
+          img: "https://cdn.shopify.com/s/files/1/2242/5805/files/symbols-k9.png?v=1678643371",
+          glow: "https://cdn.shopify.com/s/files/1/2242/5805/files/symbols-k9-glow-border.png?v=1678643371",
+          icon: "https://cdn.shopify.com/s/files/1/2242/5805/files/symbols-k9-icon.png?v=1678643371",
+        },
+        {
+          name: "Maple Leaf Icon",
+          img: "https://cdn.shopify.com/s/files/1/2242/5805/files/symbols-maple-leaf.png?v=1678643371",
+          glow: "https://cdn.shopify.com/s/files/1/2242/5805/files/symbols-maple-leaf-glow-border.png?v=1678643371",
+          icon: "https://cdn.shopify.com/s/files/1/2242/5805/files/symbols-maple-leaf-icon.png?v=1678643371",
+        },
+        {
+          name: "Med Cross Icon",
+          img: "https://cdn.shopify.com/s/files/1/2242/5805/files/symbols-med-cross-cats.png?v=1678643371",
+          glow: "https://cdn.shopify.com/s/files/1/2242/5805/files/symbols-med-cross-cats-glow-border.png?v=1678643371",
+          icon: "https://cdn.shopify.com/s/files/1/2242/5805/files/symbols-med-cross-cats-icon.png?v=1678643371",
+        },
+        {
+          name: "Star",
+          img: "https://cdn.shopify.com/s/files/1/2242/5805/files/symbols-star-icon.png?v=1678643371",
+          glow: "https://cdn.shopify.com/s/files/1/2242/5805/files/symbols-star-glow-border.png?v=1678643371",
+          icon: "https://cdn.shopify.com/s/files/1/2242/5805/files/symbols-star-icon.png?v=1678643371",
+        }
+      ],
+      "2 x 2" : [
+        {
+          name: "Star of Life",
+          img: "https://cdn.shopify.com/s/files/1/2242/5805/files/symbols-2x2-star-of-life.png?v=1678643371",
+          glow: "https://cdn.shopify.com/s/files/1/2242/5805/files/symbols-2x2-star-of-life-glow-border.png?v=1678643371",
+          icon: "https://cdn.shopify.com/s/files/1/2242/5805/files/symbols-2x2-star-of-life-icon.png?v=1678643371",
+        },
+        {
+          name: "Med Cross",
+          img: "https://cdn.shopify.com/s/files/1/2242/5805/files/symbols-2x2-med-cross.png?v=1678643371",
+          glow: "https://cdn.shopify.com/s/files/1/2242/5805/files/symbols-2x2-med-cross-glow-border.png?v=1678643371",
+          icon: "https://cdn.shopify.com/s/files/1/2242/5805/files/symbols-2x2-med-cross-icon.png?v=1678643371",
+        },
+        {
+          name: "A Positive",
+          img: "https://cdn.shopify.com/s/files/1/2242/5805/files/symbols-2-a-pos.png?v=1678643370",
+          glow: "https://cdn.shopify.com/s/files/1/2242/5805/files/symbols-2-a-pos-glow-border.png?v=1678643370",
+          icon: "https://cdn.shopify.com/s/files/1/2242/5805/files/symbols-2-a-pos-icon.png?v=1678643370",
+        },
+        {
+          name: "A Negative",
+          img: "https://cdn.shopify.com/s/files/1/2242/5805/files/symbols-2-a-neg.png?v=1678643370",
+          glow: "https://cdn.shopify.com/s/files/1/2242/5805/files/symbols-2-a-neg-glow-border.png?v=1678643370",
+          icon: "https://cdn.shopify.com/s/files/1/2242/5805/files/symbols-2-a-neg-icon.png?v=1678643370", 
+        },
+        {
+          name: "AB Positive",
+          img: "https://cdn.shopify.com/s/files/1/2242/5805/files/symbols-2-ab-pos.png?v=1678643370",
+          glow: "https://cdn.shopify.com/s/files/1/2242/5805/files/symbols-2-ab-pos-glow-border.png?v=1678643370",
+          icon: "https://cdn.shopify.com/s/files/1/2242/5805/files/symbols-2-ab-pos-icon.png?v=1678643370",
+        },
+        {
+          name: "AB Negative",
+          img: "https://cdn.shopify.com/s/files/1/2242/5805/files/symbols-2-ab-neg.png?v=1678643370",
+          glow: "https://cdn.shopify.com/s/files/1/2242/5805/files/symbols-2-ab-neg-glow-border.png?v=1678643370",
+          icon: "https://cdn.shopify.com/s/files/1/2242/5805/files/symbols-2-ab-neg-icon.png?v=1678643370",
+        },
+        {
+          name: "B Positive",
+          img: "https://cdn.shopify.com/s/files/1/2242/5805/files/symbols-2-b-pos.png?v=1678643370",
+          glow: "https://cdn.shopify.com/s/files/1/2242/5805/files/symbols-2-b-pos-glow-border.png?v=1678643370",
+          icon: "https://cdn.shopify.com/s/files/1/2242/5805/files/symbols-2-b-pos-icon.png?v=1678643370",
+        },
+        {
+          name: "B Negative",
+          img: "https://cdn.shopify.com/s/files/1/2242/5805/files/symbols-2-b-neg.png?v=1678643370",
+          glow: "https://cdn.shopify.com/s/files/1/2242/5805/files/symbols-2-b-neg-glow-border.png?v=1678643370",
+          icon: "https://cdn.shopify.com/s/files/1/2242/5805/files/symbols-2-b-neg-icon.png?v=1678643370",
+        },
+        {
+          name: "O Positive",
+          img: "https://cdn.shopify.com/s/files/1/2242/5805/files/symbols-2-o-pos.png?v=1678643370",
+          glow: "https://cdn.shopify.com/s/files/1/2242/5805/files/symbols-2-o-pos-glow-border.png?v=1678643370",
+          icon: "https://cdn.shopify.com/s/files/1/2242/5805/files/symbols-2-o-pos-icon.png?v=1678643370",
+        },
+        {
+          name: "O Negative",
+          img: "https://cdn.shopify.com/s/files/1/2242/5805/files/symbols-2-o-neg.png?v=1678643370",
+          glow: "https://cdn.shopify.com/s/files/1/2242/5805/files/symbols-2-o-neg-glow-border.png?v=1678643370",
+          icon: "https://cdn.shopify.com/s/files/1/2242/5805/files/symbols-2-o-neg-icon.png?v=1678643370",
+        }
+      ],
+    }
+  }
   },
 };
 

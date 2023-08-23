@@ -17,7 +17,10 @@ import builderData from '~/data/builder.js';
 
 const bgColors = builderData.colors.bgColors;
 const fontColors = builderData.colors.fontColors;
-const flags = builderData.flags;
+const imgs = builderData.imgs;
+const symbols = imgs.symbols;
+
+console.log(imgs);
 
 
 function classNames(...classes) {
@@ -60,8 +63,17 @@ export function PatchBuilder({ product, config, ...props }) {
                 <span className="">Mini </span>
               )
               }
-
-              {formData.type}
+              {
+                formData.type.toLowerCase().includes("medical patch") && formData.size == '1” x 1”' ? (
+                  <>
+                    Cats Eye
+                  </>
+                ) : (
+                  <>
+                    {formData.type}
+                  </>
+                )
+              }
 
               {isFlag(formData.type) && (
                 <span className="text-xl mt-2 uppercase block">with {formData.markType}</span>
@@ -108,8 +120,8 @@ function initFormData(product) {
     bgColorImg: bgColors[18].img,
     markType: '',
     flagEnabled: false,
-    flag: data[5].values[0]["hivis-flags"][0].name,
-    flagImg: data[5].values[0]["hivis-flags"][0].img,
+    img: data[5].values[0]["hivis-flags"][0].name,
+    imgSrc: data[5].values[0]["hivis-flags"][0].img,
     flagReversed: false,
     flagVariant: "",
     flagVariantImg: "",
@@ -120,6 +132,17 @@ function initFormData(product) {
     typeData: patchType.config.sizes || [],
     price: parseInt(product.variants.nodes[0].price.amount),
   };
+
+  if (formData.type.toLowerCase().includes("medical patch")) {
+    console.log("yes");
+    console.log(formData);
+    console.log(symbols['medical patch']['1 x 1'][0].icon);
+    formData.markType = 'Symbol';
+   formData.img = symbols['medical patch']['1 x 1'][0].name;
+   formData.imgSrc = symbols['medical patch']['1 x 1'][0].img;
+    formData.imgIcon = symbols['medical patch']['1 x 1'][0].icon;
+    formData.imgGlow = symbols['medical patch']['1 x 1'][0].glow;
+  }
 
   if (isFlag(formData.type)) {
     switch (formData.type.toLowerCase()) {
@@ -143,9 +166,11 @@ function isGlowBorder(type, size, sizeEnabled) {
 }
 
 function isFlag(type, flagEnabled) {
-
+  console.log(type.toLowerCase());
   // determine if type == id panel, lazer cut flag, jacket panel, division jacket panel
-  if (type.toLowerCase().includes("id panel") || type.toLowerCase().includes("flag") || type.toLowerCase().includes("jacket panel") || type.toLowerCase().includes("division jacket panel")) {
+  if (type.toLowerCase().includes("id panel") || type.toLowerCase().includes("flag")
+    || type.toLowerCase().includes("jacket panel") || type.toLowerCase().includes("division jacket panel")
+  ) {
     flagEnabled = true;
   }
   return flagEnabled || false;
@@ -224,7 +249,7 @@ function initVisualizerStyle(formData) {
 
   const bgColorImg = 'url("' + formData.bgColorImg + '")';
   const textColorImg = 'url("' + formData.textColorImg + '")';
-  const flagImg = 'url("' + formData.flagImg + '")';
+  const flagImg = 'url("' + formData.imgSrc + '")';
 
   var obj = {
     canvas: {
@@ -236,11 +261,11 @@ function initVisualizerStyle(formData) {
       height: 'calc(290px/3)',
       textTransform: 'uppercase',
       padding: '10px',
-      WebkitTransition: 'background-image 0.3s ease-in-out, height 0.4s ease-in-out, width 0.4s ease-in-out !important',
-      MozTransition: 'background-image 0.3s ease-in-out, height 0.4s ease-in-out, width 0.4s ease-in-out !important',
-      msTransition: 'background-image 0.3s ease-in-out, height 0.4s ease-in-out, width 0.4s ease-in-out !important',
-      OTransition: 'background-image 0.3s ease-in-out, height 0.4s ease-in-out, width 0.4s ease-in-out !important',
-      transition: 'background-image 0.3s ease-in-out, height 0.4s ease-in-out, width 0.4s ease-in-out !important',
+      WebkitTransition: 'background-image 0.3s ease-in-out, height 0.2s ease-in-out, width 0.4s ease-in-out !important',
+      MozTransition: 'background-image 0.3s ease-in-out, height 0.2s ease-in-out, width 0.4s ease-in-out !important',
+      msTransition: 'background-image 0.3s ease-in-out, height 0.2s ease-in-out, width 0.4s ease-in-out !important',
+      OTransition: 'background-image 0.3s ease-in-out, height 0.2s ease-in-out, width 0.4s ease-in-out !important',
+      transition: 'background-image 0.3s ease-in-out, height 0.2s ease-in-out, width 0.4s ease-in-out !important',
     },
     font: {
       backgroundImage: textColorImg,
@@ -292,6 +317,15 @@ function initVisualizerStyle(formData) {
       obj.font.fontSize = '48.6397px';
       obj.font.lineHeight = '48.6397px';
       obj.font.marginTop = '6.07996px';
+      break;
+    case 'medical patch':
+      obj.flag.backgroundImage = textColorImg;
+      obj.flag.WebkitMaskImage = flagImg;
+      obj.flag.maskImage = flagImg;
+      obj.flag.maskSize = 'cover';
+      obj.flag.WebkitMaskSize = 'cover';
+      obj.patch.maskImage = 'none';
+      obj.patch.WebkitMaskImage = 'none';
       break;
   }
 
@@ -492,22 +526,56 @@ function Visualizer({ formData, className, ...props }) {
   const [fontSecondaryStyle, setFontSecondaryStyle] = useState(font2);
   const [flagStyle, setFlagStyle] = useState(flag);
 
+  console.log(flagStyle);
+
   // A function to load an image and update the state with its URL
-  const imageLoader = (src, setState) => {
+  const imageLoader = (src, setState, mask) => {
     const img = new Image();
+
     img.onload = () => {
+    if(formData.type.toLowerCase().includes("medical patch")) {
+      if(mask) {
+        setState(prevStyle => ({
+          ...prevStyle,
+          backgroundImage: `url("${src}")`,
+          WebkitMaskImage: `url("${formData.imgSrc}")`,
+          maskImage: `url("${mask}")`,
+          maskSize: `cover`,
+          WebkitSize: 'cover',
+        }));
+      } else {
+        setState(prevStyle => ({
+          ...prevStyle,
+          backgroundImage: `url("${src}")`
+        }));
+      }
+    } else {
       setState(prevStyle => ({
         ...prevStyle,
         backgroundImage: `url("${src}")`
       }));
+    }
     };
-    img.src = src;
+    if(formData.type.toLowerCase().includes("medical patch")) {
+      if(mask) {
+      img.src = mask;
+      } else {
+        img.src = src;
+      }
+    } else {
+      img.src = src;
+    }
   };
 
-  // Custom hook to update the flag style when the flag image changes
+  // // Custom hook to update the flag style when the flag image changes
   useEffect(() => {
-    imageLoader(formData.flagImg, setFlagStyle);
-  }, [formData.flagImg]);
+    if(formData.type.toLowerCase().includes("medical patch")) {
+      console.log(formData.textColorImg);
+      imageLoader(formData.textColorImg, setFlagStyle, formData.imgSrc);
+    } else {
+    imageLoader(formData.imgSrc, setFlagStyle);
+    }
+  }, [formData.imgSrc]);
 
   // Custom hook to update the background color image style when the background color image changes
   useEffect(() => {
@@ -569,11 +637,10 @@ function Visualizer({ formData, className, ...props }) {
   // match the font size.
   let count = 0;
   useEffect(() => {
-
+    if (!containerRef.current) return;
     // Define a function to adjust the font size
     const adjustFontSize = () => {
       // If the containerRef is not set, return
-      if (!containerRef.current) return;
 
       updateFontSize(containerRef, setFontStyle, formData);
 
@@ -583,7 +650,7 @@ function Visualizer({ formData, className, ...props }) {
     adjustFontSize();
 
     // Attach the adjustFontSize() function as an event listener for the window resize event
-    window.addEventListener('resize', adjustFontSize);
+    window.addEventListener('resize', adjustFontSize());
 
     // Create a MutationObserver to listen for changes to the container's child nodes,
     // and attach the observer to the containerRef
@@ -592,7 +659,7 @@ function Visualizer({ formData, className, ...props }) {
 
     // Return a cleanup function to remove the event listeners and observer when the component unmounts
     return () => {
-      window.removeEventListener('resize', adjustFontSize);
+      window.removeEventListener('resize', adjustFontSize());
       observer.disconnect();
     };
   }, [formData.text, formData.size]);
@@ -600,28 +667,18 @@ function Visualizer({ formData, className, ...props }) {
   const count2 = 0;
   //Use the useEffect hook to manage side effects
   useEffect(() => {
+    if (!containerSecondaryRef.current) return;
     const adjustFontSize = () => {
-      console.log(containerSecondaryRef.current.offsetHeight)
       // If the containerRef is not set, return
-      if (!containerSecondaryRef.current) return;
 
       updateAdditionalFontSize(containerSecondaryRef, setFontSecondaryStyle, formData);
-
-      // if (count2 == 0) {
-      //   console.log("check");
-      //   setTimeout(() => {
-      //     updateAdditionalFontSize(containerSecondaryRef, setFontSecondaryStyle);
-      //   }, 700);
-      // } else {
-      //   updateAdditionalFontSize(containerSecondaryRef, setFontSecondaryStyle);
-      // }
     };
 
     // Call adjustFontSize() immediately to set the font size on mount
     adjustFontSize();
 
     // Attach the adjustFontSize() function as an event listener for the window resize event
-    window.addEventListener('resize', adjustFontSize);
+    window.addEventListener('resize', adjustFontSize());
 
     // Create a MutationObserver to listen for changes to the container's child nodes,
     // and attach the observer to the containerRef
@@ -630,7 +687,7 @@ function Visualizer({ formData, className, ...props }) {
 
     // Return a cleanup function to remove the event listeners and observer when the component unmounts
     return () => {
-      window.removeEventListener('resize', adjustFontSize);
+      window.removeEventListener('resize', adjustFontSize());
       observer.disconnect();
     };
   }, [formData.textAdditional, formData.size]);
@@ -778,8 +835,8 @@ function Visualizer({ formData, className, ...props }) {
               </div>
             </div>
           ) : formData.type.toLowerCase().includes("medical patch") ? (
-            <div ref={containerRef} className="h-full w-full text-center overflow-x-hidden flex items-center justify-center">
-              <div id="icon" className="h-4/5 w-4/5" style={{ background: 'black' }}></div>
+            <div className="h-full w-full text-center overflow-x-hidden flex items-center justify-center">
+              <div id="icon" className="h-4/5 w-4/5" style={flagStyle}></div>
             </div>
           ) : formData.type.toLowerCase() == ("laser cut flag") ? (
             <div ref={containerRef} className="h-full w-full p-2 overflow-x-hidden flex items-center justify-center">
@@ -902,7 +959,7 @@ function Form({ formData, setFormData, data, config, product }) {
       // If it does, set the form data with the selected type, its sizes, and the first hivis flag
       setFormData({
         ...formData, type: event.target.value, typeData: obj.sizes, size: obj.sizes[0].size,
-        flag: data[5].values[0]["hivis-flags"][0].name, flagImg: data[5].values[0]["hivis-flags"][0].img,
+        img: data[5].values[0]["hivis-flags"][0].name, imgSrc: data[5].values[0]["hivis-flags"][0].img,
         textLines: obj.sizes[0].lines, textMaxLength: obj.sizes[0].maxLength, textPlaceholder: obj.sizes[0].placeholder
       });
     } else {
@@ -916,7 +973,7 @@ function Form({ formData, setFormData, data, config, product }) {
 
   // Define a function to handle the change of the text input field
   const handleTextChange = (event) => {
-    console.log(formData.text.split("\n").length);
+    // console.log(formData.text.split("\n").length);
     setFormData({ ...formData, text: event.target.value });
   };
 
@@ -924,70 +981,6 @@ function Form({ formData, setFormData, data, config, product }) {
   const [rows, setRows] = useState(maxRows);
   // Define a function to handle the change of the additional text input field
   const handleTextAdditionalChange = (event) => {
-    // const textHtml = event.target.textContent;
-    // var oldHtml = '';
-
-    // continuousTimeout(textHtml);
-
-    // function continuousTimeout(newHtml) {
-    //   if (oldHtml == '') {
-    //     oldHtml = textHtml;
-    //   } else if (newHtml.length < oldHtml.length) {
-    //     return;
-    //   }
-
-    //  // console.log(newHtml);
-
-    //   setTimeout(() => {
-    //     continuousTimeout(newHtml);
-    //   }, 100);
-    // }
-
-    // setTimeout(() => {
-    //   console.log(event);
-    //   console.log(event.target);
-    //   console.log(event.target.value);
-
-    //   console.log(textHtml)
-    //   // const textarea = document.getElementById("myTextarea");
-    //   // const lineHeight = parseInt(getComputedStyle(textarea).lineHeight);
-    //   // const rows = textarea.rows;
-    //   // const scrollHeight = textarea.scrollHeight;
-    //   // const numLines = Math.ceil(scrollHeight / lineHeight);
-
-
-
-    //   // console.log(numLines);
-    //   // console.log(rows);
-    //   // console.log(scrollHeight);
-    //   // console.log(lineHeight);
-
-    //   // if (numLines > maxRows) {
-    //   //   event.target.rows = numLines;
-    //   // } else {
-    //   //   event.target.rows = maxRows;
-    //   // }
-    // }, 3000);
-
-    // const textareaLineHeight = 24; // change this to match your line-height CSS
-    // const previousRows = event.target.rows;
-    // event.target.rows = maxRows; // reset number of rows in textarea
-
-    // const currentRows = ~~(event.target.scrollHeight / textareaLineHeight);
-
-    // const textarea = document.getElementById("myTextarea");
-    // const lineHeight = parseInt(getComputedStyle(textarea).lineHeight);
-    // const rows = textarea.rows;
-    // const scrollHeight = textarea.scrollHeight;
-    // const numLines = Math.ceil(scrollHeight / lineHeight);
-
-    // console.log(numLines);
-
-    // if (currentRows === previousRows) {
-    //   event.target.rows = currentRows;
-    // }
-
-    // setRows(currentRows >= maxRows ? maxRows : currentRows);
     setFormData({ ...formData, textAdditional: event.target.value });
   };
 
@@ -1001,6 +994,34 @@ function Form({ formData, setFormData, data, config, product }) {
       ...formData, size: event.target.value,
       textLines: objSizes.lines, textMaxLength: objSizes.maxLength, textPlaceholder: objSizes.placeholder
     });
+
+        // if(formData.type.toLowerCase() == "medical patch"){
+    //   if(formData.size == '1” x 1”'){
+    //     setFormData({
+    //       ...formData, size: event.target.value,
+    //       img: symbols['medical patch']['1 x 1'][0].name,
+    //       imgSrc: symbols['medical patch']['1 x 1'][0].img,
+    //       imgIcon: symbols['medical patch']['1 x 1'][0].icon,
+    //       imgGlow: symbols['medical patch']['1 x 1'][0].glow,
+    //       textLines: objSizes.lines, textMaxLength: objSizes.maxLength, textPlaceholder: objSizes.placeholder
+    //     });
+    //   } else {
+    //     setFormData({
+    //       ...formData, size: event.target.value,
+    //       img: symbols['medical patch']['2 x 2'][0].name,
+    //       imgSrc: symbols['medical patch']['2 x 2'][0].img,
+    //       imgIcon: symbols['medical patch']['2 x 2'][0].icon,
+    //       imgGlow: symbols['medical patch']['2 x 2'][0].glow,
+    //       textLines: objSizes.lines, textMaxLength: objSizes.maxLength, textPlaceholder: objSizes.placeholder
+    //     });
+    //     console.log
+    //   }
+    // } else {
+    //   setFormData({
+    //     ...formData, size: event.target.value,
+    //     textLines: objSizes.lines, textMaxLength: objSizes.maxLength, textPlaceholder: objSizes.placeholder
+    //   });
+    // }
   };
 
   // Define a function to handle the change of the font text color dropdown menu
@@ -1035,11 +1056,25 @@ function Form({ formData, setFormData, data, config, product }) {
   };
 
   // Define a function to handle the change of the hivis flag dropdown menu
-  const handleFlagChange = (event) => {
+  const handleImgChange = (event) => {
     // Find the selected hivis flag from data array
-    const obj = flags["hi-vis"].find(value => value.name === event.name);
-    // Set the form data with the selected hivis flag and its image
-    setFormData({ ...formData, flag: event.name, flagImg: obj.img });
+    let obj = {};
+    switch(formData.type.toLowerCase()){
+      case 'medical patch':
+        if(formData.size == '1” x 1”'){
+          obj = symbols["medical patch"]['1 x 1'].find(value => value.name === event.name);
+        } else {
+          obj = symbols["medical patch"]['2 x 2'].find(value => value.name === event.name);
+        }
+        // Set the form data with the selected hivis flag and its image
+        setFormData({ ...formData, img: event.name, imgSrc: obj.img, imgIcon: obj.icon, imgGlow: obj.glow });
+      break;
+      default:
+        obj = imgs["hi-vis"].find(value => value.name === event.name);
+        // Set the form data with the selected hivis flag and its image
+        setFormData({ ...formData, img: event.name, imgSrc: obj.img });
+        break;
+    }
   };
 
   // Define a function to handle the change of the comments checkbox
@@ -1062,21 +1097,6 @@ function Form({ formData, setFormData, data, config, product }) {
   const handleFlagEnabledChange = (event) => {
     setFormData({ ...formData, flagEnabled: event.target.checked });
   };
-
-
-  // const handlePrevious = () => {
-  //   if (currentStep > 1) {
-  //     setCurrentStep(currentStep - 1);
-  //     setCurrentStepObj(steps.find(step => step.step === currentStep - 1));
-  //   }
-  // };
-
-  // const handleNext = () => {
-  //   if (currentStep < steps.length) {
-  //     setCurrentStep(currentStep + 1);
-  //     setCurrentStepObj(steps.find(step => step.step === currentStep + 1));
-  //   }
-  // };
 
   const handlePrevious = () => {
     if (stepForm.currentStep > 1) {
@@ -1385,16 +1405,42 @@ function Form({ formData, setFormData, data, config, product }) {
                       />
 
                     </>
+                  ) : input.id.toLowerCase() == "symbol" ? (
+                    formData.size == '1” x 1”' ? (
+                      <>
+                        <AdvancedSelect
+                          // id="bgColor"
+                          title={formData.markType}
+                          name={formData.markType}
+                          value={formData.img}
+                          img={formData.imgIcon}
+                          onChange={handleImgChange}
+                          options={symbols["medical patch"]["1 x 1"]}
+                        />
+                      </>
+                    ) : (
+                      <>
+                        <AdvancedSelect
+                          // id="bgColor"
+                          title={formData.markType}
+                          name={formData.markType}
+                          value={formData.img}
+                          img={formData.imgIcon}
+                          onChange={handleImgChange}
+                          options={symbols["medical patch"]["2 x 2"]}
+                        />
+                      </>
+                    )
                   ) : input.id.toLowerCase() == "flag" ? (
                     <>
                       <AdvancedSelect
                         // id="bgColor"
                         title={formData.markType}
                         name={formData.markType}
-                        value={formData.flag}
-                        img={formData.flagImg}
-                        onChange={handleFlagChange}
-                        options={flags["hi-vis"]}
+                        value={formData.img}
+                        img={formData.imgSrc}
+                        onChange={handleImgChange}
+                        options={imgs["hi-vis"]}
                       />
                     </>
                   ) : input.id.toLowerCase() == "flagenabled" ? (
@@ -1558,7 +1604,7 @@ function BuilderATC({ formData, className, config, currentStep, steps }) {
     arr.push(
       { key: "Size", value: formData.size },
       { key: "Price", value: formData.price + "" },
-      { key: "Flag", value: formData.flag },
+      { key: "Flag", value: formData.img },
       { key: "Mark Type", value: formData.markType || "n/a" },
       { key: "Flag Reversed?", value: formData.flagReversed ? "Yes" : "No" },
       { key: "Select Base Material", value: formData.textColor },

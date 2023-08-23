@@ -26,16 +26,17 @@ export function AdvancedSelect({ title, value, img, onChange, options, ...props 
     const [query, setQuery] = useState('')
     // const [selectedOption, setSelectedOption] = useState(value)
 
+    console.log(options)
     function queryChange(event) {
-       // console.log(event);
+        // console.log(event);
         setQuery(event.target.value);
     }
 
     function handleValue(option) {
-      //  console.log(option);
+        //  console.log(option);
         return option
     }
-   // console.log(value);
+    // console.log(value);
 
     const filteredOptions =
         query === ''
@@ -84,7 +85,14 @@ export function AdvancedSelect({ title, value, img, onChange, options, ...props 
                                 {({ active, selected }) => (
                                     <>
                                         <div className="flex items-center">
-                                            <img src={option.img} alt="" className="border border-contrast h-6 w-6 flex-shrink-0 rounded-full" />
+                                            {option.icon ? (
+                                                <>
+                                                    <img src={option.icon} alt="" className="border border-contrast h-6 w-6 flex-shrink-0 rounded-full" />
+                                                </>) : (
+                                                <>
+                                                    <img src={option.img} alt="" className="border border-contrast h-6 w-6 flex-shrink-0 rounded-full" />
+                                                </>
+                                            )}
                                             <span className={classNames('ml-3 truncate', selected && 'font-semibold')}>{option.name}</span>
                                         </div>
 
