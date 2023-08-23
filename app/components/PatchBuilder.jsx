@@ -1161,8 +1161,9 @@ function Form({ formData, setFormData, data, config, product }) {
         } else {
           const flagStepIndex = steps.findIndex(step => step.name === 'Flag');
           if (flagStepIndex !== -1) {
-            const newSteps = steps.filter(step => step.name !== 'Flag');
-            setSteps(newSteps);
+            steps.splice(2, 1);
+            // const newSteps = steps.filter(step => step.name !== 'Flag');
+            // steps = newSteps;
           }
         }
         break;
@@ -1188,11 +1189,12 @@ function Form({ formData, setFormData, data, config, product }) {
           console.log(steps);
           const textStepIndex = steps.findIndex(step => step.name === 'Text');
           console.log(textStepIndex);
+         
           if (textStepIndex !== -1) {
-            const newSteps = steps.filter(step => step.name !== 'Text');
-            console.log(newSteps);
-            setSteps(newSteps);
-            console.log(steps);
+            steps.splice(1, 1);
+            // const newSteps = steps.filter(step => step.name !== 'Text');
+            // console.log(newSteps);
+            // console.log(steps);
           }
         }
         break;
