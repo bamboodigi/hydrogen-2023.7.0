@@ -77,7 +77,7 @@ const builderData = {
             size: '6” x 3”',
             maxLength: 13,
             lines: 1,
-            placeholder: 'Name',
+            placeholder: 'Your Name',
             maxLength2: 12,
             lines2: 2,
             placeholder2: 'APOS\nNKDA',

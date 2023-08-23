@@ -353,6 +353,33 @@ function updateFontSize(containerRef, setFontStyle, formData) {
     newFontSize = maxFontSize;
   }
 
+  switch (formData.type.toLowerCase()) {
+    case 'id panel':
+      if (formData.textAdditional.length == 0) {
+        switch (formData.size) {
+          case '3” x 2”':
+            newFontSize = 97.0787;
+            break;
+          case '3.5” x 2”':
+            newFontSize = 83;
+            break;
+          case '4” x 2”':
+            newFontSize = 73;
+            break;
+          case '5” x 3”':
+            newFontSize = 80;
+            break;
+          case '6” x 2”':
+            newFontSize = 48.5468;
+            break;
+          case '6” x 3”':
+            newFontSize = 48.556;
+            break;
+        }
+      }
+      break;
+  }
+
 
   // Calculate the new margin top based on the font size
   let marginTop = null;
@@ -367,7 +394,7 @@ function updateFontSize(containerRef, setFontStyle, formData) {
   }
 }
 
-function updateAdditionalFontSize(containerSecondaryRef, setFontSecondaryStyle) {
+function updateAdditionalFontSize(containerSecondaryRef, setFontSecondaryStyle, formData) {
 
   // container
   // textContainer
@@ -411,6 +438,30 @@ function updateAdditionalFontSize(containerSecondaryRef, setFontSecondaryStyle) 
 
   if (newFontSize < minFontSize) {
     newFontSize = minFontSize;
+  }
+
+  switch (formData.type.toLowerCase()) {
+    case 'id panel':
+      if (formData.textAdditional.length == 0) {
+        switch (formData.size) {
+          case '3” x 2”':
+            newFontSize = 37;
+            break;
+          case '3.5” x 2”':
+            newFontSize = 37;
+            break;
+          case '4” x 2”':
+            newFontSize = 31.5;
+            break;
+          case '5” x 3”':
+            newFontSize = 32.8398;
+            break;
+          case '6” x 3”':
+            newFontSize = 31.5;
+            break;
+        }
+      }
+      break;
   }
 
   let newLineHeight = newFontSize * .8421;
@@ -510,32 +561,6 @@ function Visualizer({ formData, className, ...props }) {
     if (countSize) {
       setCanvasStyle(prevStyle => ({ ...prevStyle, height: '230px' }));
     }
-
-       // Define a function to adjust the font size
-       const adjustFontSize = () => {
-        // If the containerRef is not set, return
-        if (!containerRef.current) return;
-  
-        updateFontSize(containerRef, setFontStyle, formData);
-  
-      };
-  
-      // Call adjustFontSize() immediately to set the font size on mount
-      adjustFontSize();
-  
-      // Attach the adjustFontSize() function as an event listener for the window resize event
-      window.addEventListener('resize', adjustFontSize);
-  
-      // Create a MutationObserver to listen for changes to the container's child nodes,
-      // and attach the observer to the containerRef
-      const observer = new MutationObserver(adjustFontSize);
-      observer.observe(containerRef.current, { childList: true, characterData: true, subtree: true });
-  
-      // Return a cleanup function to remove the event listeners and observer when the component unmounts
-      return () => {
-        window.removeEventListener('resize', adjustFontSize);
-        observer.disconnect();
-      };
   }, [formData.size]);
 
   //Use the useEffect hook to manage side effects
@@ -570,18 +595,17 @@ function Visualizer({ formData, className, ...props }) {
       window.removeEventListener('resize', adjustFontSize);
       observer.disconnect();
     };
-  }, [formData.text]);
+  }, [formData.text, formData.size]);
 
   const count2 = 0;
   //Use the useEffect hook to manage side effects
   useEffect(() => {
     const adjustFontSize = () => {
-      console.log("hi")
       console.log(containerSecondaryRef.current.offsetHeight)
       // If the containerRef is not set, return
       if (!containerSecondaryRef.current) return;
 
-      updateAdditionalFontSize(containerSecondaryRef, setFontSecondaryStyle);
+      updateAdditionalFontSize(containerSecondaryRef, setFontSecondaryStyle, formData);
 
       // if (count2 == 0) {
       //   console.log("check");
@@ -672,14 +696,19 @@ function Visualizer({ formData, className, ...props }) {
               </div>
             </div>
           ) : formData.type.toLowerCase().includes("id panel") ? (
+            console.log(formData.size),
             <div className={classNames(
-              formData.size === '3.5” x 2”' || '4" x 2"' ? "gap-2" : "",
+              formData.size === '3.5” x 2”' ? "gap-2" :
+                formData.size === '4” x 2”' ? "gap-2" : "",
               "flex flex-col w-full h-full"
             )}>
               <div ref={containerRef} className="h-1/2 justify-center overflow-y-hidden flex items-center">
                 <p id="main-text" className="inline-block" style={{ ...fontStyle }}>{formData.text.length > 0 ? formData.text : formData.textPlaceholder}</p>
               </div>
-              <div className="flex h-1/2 items-center" style={{}}>
+              <div className={classNames(
+                formData.size === '3.5” x 2”' ? "px-1" : "",
+                "flex h-1/2 items-center"
+              )}>
                 <div id="flag"
                   className={classNames(
                     formData.size === '3” x 2”' ? "min-w-3/5" : "min-w-1/2",
@@ -687,10 +716,17 @@ function Visualizer({ formData, className, ...props }) {
                   )}
                   style={flagStyle}></div>
                 <div ref={containerSecondaryRef} className={classNames(
-                  formData.size === '3” x 2”' ? "w-2/5" : "w-1/2",
+                  formData.size === '3” x 2”' ? "w-2/5" :
+                    formData.size === '3.5” x 2”' ? "w-1/2" : "w-1/2",
                   "flex items-center justify-center h-full"
                 )}>
-                  <p id="secondary-text" className="pl-2 pt-2" style={{ ...fontSecondaryStyle }}>
+                  <p id="secondary-text" className={classNames(
+                    formData.size === '6” x 3”' ? "pt-3" :
+                      formData.size === '4” x 2”' ? "pt-3" :
+                        formData.size === '3.5” x 2”' ? "pt-2" : "pt-2 pl-2",
+                    ""
+                  )}
+                    style={{ ...fontSecondaryStyle }}>
                     {formData.textAdditional.length > 0 ? formData.textAdditional.split('\n').map((line, index) => (
                       <React.Fragment key={index}>
                         {index > 0 && <br />}
@@ -1203,8 +1239,29 @@ function Form({ formData, setFormData, data, config, product }) {
                   ) : input.id.toLowerCase() == "bloodtype" ? (
                     <>
 
-                      {formData.size === '6" x 2"' ? (
+                      {formData.size == '6" x 2"' ? (
                         <>
+                          <div className="flex justify-between">
+                            <label htmlFor="textAdditional" className="block text-sm xl:text-lg font-medium">
+                              Blood Type & Allergies
+                            </label>
+                            <label htmlFor="textAdditional" className="block text-sm xl:text-lg font-medium text-right">
+                              {10 - formData.textAdditional.replace(/\n/g, '').length + " "}
+                              characters left
+                            </label>
+                          </div>
+                          <input
+                            onFocus={(e) => e.preventDefault()}
+                            type="text"
+                            id="textAdditional"
+                            name="textAdditional"
+                            value={formData.textAdditional}
+                            onChange={handleTextAdditionalChange}
+                            autoComplete="off"
+                            className="mt-1 py-3 xl:py-4 block w-full rounded-md border-contrast shadow-sm focus:border-indigo-500 focus:ring-indigo-500 xl:text-lg bg-transparent"
+                            placeholder="APOS NDKA"
+                            maxLength={10}
+                          />
                           <div className="flex justify-between">
                             <label htmlFor="textAdditional" className="block text-sm xl:text-lg font-medium">
                               Blood Type & Allergies
@@ -1248,21 +1305,35 @@ function Form({ formData, setFormData, data, config, product }) {
                               Blood Type & Allergies
                             </label>
                             <label htmlFor="textAdditional" className="block text-sm xl:text-lg font-medium text-right">
-                              {10 - formData.textAdditional.replace(/\n/g, '').length + " "}
+                              {formData.textAdditionalMaxLength - formData.textAdditional.replace(/\n/g, '').length + " "}
                               characters left
                             </label>
                           </div>
-                          <input
-                            onFocus={(e) => e.preventDefault()}
+                          <textarea
                             type="text"
                             id="textAdditional"
                             name="textAdditional"
                             value={formData.textAdditional}
                             onChange={handleTextAdditionalChange}
+                            maxLength={formData.textAdditionalMaxLength + formData.textAdditionalLines - 1}
+                            onKeyDown={(e) => {
+                              const currentLines = formData.textAdditional.split("\n").length;
+                              const textLines = formData.textAdditionalLines;
+                              const letterPerLine = formData.textAdditionalMaxLength / formData.textAdditionalLines;
+                              const currentLineLength = formData.textAdditional.split("\n").pop().length;
+                              if (currentLines >= textLines && e.key === 'Enter') {
+                                e.preventDefault();
+                              } else if (currentLineLength >= letterPerLine && currentLines < textLines && e.key == 'Backspace') {
+                                setFormData({ ...formData, textAdditional: formData.textAdditional });
+                              } else if (currentLineLength >= letterPerLine && currentLines < textLines && e.key !== 'Enter') {
+                                setFormData({ ...formData, textAdditional: formData.textAdditional + '\n' });
+                              }
+                            }}
                             autoComplete="off"
-                            className="mt-1 py-3 xl:py-4 block w-full rounded-md border-contrast shadow-sm focus:border-indigo-500 focus:ring-indigo-500 xl:text-lg bg-transparent"
-                            placeholder="APOS NDKA"
-                            maxLength={10}
+                            rows={rows}
+                            style={{ resize: 'none' }}
+                            className="mt-1 block w-full rounded-md border-contrast shadow-sm focus:border-indigo-500 focus:ring-indigo-500 xl:text-lg bg-transparent"
+                            placeholder={formData.textAdditionalPlaceholder}
                           />
                         </>
                       )}
