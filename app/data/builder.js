@@ -294,7 +294,7 @@ const builderData = {
         sizes: [
           { size: '1” x 1”', maxLength: null, lines: null, placeholder: null, hasFlag: true, sizeUpsell: 0 },
           { size: '2” x 2”', maxLength: null, lines: null, placeholder: null, hasFlag: true, sizeUpsell: 3 },
-          { size: '3.5” x 2”', maxLength: 12, lines: 1, placeholder: 'nkda', hasFlag: true, sizeUpsell: 9 },
+          { size: '3.5” x 2”', maxLength: 12, lines: 2, placeholder: 'APOS\nNKDA', hasFlag: true, sizeUpsell: 9 },
         ],
         extra: [
           { name: "Hexagonal", size: '3.5” x 3.5”', maxLength: null, lines: null, placeholder: null, hasFlag: true, sizeUpsell: 9 },
@@ -309,25 +309,25 @@ const builderData = {
             status: 'current',
             input: [
               {
-                id: 'symbol',
-                label: 'Symbol',
-                type: 'advancedSelect',
-              },
-              {
                 id: 'size',
                 label: 'Size',
                 type: 'select',
                 placeholder: '',
               },
+              {
+                id: 'symbol',
+                label: 'Symbol',
+                type: 'advancedSelect',
+              },
             ],
           },
           {
-            name: "Font & Background Colors",
+            name: "Symbol & Background Colors",
             status: 'upcoming',
             input: [
               {
                 id: 'textColor',
-                label: 'Text Color',
+                label: 'Symbol Color',
                 type: 'advancedSelect',
                 placeholder: 'Flat Spice Brown',
               },
@@ -343,6 +343,12 @@ const builderData = {
             name: "Almost There",
             status: 'upcoming',
             input: [
+              {
+                id: 'glowInTheDark',
+                label: 'Add a glow in the dark border? +$10 USD',
+                type: 'checkmark',
+                placeholder: '',
+              },
               {
                 id: 'leadTime',
                 label: 'I Agree to the Lead Time',

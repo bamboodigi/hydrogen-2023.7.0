@@ -20,9 +20,6 @@ const fontColors = builderData.colors.fontColors;
 const imgs = builderData.imgs;
 const symbols = imgs.symbols;
 
-console.log(imgs);
-
-
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
@@ -134,14 +131,19 @@ function initFormData(product) {
   };
 
   if (formData.type.toLowerCase().includes("medical patch")) {
-    console.log("yes");
-    console.log(formData);
-    console.log(symbols['medical patch']['1 x 1'][0].icon);
-    formData.markType = 'Symbol';
-   formData.img = symbols['medical patch']['1 x 1'][0].name;
-   formData.imgSrc = symbols['medical patch']['1 x 1'][0].img;
-    formData.imgIcon = symbols['medical patch']['1 x 1'][0].icon;
-    formData.imgGlow = symbols['medical patch']['1 x 1'][0].glow;
+    if (formData.size == '1” x 1”') {
+      formData.markType = 'Symbol';
+      formData.img = symbols['medical patch']['1 x 1'][0].name;
+      formData.imgSrc = symbols['medical patch']['1 x 1'][0].img;
+      formData.imgIcon = symbols['medical patch']['1 x 1'][0].icon;
+      formData.imgGlow = symbols['medical patch']['1 x 1'][0].glow;
+    } else {
+      formData.markType = 'Symbol';
+      formData.img = symbols['medical patch']['2 x 2'][0].name;
+      formData.imgSrc = symbols['medical patch']['2 x 2'][0].img;
+      formData.imgIcon = symbols['medical patch']['2 x 2'][0].icon;
+      formData.imgGlow = symbols['medical patch']['2 x 2'][0].glow;
+    }
   }
 
   if (isFlag(formData.type)) {
@@ -166,7 +168,6 @@ function isGlowBorder(type, size, sizeEnabled) {
 }
 
 function isFlag(type, flagEnabled) {
-  console.log(type.toLowerCase());
   // determine if type == id panel, lazer cut flag, jacket panel, division jacket panel
   if (type.toLowerCase().includes("id panel") || type.toLowerCase().includes("flag")
     || type.toLowerCase().includes("jacket panel") || type.toLowerCase().includes("division jacket panel")
@@ -177,7 +178,6 @@ function isFlag(type, flagEnabled) {
 }
 
 function isMini(type, size, miniEnabled) {
-  // console.log(size);
   const [lengthStr, heightStr] = size.split("x").map(str => str.trim());
   const length = parseInt(lengthStr);
   const height = parseInt(heightStr);
@@ -195,7 +195,6 @@ function isAdditionalText(type) {
 }
 // function that converts the custom product and choose the correct builder
 function getBuilderTitle(product) {
-  // console.log(product.handle);
   let result;
   switch (product.handle) {
     case 'medical-patch':
@@ -230,7 +229,6 @@ function getBuilderTitle(product) {
       break;
     case 'laser-cut-flag':
       result = 'flag';
-      console.log("flag");
       break;
     default:
       result = 'default';
@@ -329,12 +327,14 @@ function initVisualizerStyle(formData) {
       break;
   }
 
-  //console.log(formData.type)
+
 
   return obj;
 }
 
 function updateFontSize(containerRef, setFontStyle, formData) {
+
+
   const textLines = formData.textLines;
   // console.log(textLines)
   // console.log(formData.textLines)
@@ -389,7 +389,7 @@ function updateFontSize(containerRef, setFontStyle, formData) {
 
   switch (formData.type.toLowerCase()) {
     case 'id panel':
-      if (formData.textAdditional.length == 0) {
+      if (formData.text.length == 0) {
         switch (formData.size) {
           case '3” x 2”':
             newFontSize = 97.0787;
@@ -410,6 +410,11 @@ function updateFontSize(containerRef, setFontStyle, formData) {
             newFontSize = 48.556;
             break;
         }
+      }
+      break;
+    case 'medical patch':
+      if (formData.text.length == 0) {
+        newFontSize = 47.1714;
       }
       break;
   }
@@ -450,17 +455,17 @@ function updateAdditionalFontSize(containerSecondaryRef, setFontSecondaryStyle, 
   if (containerHeight === textHeight) {
     newFontSizeHeight = textHeight;
   }
-  console.log(containerSecondaryRef);
-  console.log(containerHeight);
-  console.log(textHeight);
-  console.log(containerHeight / textHeight);
+  // console.log(containerSecondaryRef);
+  // console.log(containerHeight);
+  // console.log(textHeight);
+  // console.log(containerHeight / textHeight);
 
-  console.log(containerWidth);
-  console.log(textWidth);
-  console.log(containerWidth / textWidth);
+  // console.log(containerWidth);
+  // console.log(textWidth);
+  // console.log(containerWidth / textWidth);
 
-  console.log(newFontSizeWidth);
-  console.log(newFontSizeHeight);
+  // console.log(newFontSizeWidth);
+  // console.log(newFontSizeHeight);
 
   let newFontSize = Math.min(newFontSizeWidth, newFontSizeHeight);
   // Limit the font size to a maximum value of 96px
@@ -500,7 +505,7 @@ function updateAdditionalFontSize(containerSecondaryRef, setFontSecondaryStyle, 
 
   let newLineHeight = newFontSize * .8421;
 
-  // console.log("yes");
+
 
   // Set the font style using setFontStyle()
   setFontSecondaryStyle(prevStyle => ({ ...prevStyle, fontSize: `${newFontSize}px`, lineHeight: `${newLineHeight}px` }));
@@ -526,39 +531,38 @@ function Visualizer({ formData, className, ...props }) {
   const [fontSecondaryStyle, setFontSecondaryStyle] = useState(font2);
   const [flagStyle, setFlagStyle] = useState(flag);
 
-  console.log(flagStyle);
 
   // A function to load an image and update the state with its URL
   const imageLoader = (src, setState, mask) => {
     const img = new Image();
 
     img.onload = () => {
-    if(formData.type.toLowerCase().includes("medical patch")) {
-      if(mask) {
-        setState(prevStyle => ({
-          ...prevStyle,
-          backgroundImage: `url("${src}")`,
-          WebkitMaskImage: `url("${formData.imgSrc}")`,
-          maskImage: `url("${mask}")`,
-          maskSize: `cover`,
-          WebkitSize: 'cover',
-        }));
+      if (formData.type.toLowerCase().includes("medical patch")) {
+        if (mask) {
+          setState(prevStyle => ({
+            ...prevStyle,
+            backgroundImage: `url("${src}")`,
+            WebkitMaskImage: `url("${formData.imgSrc}")`,
+            maskImage: `url("${mask}")`,
+            maskSize: `cover`,
+            WebkitSize: 'cover',
+          }));
+        } else {
+          setState(prevStyle => ({
+            ...prevStyle,
+            backgroundImage: `url("${src}")`
+          }));
+        }
       } else {
         setState(prevStyle => ({
           ...prevStyle,
           backgroundImage: `url("${src}")`
         }));
       }
-    } else {
-      setState(prevStyle => ({
-        ...prevStyle,
-        backgroundImage: `url("${src}")`
-      }));
-    }
     };
-    if(formData.type.toLowerCase().includes("medical patch")) {
-      if(mask) {
-      img.src = mask;
+    if (formData.type.toLowerCase().includes("medical patch")) {
+      if (mask) {
+        img.src = mask;
       } else {
         img.src = src;
       }
@@ -569,11 +573,10 @@ function Visualizer({ formData, className, ...props }) {
 
   // // Custom hook to update the flag style when the flag image changes
   useEffect(() => {
-    if(formData.type.toLowerCase().includes("medical patch")) {
-      console.log(formData.textColorImg);
+    if (formData.type.toLowerCase().includes("medical patch")) {
       imageLoader(formData.textColorImg, setFlagStyle, formData.imgSrc);
     } else {
-    imageLoader(formData.imgSrc, setFlagStyle);
+      imageLoader(formData.imgSrc, setFlagStyle);
     }
   }, [formData.imgSrc]);
 
@@ -584,18 +587,20 @@ function Visualizer({ formData, className, ...props }) {
 
   // Custom hook to update the font style when the text color image changes
   useEffect(() => {
+    if (formData.type.toLowerCase().includes("medical patch")) {
+      imageLoader(formData.textColorImg, setFlagStyle);
+    }
     imageLoader(formData.textColorImg, setFontStyle);
     imageLoader(formData.textColorImg, setFontSecondaryStyle);
+
   }, [formData.textColorImg]);
 
   // Custom hook to update the size style when the size changes
   useEffect(() => {
     // An array of objects that represent the different size options
     const values = sizeOptions;
-    //console.log(sizeOptions)
 
     const value = values.find(item => item.name === formData.size);
-    //console.log(value);
 
     if (value) {
       if (value.ratio === "1:1") {
@@ -637,12 +642,14 @@ function Visualizer({ formData, className, ...props }) {
   // match the font size.
   let count = 0;
   useEffect(() => {
+    // console.log(!containerRef.current);
     if (!containerRef.current) return;
     // Define a function to adjust the font size
     const adjustFontSize = () => {
       // If the containerRef is not set, return
-
-      updateFontSize(containerRef, setFontStyle, formData);
+      if (containerRef.current) {
+        updateFontSize(containerRef, setFontStyle, formData);
+      }
 
     };
 
@@ -715,7 +722,6 @@ function Visualizer({ formData, className, ...props }) {
   useEffect(() => {
     const handleScroll = () => {
       setScrollPosition(window.scrollY);
-      // console.log(window.scrollY);
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -753,7 +759,6 @@ function Visualizer({ formData, className, ...props }) {
               </div>
             </div>
           ) : formData.type.toLowerCase().includes("id panel") ? (
-            console.log(formData.size),
             <div className={classNames(
               formData.size === '3.5” x 2”' ? "gap-2" :
                 formData.size === '4” x 2”' ? "gap-2" : "",
@@ -826,17 +831,44 @@ function Visualizer({ formData, className, ...props }) {
                 ))}</p>
             </div>
           ) : formData.type.toLowerCase().includes("medical patch") && formData.size == '3.5” x 2”' ? (
-            <div className="flex w-full h-full">
+            <div className="flex w-full h-full gap-2">
               <div className="flex flex-0  w-1/2 items-center" style={{}}>
-                <div id="icon" className="h-full w-full" style={{ background: 'black' }}></div>
+                <div id="icon" className="h-full w-full" style={flagStyle}>
+                  <div id="glow"
+                    className={classNames(
+                      formData.glowBorder ? "block" : "hidden",
+                      "h-full w-full"
+                    )}
+                    style={{ backgroundImage: `url("${formData.imgGlow}")`, backgroundSize: 'cover', position: 'absolute' }}
+                  ></div>
+                </div>
               </div>
               <div ref={containerRef} className="flex flex-1 w-1/2 justify-center overflow-y-hidden items-center">
-                <p id="main-text" className="inline-block" style={{ ...fontStyle }}>{formData.text.length > 0 ? formData.text : formData.textPlaceholder}</p>
+                <p id="main-text" className="inline-block" style={{ ...fontStyle }}>{formData.text.length > 0 ? formData.text.split('\n').map((line, index) => (
+                  <React.Fragment key={index}>
+                    {index > 0 && <br />}
+                    {line}
+                  </React.Fragment>
+                )) :
+                  formData.textPlaceholder.split('\n').map((line, index) => (
+                    <React.Fragment key={index}>
+                      {index > 0 && <br />}
+                      {line}
+                    </React.Fragment>
+                  ))}</p>
               </div>
             </div>
           ) : formData.type.toLowerCase().includes("medical patch") ? (
             <div className="h-full w-full text-center overflow-x-hidden flex items-center justify-center">
-              <div id="icon" className="h-4/5 w-4/5" style={flagStyle}></div>
+              <div id="icon" className="h-4/5 w-4/5" style={flagStyle}>
+                <div id="glow"
+                  className={classNames(
+                    formData.glowBorder ? "block" : "hidden",
+                    "h-full w-full"
+                  )}
+                  style={{ backgroundImage: `url("${formData.imgGlow}")`, backgroundSize: 'cover', position: 'absolute' }}
+                ></div>
+              </div>
             </div>
           ) : formData.type.toLowerCase() == ("laser cut flag") ? (
             <div ref={containerRef} className="h-full w-full p-2 overflow-x-hidden flex items-center justify-center">
@@ -899,8 +931,6 @@ function Form({ formData, setFormData, data, config, product }) {
     { name: 'Almost There', href: '#', status: 'upcoming', step: 5 },
   ];
 
-  // console.log(formData.type.toLowerCase());
-  // console.log(builderData.type["id panel"].form.steps)
   switch (formData.type.toLowerCase()) {
     case 'name tape':
       tempSteps = builderData.type["name tape"].form.steps;
@@ -930,7 +960,6 @@ function Form({ formData, setFormData, data, config, product }) {
       break;
   }
 
-  // console.log(tempSteps)
 
   let tempStepObj = {
     steps: tempSteps,
@@ -943,7 +972,7 @@ function Form({ formData, setFormData, data, config, product }) {
 
   const [currentStep, setCurrentStep] = useState(steps.indexOf(steps.find(step => step.status === 'current')) + 1);
   const [currentStepObj, setCurrentStepObj] = useState(steps.find(step => step.status === 'current'));
-  // console.log(currentStepObj);
+
 
   const [stepForm, setStepForm] = useState(tempStepObj);
 
@@ -973,7 +1002,6 @@ function Form({ formData, setFormData, data, config, product }) {
 
   // Define a function to handle the change of the text input field
   const handleTextChange = (event) => {
-    // console.log(formData.text.split("\n").length);
     setFormData({ ...formData, text: event.target.value });
   };
 
@@ -986,42 +1014,36 @@ function Form({ formData, setFormData, data, config, product }) {
 
   // Define a function to handle the change of the size dropdown menu
   const handleSizeChange = (event) => {
-
     const obj = patchType.config;
     const objSizes = obj.sizes.find(value => value.size === event.target.value);
-
-    setFormData({
-      ...formData, size: event.target.value,
-      textLines: objSizes.lines, textMaxLength: objSizes.maxLength, textPlaceholder: objSizes.placeholder
-    });
-
-        // if(formData.type.toLowerCase() == "medical patch"){
-    //   if(formData.size == '1” x 1”'){
-    //     setFormData({
-    //       ...formData, size: event.target.value,
-    //       img: symbols['medical patch']['1 x 1'][0].name,
-    //       imgSrc: symbols['medical patch']['1 x 1'][0].img,
-    //       imgIcon: symbols['medical patch']['1 x 1'][0].icon,
-    //       imgGlow: symbols['medical patch']['1 x 1'][0].glow,
-    //       textLines: objSizes.lines, textMaxLength: objSizes.maxLength, textPlaceholder: objSizes.placeholder
-    //     });
-    //   } else {
-    //     setFormData({
-    //       ...formData, size: event.target.value,
-    //       img: symbols['medical patch']['2 x 2'][0].name,
-    //       imgSrc: symbols['medical patch']['2 x 2'][0].img,
-    //       imgIcon: symbols['medical patch']['2 x 2'][0].icon,
-    //       imgGlow: symbols['medical patch']['2 x 2'][0].glow,
-    //       textLines: objSizes.lines, textMaxLength: objSizes.maxLength, textPlaceholder: objSizes.placeholder
-    //     });
-    //     console.log
-    //   }
-    // } else {
-    //   setFormData({
-    //     ...formData, size: event.target.value,
-    //     textLines: objSizes.lines, textMaxLength: objSizes.maxLength, textPlaceholder: objSizes.placeholder
-    //   });
-    // }
+    if (formData.type.toLowerCase() == "medical patch") {
+      if (event.target.value == '1” x 1”') {
+        setFormData({
+          ...formData,
+          img: symbols['medical patch']["1 x 1"][0].name,
+          imgSrc: symbols['medical patch']["1 x 1"][0].img,
+          imgGlow: symbols['medical patch']["1 x 1"][0].glow,
+          imgIcon: symbols['medical patch']["1 x 1"][0].icon,
+          size: event.target.value,
+          textLines: objSizes.lines, textMaxLength: objSizes.maxLength, textPlaceholder: objSizes.placeholder
+        });
+      } else {
+        setFormData({
+          ...formData,
+          img: symbols['medical patch']["2 x 2"][0].name,
+          imgSrc: symbols['medical patch']["2 x 2"][0].img,
+          imgGlow: symbols['medical patch']["2 x 2"][0].glow,
+          imgIcon: symbols['medical patch']["2 x 2"][0].icon,
+          size: event.target.value,
+          textLines: objSizes.lines, textMaxLength: objSizes.maxLength, textPlaceholder: objSizes.placeholder
+        });
+      }
+    } else {
+      setFormData({
+        ...formData, size: event.target.value,
+        textLines: objSizes.lines, textMaxLength: objSizes.maxLength, textPlaceholder: objSizes.placeholder
+      });
+    }
   };
 
   // Define a function to handle the change of the font text color dropdown menu
@@ -1030,7 +1052,7 @@ function Form({ formData, setFormData, data, config, product }) {
     const obj = fontColors.find(value => value.name === event.name);
     var isProIR = false;
     var isReflectiveGlow = false;
-    console.log(event);
+
     if (event.name.includes("Pro IR")) {
       isProIR = true;
     }
@@ -1047,9 +1069,6 @@ function Form({ formData, setFormData, data, config, product }) {
   // Define a function to handle the change of the background color dropdown menu
   const handleBgColorChange = (event) => {
     // Find the selected background color from data array
-    // const obj = bgColors.find(value => value.name === event.target.value); old way
-    // console.log(event);
-    // console.log(bgColors);
     const obj = bgColors.find(value => value.name === event.name);
     // Set the form data with the selected background color and its image
     setFormData({ ...formData, bgColor: event.name, bgColorImg: obj.img });
@@ -1059,16 +1078,16 @@ function Form({ formData, setFormData, data, config, product }) {
   const handleImgChange = (event) => {
     // Find the selected hivis flag from data array
     let obj = {};
-    switch(formData.type.toLowerCase()){
+    switch (formData.type.toLowerCase()) {
       case 'medical patch':
-        if(formData.size == '1” x 1”'){
+        if (formData.size == '1” x 1”') {
           obj = symbols["medical patch"]['1 x 1'].find(value => value.name === event.name);
         } else {
           obj = symbols["medical patch"]['2 x 2'].find(value => value.name === event.name);
         }
         // Set the form data with the selected hivis flag and its image
         setFormData({ ...formData, img: event.name, imgSrc: obj.img, imgIcon: obj.icon, imgGlow: obj.glow });
-      break;
+        break;
       default:
         obj = imgs["hi-vis"].find(value => value.name === event.name);
         // Set the form data with the selected hivis flag and its image
@@ -1084,7 +1103,6 @@ function Form({ formData, setFormData, data, config, product }) {
     } else {
       setFormData({ ...formData, glowBorder: event.target.checked, price: formData.price - 10 });
     }
-    console.log(formData.price);
   };
   // Define a function to handle the change of the comments checkbox
   const handleAgreementChange = (event) => {
@@ -1100,61 +1118,87 @@ function Form({ formData, setFormData, data, config, product }) {
 
   const handlePrevious = () => {
     if (stepForm.currentStep > 1) {
-      console.log(currentStep)
-
-      console.log(currentStep);
       setStepForm({ ...stepForm, currentStep: stepForm.currentStep - 1, obj: stepForm.steps[stepForm.currentStep - 1] });
     }
-    // console.log(currentStep);
+
   };
 
   const handleNext = () => {
     if (stepForm.currentStep < stepForm.steps.length) {
       setStepForm({ ...stepForm, currentStep: stepForm.currentStep + 1, obj: stepForm.steps[stepForm.currentStep] });
     }
-    if ((formData.size == '4” x 1”' || formData.size == '5” x 1”') && formData.type.toLowerCase() == "name tape") {
-      const flagStep = {
-        name: "Flag",
-        status: 'upcoming',
-        input: [
-          {
-            id: 'flagEnabled',
-            label: 'Do you want to add a flag?',
-            type: 'checkmark',
-            placeholder: '',
-          },
-          {
-            id: 'flagReverse',
-            label: 'Do you want to reverse the flag?',
-            type: 'checkmark',
-            placeholder: '',
-          },
-          {
-            id: 'flag',
-            label: 'HiVis Flag',
-            type: 'advancedSelect',
-          },
-        ],
-      };
-      const index = steps.findIndex(step => step.name === flagStep.name);
-      if (index === -1) {
-        steps.splice(2, 0, flagStep);
-      }
-    } else {
-      const flagStepIndex = steps.findIndex(step => step.name === 'Flag');
-      if (flagStepIndex !== -1) {
-        const newSteps = steps.filter(step => step.name !== 'Flag');
-        setSteps(newSteps);
-      }
-    }
-    if (formData.size == '3.5” x 2”' && formData.type.toLowerCase() == "medical patch") {
+
+    switch (formData.type.toLowerCase()) {
+      case 'name tape':
+        if ((formData.size == '4” x 1”' || formData.size == '5” x 1”')) {
+          const flagStep = {
+            name: "Flag",
+            status: 'upcoming',
+            input: [
+              {
+                id: 'flagEnabled',
+                label: 'Do you want to add a flag?',
+                type: 'checkmark',
+                placeholder: '',
+              },
+              {
+                id: 'flagReverse',
+                label: 'Do you want to reverse the flag?',
+                type: 'checkmark',
+                placeholder: '',
+              },
+              {
+                id: 'flag',
+                label: 'HiVis Flag',
+                type: 'advancedSelect',
+              },
+            ],
+          };
+          const index = steps.findIndex(step => step.name === flagStep.name);
+          if (index === -1) {
+            steps.splice(2, 0, flagStep);
+          }
+        } else {
+          const flagStepIndex = steps.findIndex(step => step.name === 'Flag');
+          if (flagStepIndex !== -1) {
+            const newSteps = steps.filter(step => step.name !== 'Flag');
+            setSteps(newSteps);
+          }
+        }
+        break;
+      case 'medical patch':
+        if (formData.size == '3.5” x 2”') {
+          const flagStep = {
+            name: "Text",
+            status: 'upcoming',
+            input: [
+              {
+                id: 'text',
+                label: 'Text',
+                type: 'input',
+                placeholder: '',
+              },
+            ],
+          };
+          const index = steps.findIndex(step => step.name === flagStep.name);
+          if (index === -1) {
+            steps.splice(1, 0, flagStep);
+          }
+        } else {
+          console.log(steps);
+          const textStepIndex = steps.findIndex(step => step.name === 'Text');
+          console.log(textStepIndex);
+          if (textStepIndex !== -1) {
+            const newSteps = steps.filter(step => step.name !== 'Text');
+            console.log(newSteps);
+            setSteps(newSteps);
+            console.log(steps);
+          }
+        }
+        break;
     }
   };
 
-
-  // console.log(formData);
-  // console.log(data);
-  // console.log(config);
   return (
     <>
       <div className="space-y-6">
@@ -1557,8 +1601,6 @@ function BuilderATC({ formData, className, config, currentStep, steps }) {
     "name-tape--flag": "",
   };
 
-  //console.log(getAttributes());
-
   function getCart(formData) {
     const lines = [
       {
@@ -1568,14 +1610,14 @@ function BuilderATC({ formData, className, config, currentStep, steps }) {
       }
     ];
     if (formData.markType === "HiVis Flag") {
-      //  console.log("hi-vis flag");
+
       lines.push({
         merchandiseId: addOnVariantIDs["hi-vis"],
         quantity: 1,
       });
     }
     if (formData.glowBorder) {
-      //   console.log("glow border");
+
       lines.push({
         merchandiseId: addOnVariantIDs["glow-border"],
         quantity: 1,
@@ -1599,8 +1641,6 @@ function BuilderATC({ formData, className, config, currentStep, steps }) {
   function getAttributes() {
     const arr = [];
 
-    // console.log(formData);
-
     arr.push(
       { key: "Size", value: formData.size },
       { key: "Price", value: formData.price + "" },
@@ -1615,13 +1655,7 @@ function BuilderATC({ formData, className, config, currentStep, steps }) {
       { key: "I agree to the Lead Time", value: formData.agreement ? "Yes" : "No" },
     );
 
-    // arr.push({key: "Flag", value: formData.flag });
-    // arr.push({key: "Select Base Material", value: formData.textColor });
-    // arr.push({key: "Main Text", value: formData.text });
-    // arr.push({key: "Fabric Pattern", value: formData.bgColor });
-    // arr.push({key: "Blood Type and Allergies", value: formData.textadditional });
 
-    //console.log(arr);
     return arr;
   }
 
@@ -1633,8 +1667,7 @@ function BuilderATC({ formData, className, config, currentStep, steps }) {
   // {key : "Blood Type and Allergies", value : formData.textadditional },
   // ],
 
-  //console.log(formData);
-  // console.log(formData.price + '.0');
+
   const priceObj = {
     amount: formData.price + '.0',
     currencyCode: selectedVariant?.price.currencyCode,
@@ -1644,7 +1677,7 @@ function BuilderATC({ formData, className, config, currentStep, steps }) {
   if (currentStep === steps.length && formData.agreement) {
     disabled = false;
   }
-  // console.log(selectedVariant?.price);
+
   return (
     <>
       <AddToCartButton
@@ -1716,8 +1749,7 @@ function ProductDetails({ shippingPolicy, refundPolicy }) {
 }
 
 function FormButton({ formData, config, handlePrevious, handleNext, currentStep, steps }) {
-  // console.log(currentStep);
-  // console.log(steps.length)
+
   return (
     <>
       <div className="col-span-6 flex w-full font-bold text-white text-copy">
