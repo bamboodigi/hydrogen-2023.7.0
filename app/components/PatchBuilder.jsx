@@ -90,6 +90,7 @@ export function PatchBuilder({ product, config, ...props }) {
 
 function initFormData(product) {
   const patchType = builderData.type[getBuilderTitle(product).toLowerCase()];
+  console.log(patchType);
   ///////////////////////////////////////////////////////////////////////////////////////////////
   //  FORMDATA OBJ = TEXT, TEXTMAXLENGTH, TEXTLINES, TEXTPLACEHOLDER, TEXTADDITIONAL, TYPE,
   //  TYPEDATA, SIZE, TEXTCOLOR, TEXTCOLORIMG, BGCOLOR, BGCOLORIMG, FLAG, FLAGIMG, FLAGVARIANT, 
@@ -157,6 +158,7 @@ function initFormData(product) {
         formData.price += 4;
     }
   }
+
   return formData || {};
 }
 
@@ -217,6 +219,9 @@ function getBuilderTitle(product) {
       break;
     case 'custom-printed-patch-1':
       result = 'custom printed patch';
+      break;
+    case 'light-sabers':
+      result = 'light sabers'
       break;
     case 'jacket-panel':
       result = 'jacket panel';
@@ -291,12 +296,9 @@ function initVisualizerStyle(formData) {
     },
     flag: {
       backgroundImage: flagImg,
-      // height: '100%',
       aspectRatio: '2/1',
       backgroundSize: 'cover',
       backgroundPosition: 'center',
-      // minWidth: '60%',
-      transform: 'scaleX(1)',
     },
   };
 
@@ -324,10 +326,11 @@ function initVisualizerStyle(formData) {
       obj.flag.WebkitMaskSize = 'cover';
       obj.patch.maskImage = 'none';
       obj.patch.WebkitMaskImage = 'none';
+      obj.flag.transform = 'scale(1.5)';
       break;
   }
 
-
+  console.log(obj.flag)
 
   return obj;
 }
@@ -701,18 +704,20 @@ function Visualizer({ formData, className, ...props }) {
 
 
   useEffect(() => {
+  if(formData.type.toLowerCase() !== 'medical patch') {
     if (formData.flagReversed) {
-      setFlagStyle(prevStyle => ({ ...prevStyle, transform: `scaleX(-1)` }));
+      setFlagStyle(prevStyle => ({ ...prevStyle, transform: `scaleX(-1.5)` }));
     } else {
       setFlagStyle(prevStyle => ({ ...prevStyle, transform: `scaleX(1)` }));
     }
+  }
   }, [formData.flagReversed]);
 
   useEffect(() => {
     if (formData.glowBorder) {
-      setStyle(prevStyle => ({ ...prevStyle, WebkitTextStroke: `2px white` }));
+      setStyle(prevStyle => ({ ...prevStyle, WebkitTextStroke: `2px white`, textStroke : `2px white` }));
     } else {
-      setStyle(prevStyle => ({ ...prevStyle, WebkitTextStroke: `initial` }));
+      setStyle(prevStyle => ({ ...prevStyle, WebkitTextStroke: `initial`, textStroke : `initial` }));
     }
   }, [formData.glowBorder]);
 
@@ -944,8 +949,8 @@ function Form({ formData, setFormData, data, config, product }) {
     case 'flag':
       tempSteps = builderData.type["flag"].form.steps;
       break;
-    case 'light saber':
-      tempSteps = builderData.type["light saber"].form.steps;
+    case 'light sabers':
+      tempSteps = builderData.type["light sabers"].form.steps;
       break;
     case 'custom printed patch':
       tempSteps = builderData.type["custom printed"].form.steps;
@@ -966,6 +971,8 @@ function Form({ formData, setFormData, data, config, product }) {
     currentStep: 1,
     obj: tempSteps[0]
   };
+
+  console.log(tempSteps);
 
 
   const [steps, setSteps] = useState(tempSteps);
@@ -1201,6 +1208,8 @@ function Form({ formData, setFormData, data, config, product }) {
     }
   };
 
+  console.log(stepForm)
+
   return (
     <>
       <div className="space-y-6">
@@ -1240,7 +1249,7 @@ function Form({ formData, setFormData, data, config, product }) {
           <div className="col-span-6 grid gap-4">
             {stepForm.steps[stepForm.currentStep - 1].input.map((input, i) => {
               const childKey = i.toString();
-
+              console.log("oops")
               return (
                 <div key={childKey}>
                   {input.id.toLowerCase() == "text" ? (
@@ -1579,7 +1588,6 @@ function Form({ formData, setFormData, data, config, product }) {
             })}
           </div>
         </div>
-
         <FormButton formData={formData} config={config} handlePrevious={handlePrevious} handleNext={handleNext} currentStep={stepForm.currentStep} steps={stepForm.steps} />
       </div>
     </>
