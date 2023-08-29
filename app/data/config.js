@@ -107,7 +107,7 @@ const config = {
           id: "reviews",
           enabled: true,
           heading: "Our Work Says It All",
-          description: "Quality Patchs Makes Happy Customers",
+          description: "Quality Patches Makes Happy Customers",
           link: "/pages/our-customers",
           text: "",
           reviews: [

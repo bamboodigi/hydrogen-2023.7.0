@@ -1603,5 +1603,5 @@ function initLazerCutFlags() {
   return lazerObj;
 }
 
-console.log(builderData);
+// console.log(builderData);
 export default builderData;

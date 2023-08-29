@@ -90,7 +90,7 @@ export function PatchBuilder({ product, config, ...props }) {
 
 function initFormData(product) {
   const patchType = builderData.type[getBuilderTitle(product).toLowerCase()];
-  console.log(patchType);
+  // console.log(patchType);
   ///////////////////////////////////////////////////////////////////////////////////////////////
   //  FORMDATA OBJ = TEXT, TEXTMAXLENGTH, TEXTLINES, TEXTPLACEHOLDER, TEXTADDITIONAL, TYPE,
   //  TYPEDATA, SIZE, TEXTCOLOR, TEXTCOLORIMG, BGCOLOR, BGCOLORIMG, FLAG, FLAGIMG, FLAGVARIANT, 
@@ -330,7 +330,7 @@ function initVisualizerStyle(formData) {
       break;
   }
 
-  console.log(obj.flag)
+  //console.log(obj.flag)
 
   return obj;
 }
@@ -972,7 +972,7 @@ function Form({ formData, setFormData, data, config, product }) {
     obj: tempSteps[0]
   };
 
-  console.log(tempSteps);
+  //console.log(tempSteps);
 
 
   const [steps, setSteps] = useState(tempSteps);
@@ -1208,7 +1208,7 @@ function Form({ formData, setFormData, data, config, product }) {
     }
   };
 
-  console.log(stepForm)
+  //console.log(stepForm)
 
   return (
     <>
@@ -1249,7 +1249,7 @@ function Form({ formData, setFormData, data, config, product }) {
           <div className="col-span-6 grid gap-4">
             {stepForm.steps[stepForm.currentStep - 1].input.map((input, i) => {
               const childKey = i.toString();
-              console.log("oops")
+       //       console.log("oops")
               return (
                 <div key={childKey}>
                   {input.id.toLowerCase() == "text" ? (

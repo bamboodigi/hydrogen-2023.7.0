@@ -32,7 +32,7 @@ import {
 import { StarIcon } from '@heroicons/react/20/solid'
 import { getExcerpt } from '~/lib/utils';
 import { seoPayload } from '~/lib/seo.server';
-import { routeHeaders } from '~/data/cache';
+import { CACHE_LONG, routeHeaders } from '~/data/cache';
 import { MEDIA_FRAGMENT, PRODUCT_CARD_FRAGMENT } from '~/data/fragments';
 
 import {
@@ -55,7 +55,9 @@ const configProduct = config.webpage.product;
 const stars_enabled = configProduct.stars;
 
 export async function loader({ params, request, context }) {
+  console.log("🚀 ~ file: ($locale).products.$productHandle.jsx:58 ~ loader ~ params, request, context:", params, request, context)
   const { productHandle } = params;
+  
   invariant(productHandle, 'Missing productHandle param, check route filename');
 
   const selectedOptions = getSelectedProductOptions(request);
